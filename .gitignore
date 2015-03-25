@@ -17,6 +17,7 @@ $RECYCLE.BIN/
 # Unnecessary stuff
 bin
 gen
+project.properties
 
 # Windows shortcuts
 *.lnk
