@@ -15,7 +15,8 @@ $RECYCLE.BIN/
 *.msp
 
 # Unnecessary stuff
-bin/classes
+bin
+gen
 
 # Windows shortcuts
 *.lnk

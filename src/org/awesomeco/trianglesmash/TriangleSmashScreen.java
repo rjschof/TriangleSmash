@@ -24,6 +24,4 @@ public class TriangleSmashScreen extends ShapeScreen
         gameStatus.setText("Game initialized successfully.");
         System.out.println("Test.");
     }
-
-
 }
