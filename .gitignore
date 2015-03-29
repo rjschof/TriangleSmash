@@ -17,7 +17,7 @@ $RECYCLE.BIN/
 # Unnecessary stuff
 bin
 gen
-project.properties
+*.log
 
 # Windows shortcuts
 *.lnk
@@ -46,3 +46,4 @@ project.properties
 Network Trash Folder
 Temporary Items
 .apdisk
+project.properties
