@@ -26,9 +26,9 @@ public class TriangleSmashScreen extends ShapeScreen
     public void initialize()
     {
         // TODO: Remove this! This is just for testing the shape view.
-        RectangleShape r = new RectangleShape(5, 5, 40, 40);
+        TriangleShape r = new TriangleShape(50, 50, 100, 100);
+        r.setFillColor(Color.blue);
         r.setColor(Color.black);
-        r.setFillColor(Color.aqua);
         shapeView.add(r);
         // End TODO
 
