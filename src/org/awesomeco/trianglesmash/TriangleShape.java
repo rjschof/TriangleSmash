@@ -38,8 +38,6 @@ public class TriangleShape extends FillableShape
     //TODO: Organize this.
     private float size;
 
-    private Polygon polygon;
-
     // ----------------------------------------------------------
     /**
      * Creates a new TriangleShape object based on four different values that
@@ -121,7 +119,7 @@ public class TriangleShape extends FillableShape
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * Calculates the centroid of the triangle.
      * @return PointF object that represents the coordinates of the centroid
      */
     public PointF calculateCentroid()
