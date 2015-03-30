@@ -17,10 +17,6 @@ import sofia.graphics.Shape;
 // -------------------------------------------------------------------------
 /**
  *  This class creates a new triangle shape that will be displayed in the view.
- *  TriangleShape is based upon RectangleShape. The final point, named
- *  "bottom" in the RectangleShape constructor, is set to be the same as the
- *  right variable. Theoretically, this should create a shape that resembles a
- *  triangle.
  *
  *  @author Robert Schofield (rjschof)
  *  @version 2015.03.28
