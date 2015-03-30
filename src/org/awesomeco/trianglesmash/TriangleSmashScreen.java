@@ -1,5 +1,7 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.Polygon;
+import sofia.graphics.PolygonShape;
 import sofia.graphics.Color;
 import sofia.graphics.RectangleShape;
 import sofia.graphics.ShapeView;
@@ -26,10 +28,17 @@ public class TriangleSmashScreen extends ShapeScreen
     public void initialize()
     {
         // TODO: Remove this! This is just for testing the shape view.
-        TriangleShape r = new TriangleShape(50, 50, 100, 100);
-        r.setFillColor(Color.blue);
-        r.setColor(Color.black);
-        shapeView.add(r);
+        TriangleShape t = new TriangleShape(50, 150, 200, 100);
+        t.setColor(Color.black);
+        t.setFillColor(Color.blue);
+        shapeView.add(t);
+        // End TODO
+
+        // TODO: Remove this! This is just for testing the shape view.
+        TriangleShape t2 = new TriangleShape(100, 175, 225, 50);
+        t2.setFillColor(Color.red);
+        t2.setColor(Color.black);
+        shapeView.add(t2);
         // End TODO
 
         gameStatus.setText("Game initialized successfully.");
