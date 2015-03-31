@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+
 import android.graphics.Color;
 import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
@@ -23,7 +24,6 @@ import sofia.graphics.Shape;
  *  Currently, triangles can only be oriented two different ways: with the tip
  *  of the triangle pointed up, with the tip pointed down.
  *
- *  TODO: Allow triangles to be oriented in any direction.
  *  TODO: Reorganize some of the operations and data in this class.
  *
  *  @author Robert Schofield (rjschof)
@@ -39,11 +39,9 @@ public class TriangleShape extends FillableShape
     private float right;
     private float bottom;
 
-    private int[] colors = {
-        Color.BLACK,
-        Color.BLACK,
-        Color.BLACK
-    };
+    private float distanceX;
+    private float distanceYTop;
+    private float distanceYBottom;
 
     // ----------------------------------------------------------
     /**
@@ -63,21 +61,19 @@ public class TriangleShape extends FillableShape
         this.bottom = bottom;
 
         this.size = Math.abs(bottom - calculateCentroid().y);
-        setPosition(calculateCentroid());
 
-        this.getPaint().setAntiAlias(true);
+        this.distanceYTop = Math.abs(top - calculateCentroid().y);
+        this.distanceYBottom = Math.abs(bottom - calculateCentroid().y);
+        this.distanceX = Math.abs(left - calculateCentroid().x);
+
+        setPosition(calculateCentroid().x, calculateCentroid().y);
+
+        getPaint().setAntiAlias(true);
     }
 
-    // ----------------------------------------------------------
-    /**
-     * Creates a new TriangleShape object based on three different vertices.
-     * @param xcenter the center of the triangle in the x direction
-     * @param ycenter the center of the triangle in the y direction
-     * @param size the size of the triangle, measured from center to vertex
-     */
-    public TriangleShape(float xcenter, float ycenter, float size)
+    public void onCollisionWith(RectangleShape shape)
     {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        this.remove();
     }
 
     @Override
@@ -88,7 +84,6 @@ public class TriangleShape extends FillableShape
             new Vec2(left, bottom), new Vec2(right, bottom) };
         shape.set(vertices, 3);
         addFixtureForShape(shape);
-
     }
 
     // ----------------------------------------------------------
@@ -122,6 +117,21 @@ public class TriangleShape extends FillableShape
             linePath.close();
             canvas.drawPath(linePath, paint);
         }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Calculates the centroid of the triangle.
+     * @return PointF object that represents the coordinates of the centroid
+     */
+    @Override
+    public void setPosition(float x, float y)
+    {
+        left = x - distanceX;
+        top = y - distanceYTop;
+        right = x + distanceX;
+        bottom = y + distanceYBottom;
+        super.setPosition(x, y);
     }
 
     // ----------------------------------------------------------
