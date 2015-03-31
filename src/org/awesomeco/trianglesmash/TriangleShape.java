@@ -1,5 +1,7 @@
 package org.awesomeco.trianglesmash;
 
+import android.graphics.Color;
+import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.common.Vec2;
@@ -30,27 +32,33 @@ import sofia.graphics.Shape;
 
 public class TriangleShape extends FillableShape
 {
+    private float size;
+
     private float top;
     private float left;
     private float right;
     private float bottom;
 
-    //TODO: Organize this.
-    private float size;
+    private int[] colors = {
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK
+    };
 
     // ----------------------------------------------------------
     /**
      * Creates a new TriangleShape object based on four different values that
-     * describe the
-     * @param top vertex for the top of the triangle
-     * @param left vertex for the left of the triangle
-     * @param right vertex for the right of the triangle
-     * @param bottom
+     * describe the top, left, right, and bottom coordinate points of the
+     * triangle.
+     * @param left value for the left coordinate of the triangle
+     * @param top value for the top coordinate of the triangle
+     * @param right value for the right coordinate of the triangle
+     * @param bottom value for the bottom coordinate of the triangle
      */
-    public TriangleShape(float top, float left, float right, float bottom)
+    public TriangleShape(float left, float top, float right, float bottom)
     {
-        this.top = top;
         this.left = left;
+        this.top = top;
         this.right = right;
         this.bottom = bottom;
 
@@ -80,12 +88,13 @@ public class TriangleShape extends FillableShape
             new Vec2(left, bottom), new Vec2(right, bottom) };
         shape.set(vertices, 3);
         addFixtureForShape(shape);
+
     }
 
     // ----------------------------------------------------------
     /**
      * Draws this TriangleShape on the canvas.
-     * @param drawing
+     * @param drawing the drawing to put the TriangleShape on
      */
     @Override
     public void draw(Drawing drawing)
@@ -94,11 +103,7 @@ public class TriangleShape extends FillableShape
 
         if (isFilled())
         {
-            // TODO: Organize this better.
-            setPosition(calculateCentroid());
             PointF origin = getPosition();
-            // END TODO
-
             Polygon tri = new Polygon(left + Math.abs((right-left)/2), top,
                 left, bottom, right, bottom);
             getFill().fillPolygon(drawing, getAlpha(), tri,
@@ -106,14 +111,16 @@ public class TriangleShape extends FillableShape
         }
         if (!getColor().isTransparent())
         {
-            Paint paint = getFillPaint();
-            float[] verts = { left + Math.abs((right-left)/2), top, left,
-                bottom, right, bottom };
-
-            //TODO: Fix the outline color of triangles.
-            canvas.drawVertices(VertexMode.TRIANGLES, 3, verts, 0, null,
-                0, null, 0, null, 0,
-                0, paint);
+            Paint paint = getPaint();
+            Path linePath = new Path();
+            linePath.moveTo(left + Math.abs((right - left) / 2), top);
+            linePath.lineTo(left, bottom);
+            linePath.moveTo(left, bottom);
+            linePath.lineTo(right, bottom);
+            linePath.moveTo(right, bottom);
+            linePath.lineTo(left + Math.abs((right - left) / 2), top);
+            linePath.close();
+            canvas.drawPath(linePath, paint);
         }
     }
 
