@@ -8,6 +8,7 @@ import sofia.graphics.RectangleShape;
 import sofia.graphics.ShapeView;
 import android.widget.TextView;
 import sofia.app.ShapeScreen;
+import android.view.MotionEvent;
 
 /**
  * The TriangleSmashScreen class handles all of the operations necessary for
@@ -25,6 +26,7 @@ public class TriangleSmashScreen extends ShapeScreen
 
     private TriangleShape t;
     private RectangleShape r;
+    private RectangleShape r2;
 
     /**
      * Initializes the screen.
@@ -34,40 +36,51 @@ public class TriangleSmashScreen extends ShapeScreen
         // TODO: Remove this! This is just for testing the shape view.
         t = new TriangleShape(150, 50, 200, 100);
         t.setColor(Color.black);
+        t.setZIndex(-100);
         t.setFillColor(Color.blue);
-        shapeView.add(t);
+        add(t);
         // End TODO
 
         // TODO: Remove this! This is just for testing the shape view.
         TriangleShape t2 = new TriangleShape(175, 100, 225, 50);
         t2.setFillColor(Color.red);
         t2.setColor(Color.black);
-        shapeView.add(t2);
+        t2.setZIndex(-100);
+        add(t2);
         // End TODO
 
         r = new RectangleShape(50, 50, 100, 100);
         r.setColor(Color.black);
-        r.setFillColor(Color.aqua);
-        shapeView.add(r);
+        r.setFillColor(Color.green);
+        r.setZIndex(-100);
+        add(r);
 
-        t2.animate(6000).rotation(6000).play();
+        r2 = new RectangleShape(100, 100, 150, 150);
+        r2.setColor(Color.black);
+        r2.setFillColor(Color.aqua);
+        r2.setZIndex(-100);
+        add(r2);
 
         gameStatus.setText("Game initialized successfully. ");
     }
 
     public void onCollisionBetween(Shape first, Shape second)
     {
-        gameStatus.setText("Collision: " + first.toString() + " " +
-            second.toString());
+        if (first.equals(r))
+        {
+            gameStatus.setText("Collision: " + first.toString() + " " +
+                second.toString());
+        }
+
     }
 
     public void onTouchDown(float x, float y)
     {
-        t.setPosition(x, y);
+        r.setPosition(x, y);
     }
 
     public void onTouchMove(float x, float y)
     {
-        t.setPosition(x, y);
+        r.setPosition(x, y);
     }
 }
