@@ -1,6 +1,8 @@
 package org.awesomeco.trianglesmash;
 
 
+import org.jbox2d.common.Rot;
+import org.jbox2d.common.Transform;
 import android.graphics.Color;
 import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
@@ -32,8 +34,6 @@ import sofia.graphics.Shape;
 
 public class TriangleShape extends FillableShape
 {
-    private float size;
-
     private float top;
     private float left;
     private float right;
@@ -60,8 +60,6 @@ public class TriangleShape extends FillableShape
         this.right = right;
         this.bottom = bottom;
 
-        this.size = Math.abs(bottom - calculateCentroid().y);
-
         this.distanceYTop = Math.abs(top - calculateCentroid().y);
         this.distanceYBottom = Math.abs(bottom - calculateCentroid().y);
         this.distanceX = Math.abs(left - calculateCentroid().x);
@@ -71,17 +69,17 @@ public class TriangleShape extends FillableShape
         getPaint().setAntiAlias(true);
     }
 
-    public void onCollisionWith(RectangleShape shape)
-    {
-        this.remove();
-    }
-
     @Override
     protected void createFixtures()
     {
         PolygonShape shape = new PolygonShape();
-        Vec2[] vertices = { new Vec2(left + Math.abs((left-right)/2), top),
-            new Vec2(left, bottom), new Vec2(right, bottom) };
+        /*Vec2[] vertices = { new Vec2(left + Math.abs((left-right)/2), top),
+            new Vec2(left, bottom), new Vec2(right, bottom) }; */
+        Vec2[] vertices = { new Vec2(-80, 50),
+            new Vec2(-105, 100), new Vec2(-55, 100) };
+        /*Vec2[] vertices = { new Vec2(calculateCentroid().x, calculateCentroid().y - distanceYTop),
+            new Vec2(calculateCentroid().x - distanceX, calculateCentroid().y - distanceYBottom),
+            new Vec2(calculateCentroid().x + distanceX, calculateCentroid().y - distanceYBottom) }; */
         shape.set(vertices, 3);
         addFixtureForShape(shape);
     }
@@ -168,8 +166,8 @@ public class TriangleShape extends FillableShape
             Box2DUtils.vec2ToPointF(b2Body.getPosition(), center);
         }
 
-        return new RectF(center.x - size, center.y - size,
-            center.x + size, center.y + size);
+        return new RectF(center.x - distanceX, center.y - distanceYTop,
+            center.x + distanceX, center.y + distanceYBottom);
     }
 
     // ----------------------------------------------------------
@@ -183,7 +181,11 @@ public class TriangleShape extends FillableShape
     public void setBounds(RectF newBounds)
     {
         updateTransform(newBounds.centerX(), newBounds.centerY());
-        size = newBounds.width() / 2;
+        float y = (top + bottom + bottom) / 3;
+
+        distanceX = newBounds.width() / 2;
+        distanceYTop = newBounds.top - y;
+        distanceYBottom = newBounds.bottom - y;
 
         recreateFixtures();
         conditionallyRepaint();
