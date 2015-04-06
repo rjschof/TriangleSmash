@@ -1,35 +1,33 @@
 package org.awesomeco.trianglesmash;
 
 
-import org.jbox2d.common.Rot;
-import org.jbox2d.common.Transform;
-import android.graphics.Color;
 import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.common.Vec2;
 import android.graphics.PointF;
 import sofia.graphics.Polygon;
-import android.graphics.Canvas.VertexMode;
 import sofia.graphics.FillableShape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import org.jbox2d.collision.shapes.PolygonShape;
-import sofia.graphics.RectangleShape;
 import android.graphics.RectF;
 import sofia.graphics.Drawing;
-import sofia.graphics.Shape;
 
 // -------------------------------------------------------------------------
 /**
  *  This class creates a new triangle shape that will be displayed in the view.
- *  Currently, triangles can only be oriented two different ways: with the tip
- *  of the triangle pointed up, with the tip pointed down.
+ *  Currently, triangles can only be oriented two different ways when they are
+ *  initially create: with the tip of the triangle pointed up, or with the tip
+ *  pointed down. However, they can be rotated and moved using all of the
+ *  operations provided by the Sofia Library.
  *
  *  TODO: Reorganize some of the operations and data in this class.
+ *  FIXME: Collision detection [createFixtures() method]
+ *  FIXME: Movement of polygon's outlines with Sofia's physics methods.
  *
  *  @author Robert Schofield (rjschof)
- *  @version 2015.03.30
+ *  @version 2015.04.06
  */
 
 public class TriangleShape extends FillableShape
@@ -69,6 +67,11 @@ public class TriangleShape extends FillableShape
         getPaint().setAntiAlias(true);
     }
 
+    /**
+     * This method creates the fixtures that are used by JBox2D for physics.
+     * FIXME: Collision detection does not work yet. I'm slowly but surely
+     * figuring out why it does not work.
+     */
     @Override
     protected void createFixtures()
     {
@@ -77,9 +80,13 @@ public class TriangleShape extends FillableShape
             new Vec2(left, bottom), new Vec2(right, bottom) }; */
         Vec2[] vertices = { new Vec2(-80, 50),
             new Vec2(-105, 100), new Vec2(-55, 100) };
-        /*Vec2[] vertices = { new Vec2(calculateCentroid().x, calculateCentroid().y - distanceYTop),
-            new Vec2(calculateCentroid().x - distanceX, calculateCentroid().y - distanceYBottom),
-            new Vec2(calculateCentroid().x + distanceX, calculateCentroid().y - distanceYBottom) }; */
+        /*
+        Vec2[] vertices = { new Vec2(calculateCentroid().x,
+                calculateCentroid().y - distanceYTop),
+            new Vec2(calculateCentroid().x - distanceX,
+                calculateCentroid().y - distanceYBottom),
+            new Vec2(calculateCentroid().x + distanceX,
+                calculateCentroid().y - distanceYBottom) }; */
         shape.set(vertices, 3);
         addFixtureForShape(shape);
     }

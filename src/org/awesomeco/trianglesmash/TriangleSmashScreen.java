@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.ViewEdges;
 import sofia.graphics.ShapeMotion;
 import sofia.graphics.Timings;
 import sofia.graphics.OvalShape;
@@ -26,8 +27,13 @@ public class TriangleSmashScreen extends ShapeScreen
 {
     private TextView gameStatus;
 
+    private float xMax;
+    private float yMax;
+
     private TriangleShape t;
     private OvalShape o;
+    private Paddle paddle;
+
     /**
      * Initializes the screen.
      */
@@ -40,38 +46,41 @@ public class TriangleSmashScreen extends ShapeScreen
         add(t);
         // End TODO
 
-        o = new OvalShape(0, 30, 80);
-        o.setColor(Color.black);
-        o.setFillColor(Color.red);
-        add(o);
+        xMax = getShapeView().getHeight();
+        yMax = getShapeView().getWidth();
 
-        o.setActive(true);
-        o.setShapeMotion(ShapeMotion.DYNAMIC);
-        o.applyLinearImpulse(10, 7);
+        paddle = new Paddle(xMax / 2, yMax - 2, 40, 10);
+        paddle.setPosition(xMax / 2, yMax - 10);
+        paddle.setFillColor(Color.black);
+        add(paddle);
 
         gameStatus.setText("Game initialized successfully. ");
     }
 
-    public void onCollisionBetween(Shape first, Shape second)
-    {
-        System.out.println("COLLISION DETECTED");
-        second.setLinearVelocity(0, 0);
-    }
-
+    /**
+     * When a finger touches down on the screen, the paddle is moved to the
+     * location represented by the movement.
+     * @param x the x coordinate of the finger on the screen
+     * @param y the y coordinate of the finger on the screen
+     */
     public void onTouchDown(float x, float y)
     {
-        t.setPosition(x, y);
+        paddle.setPosition(x, yMax - 10);
     }
 
+    /**
+     * When a finger moves across the screen, the paddle is moved to the
+     * location represented by the movement.
+     * @param x the x coordinate of the finger on the screen
+     * @param y the y coordinate of the finger on the screen
+     */
     public void onTouchMove(float x, float y)
     {
-        t.setPosition(x, y);
+        paddle.setPosition(x, yMax - 10);
     }
 
     public void buttonClicked()
     {
-        remove(o);
-        remove(t);
         initialize();
     }
 }
