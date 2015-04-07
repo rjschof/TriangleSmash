@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-
 import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
 import org.jbox2d.dynamics.Body;
@@ -17,17 +16,13 @@ import sofia.graphics.Drawing;
 // -------------------------------------------------------------------------
 /**
  *  This class creates a new triangle shape that will be displayed in the view.
- *  Currently, triangles can only be oriented two different ways when they are
- *  initially create: with the tip of the triangle pointed up, or with the tip
- *  pointed down. However, they can be rotated and moved using all of the
- *  operations provided by the Sofia Library.
+ *  Currently, triangles can only be oriented two different ways: with the tip
+ *  of the triangle pointed up, with the tip pointed down.
  *
  *  TODO: Reorganize some of the operations and data in this class.
- *  FIXME: Collision detection [createFixtures() method]
- *  FIXME: Movement of polygon's outlines with Sofia's physics methods.
  *
  *  @author Robert Schofield (rjschof)
- *  @version 2015.04.06
+ *  @version 2015.03.30
  */
 
 public class TriangleShape extends FillableShape
@@ -36,6 +31,8 @@ public class TriangleShape extends FillableShape
     private float left;
     private float right;
     private float bottom;
+
+    private Polygon polygon;
 
     private float distanceX;
     private float distanceYTop;
@@ -64,30 +61,26 @@ public class TriangleShape extends FillableShape
 
         setPosition(calculateCentroid().x, calculateCentroid().y);
 
+        polygon = new Polygon(left + Math.abs((right-left)/2), top,
+            left, bottom, right, bottom);
+
         getPaint().setAntiAlias(true);
     }
 
     /**
-     * This method creates the fixtures that are used by JBox2D for physics.
-     * FIXME: Collision detection does not work yet. I'm slowly but surely
-     * figuring out why it does not work.
+     * Creates fixtures for the JBox2D functions of the shape.
      */
     @Override
     protected void createFixtures()
     {
         PolygonShape shape = new PolygonShape();
-        /*Vec2[] vertices = { new Vec2(left + Math.abs((left-right)/2), top),
-            new Vec2(left, bottom), new Vec2(right, bottom) }; */
-        Vec2[] vertices = { new Vec2(-80, 50),
-            new Vec2(-105, 100), new Vec2(-55, 100) };
-        /*
-        Vec2[] vertices = { new Vec2(calculateCentroid().x,
-                calculateCentroid().y - distanceYTop),
-            new Vec2(calculateCentroid().x - distanceX,
-                calculateCentroid().y - distanceYBottom),
-            new Vec2(calculateCentroid().x + distanceX,
-                calculateCentroid().y - distanceYBottom) }; */
-        shape.set(vertices, 3);
+        Vec2[] vertices = new Vec2[polygon.size()];
+        for (int i = 0; i < vertices.length; i++)
+        {
+            PointF point = polygon.get(i);
+            vertices[i] = Box2DUtils.pointFToVec2(point);
+        }
+        shape.set(vertices, vertices.length);
         addFixtureForShape(shape);
     }
 
@@ -104,21 +97,21 @@ public class TriangleShape extends FillableShape
         if (isFilled())
         {
             PointF origin = getPosition();
-            Polygon tri = new Polygon(left + Math.abs((right-left)/2), top,
-                left, bottom, right, bottom);
-            getFill().fillPolygon(drawing, getAlpha(), tri,
-                origin);
+            getFill().fillPolygon(drawing, getAlpha(), polygon, origin);
         }
         if (!getColor().isTransparent())
         {
             Paint paint = getPaint();
+            RectF bounds = getBounds();
             Path linePath = new Path();
-            linePath.moveTo(left + Math.abs((right - left) / 2), top);
-            linePath.lineTo(left, bottom);
-            linePath.moveTo(left, bottom);
-            linePath.lineTo(right, bottom);
-            linePath.moveTo(right, bottom);
-            linePath.lineTo(left + Math.abs((right - left) / 2), top);
+            linePath.moveTo(bounds.left +
+                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
+            linePath.lineTo(bounds.left, bounds.bottom);
+            linePath.moveTo(bounds.left, bounds.bottom);
+            linePath.lineTo(bounds.right, bounds.bottom);
+            linePath.moveTo(bounds.right, bounds.bottom);
+            linePath.lineTo(bounds.left +
+                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
             linePath.close();
             canvas.drawPath(linePath, paint);
         }
@@ -154,9 +147,6 @@ public class TriangleShape extends FillableShape
     // ----------------------------------------------------------
     /**
      * Retrieves the bounding box for this shape.
-     * TODO: Figure out how to really implement this.
-     * NOTICE: This method is entirely based off of the getBounds() method from
-     * OvalShape.
      * @return the bounding box for this shape
      */
     @Override
@@ -180,9 +170,6 @@ public class TriangleShape extends FillableShape
     // ----------------------------------------------------------
     /**
      * Sets the bounding box for this shape.
-     * TODO: Figure out how to really implement this.
-     * NOTICE: This method is entirely based off of the getBounds() method from
-     * OvalShape.
      */
     @Override
     public void setBounds(RectF newBounds)
