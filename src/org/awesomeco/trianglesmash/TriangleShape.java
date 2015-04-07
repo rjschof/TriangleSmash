@@ -39,6 +39,8 @@ public class TriangleShape extends FillableShape
     private float right;
     private float bottom;
 
+    private Polygon polygon;
+
     private float distanceX;
     private float distanceYTop;
     private float distanceYBottom;
@@ -66,6 +68,9 @@ public class TriangleShape extends FillableShape
 
         setPosition(calculateCentroid().x, calculateCentroid().y);
 
+        polygon = new Polygon(left + Math.abs((right-left)/2), top,
+            left, bottom, right, bottom);
+
         getPaint().setAntiAlias(true);
     }
 
@@ -73,14 +78,13 @@ public class TriangleShape extends FillableShape
     protected void createFixtures()
     {
         PolygonShape shape = new PolygonShape();
-        /*Vec2[] vertices = { new Vec2(left + Math.abs((left-right)/2), top),
-            new Vec2(left, bottom), new Vec2(right, bottom) }; */
-        Vec2[] vertices = { new Vec2(-80, 50),
-            new Vec2(-105, 100), new Vec2(-55, 100) };
-        /*Vec2[] vertices = { new Vec2(calculateCentroid().x, calculateCentroid().y - distanceYTop),
-            new Vec2(calculateCentroid().x - distanceX, calculateCentroid().y - distanceYBottom),
-            new Vec2(calculateCentroid().x + distanceX, calculateCentroid().y - distanceYBottom) }; */
-        shape.set(vertices, 3);
+        Vec2[] vertices = new Vec2[polygon.size()];
+        for (int i = 0; i < vertices.length; i++)
+        {
+            PointF point = polygon.get(i);
+            vertices[i] = Box2DUtils.pointFToVec2(point);
+        }
+        shape.set(vertices, vertices.length);
         addFixtureForShape(shape);
     }
 
@@ -97,9 +101,7 @@ public class TriangleShape extends FillableShape
         if (isFilled())
         {
             PointF origin = getPosition();
-            Polygon tri = new Polygon(left + Math.abs((right-left)/2), top,
-                left, bottom, right, bottom);
-            getFill().fillPolygon(drawing, getAlpha(), tri,
+            getFill().fillPolygon(drawing, getAlpha(), polygon,
                 origin);
         }
         if (!getColor().isTransparent())
