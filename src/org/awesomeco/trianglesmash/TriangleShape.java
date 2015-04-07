@@ -39,6 +39,8 @@ public class TriangleShape extends FillableShape
     private float right;
     private float bottom;
 
+    private Polygon polygon;
+
     private float distanceX;
     private float distanceYTop;
     private float distanceYBottom;
@@ -99,6 +101,7 @@ public class TriangleShape extends FillableShape
             PointF origin = getPosition();
             Polygon tri = new Polygon(left + Math.abs((right-left)/2), top,
                 left, bottom, right, bottom);
+            this.polygon = tri;
             getFill().fillPolygon(drawing, getAlpha(), tri,
                 origin);
         }
@@ -148,26 +151,16 @@ public class TriangleShape extends FillableShape
     /**
      * Retrieves the bounding box for this shape.
      * TODO: Figure out how to really implement this.
-     * NOTICE: This method is entirely based off of the getBounds() method from
-     * OvalShape.
      * @return the bounding box for this shape
      */
     @Override
     public RectF getBounds()
     {
-        // If the body has been created, update the center point using the
-        // body's current position.
+        PointF origin = getPosition();
+        RectF bounds = polygon.getBounds();
 
-        PointF center = calculateCentroid();
-
-        Body b2Body = getB2Body();
-        if (b2Body != null)
-        {
-            Box2DUtils.vec2ToPointF(b2Body.getPosition(), center);
-        }
-
-        return new RectF(center.x - distanceX, center.y - distanceYTop,
-            center.x + distanceX, center.y + distanceYBottom);
+        bounds.offset(origin.x, origin.y);
+        return bounds;
     }
 
     // ----------------------------------------------------------
@@ -184,8 +177,8 @@ public class TriangleShape extends FillableShape
         float y = (top + bottom + bottom) / 3;
 
         distanceX = newBounds.width() / 2;
-        distanceYTop = newBounds.top - y;
-        distanceYBottom = newBounds.bottom - y;
+        distanceYTop = Math.abs(newBounds.top - y);
+        distanceYBottom = Math.abs(newBounds.bottom - y);
 
         recreateFixtures();
         conditionallyRepaint();
