@@ -43,29 +43,16 @@ public class TriangleSmashScreen extends ShapeScreen
         add(t);
         // End TODO
 
-        o = new OvalShape(0, 30, 80);
-        o.setColor(Color.black);
+        //t.animate(3000).rotation(100).play();
+        t.setActive(true);
+
+        o = new OvalShape(50, 20, 30);
         o.setFillColor(Color.red);
+        o.setColor(Color.black);
         add(o);
         o.setActive(true);
         o.setShapeMotion(ShapeMotion.DYNAMIC);
-        o.applyLinearImpulse(10, 7);
-
-        o2 = new OvalShape(125, 250, 40);
-        o2.setColor(Color.black);
-        o2.setFillColor(Color.red);
-        add(o2);
-        o2.setActive(true);
-        o2.setShapeMotion(ShapeMotion.DYNAMIC);
-        o2.applyLinearImpulse(3, -10);
-
-        o3 = new OvalShape(200, 0, 40);
-        o3.setColor(Color.black);
-        o3.setFillColor(Color.red);
-        add(o3);
-        o3.setActive(true);
-        o3.setShapeMotion(ShapeMotion.DYNAMIC);
-        o3.applyLinearImpulse(-5, 10);
+        o.setLinearVelocity(8, 2);
 
         gameStatus.setText("Game initialized successfully. ");
     }

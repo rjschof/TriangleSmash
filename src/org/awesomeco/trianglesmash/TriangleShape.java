@@ -1,24 +1,17 @@
 package org.awesomeco.trianglesmash;
 
-
-import org.jbox2d.common.Rot;
-import org.jbox2d.common.Transform;
-import android.graphics.Color;
 import android.graphics.Path;
 import sofia.graphics.internal.Box2DUtils;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.common.Vec2;
 import android.graphics.PointF;
 import sofia.graphics.Polygon;
-import android.graphics.Canvas.VertexMode;
 import sofia.graphics.FillableShape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import org.jbox2d.collision.shapes.PolygonShape;
-import sofia.graphics.RectangleShape;
 import android.graphics.RectF;
 import sofia.graphics.Drawing;
-import sofia.graphics.Shape;
 
 // -------------------------------------------------------------------------
 /**
@@ -101,19 +94,21 @@ public class TriangleShape extends FillableShape
         if (isFilled())
         {
             PointF origin = getPosition();
-            getFill().fillPolygon(drawing, getAlpha(), polygon,
-                origin);
+            getFill().fillPolygon(drawing, getAlpha(), polygon, origin);
         }
         if (!getColor().isTransparent())
         {
             Paint paint = getPaint();
+            RectF bounds = getBounds();
             Path linePath = new Path();
-            linePath.moveTo(left + Math.abs((right - left) / 2), top);
-            linePath.lineTo(left, bottom);
-            linePath.moveTo(left, bottom);
-            linePath.lineTo(right, bottom);
-            linePath.moveTo(right, bottom);
-            linePath.lineTo(left + Math.abs((right - left) / 2), top);
+            linePath.moveTo(bounds.left +
+                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
+            linePath.lineTo(bounds.left, bounds.bottom);
+            linePath.moveTo(bounds.left, bounds.bottom);
+            linePath.lineTo(bounds.right, bounds.bottom);
+            linePath.moveTo(bounds.right, bounds.bottom);
+            linePath.lineTo(bounds.left +
+                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
             linePath.close();
             canvas.drawPath(linePath, paint);
         }
