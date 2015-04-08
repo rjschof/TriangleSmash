@@ -40,4 +40,5 @@ public class SmashBall extends OvalShape
     {
         setLinearVelocity(getLinearVelocity().x, -getLinearVelocity().y);
     }
+
 }

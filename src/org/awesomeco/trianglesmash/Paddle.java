@@ -38,4 +38,22 @@ public class Paddle extends RectangleShape
         this.xSize = xSize;
         this.ySize = ySize;
     }
+
+    /**
+     * Sets the width of the paddle.
+     * @param newWidth - the new width of the paddle
+     */
+    public void setWidth(float newWidth)
+    {
+        xSize = newWidth;
+    }
+
+    /**
+     * returns the current width of the paddle.
+     * @return xSize - the width of the paddle
+     */
+    public float getWidth()
+    {
+        return xSize;
+    }
 }
