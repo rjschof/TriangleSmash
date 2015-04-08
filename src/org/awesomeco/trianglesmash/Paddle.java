@@ -38,6 +38,4 @@ public class Paddle extends RectangleShape
         this.xSize = xSize;
         this.ySize = ySize;
     }
-
-
 }
