@@ -58,7 +58,8 @@ public class TriangleSmashScreen extends ShapeScreen
         add(rightEdge);
         add(bottomEdge);
 
-        smashBall = new SmashBall(200, 200, getHeight() / 24);
+        smashBall = new SmashBall(getWidth() / 2, getHeight() / 2, 
+            getHeight() / 24);
         smashBall.setFillColor(Color.aqua);
         smashBall.setColor(Color.black);
         add(smashBall);
