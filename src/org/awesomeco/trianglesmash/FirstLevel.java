@@ -12,6 +12,8 @@ import sofia.graphics.Color;
 
 public class FirstLevel extends GameLevel
 {
+    private float maxHeight;
+    private float maxWidth;
 
     // ----------------------------------------------------------
     /**
@@ -21,6 +23,19 @@ public class FirstLevel extends GameLevel
     public FirstLevel(int levelNum)
     {
         super(levelNum);
+    }
+
+    /**
+     * Create a new FirstLevel object.
+     * @param levelNum the number for the level
+     * @param maxHeight the maximum height
+     * @param maxWidth the maximum width
+     */
+    public FirstLevel(int levelNum, float maxHeight, float maxWidth)
+    {
+        super(levelNum);
+        this.maxHeight = maxHeight;
+        this.maxWidth = maxWidth;
     }
 
     // ----------------------------------------------------------
@@ -33,12 +48,15 @@ public class FirstLevel extends GameLevel
     @Override
     public void addTrianglesToLevel()
     {
-        addTriangle(new Triangle(25, 25, 20, Color.red));
-        addTriangle(new Triangle(75, 25, 20, Color.red));
-        addTriangle(new Triangle(125, 25, 20, Color.red));
-        addTriangle(new Triangle(175, 25, 20, Color.red));
-        addTriangle(new Triangle(225, 25, 20, Color.red));
-        addTriangle(new Triangle(125, 25, 20, Color.red));
+        float partOfScreenX = maxWidth / 12;
+        float partOfScreenY = maxHeight / 14;
+        for (int i = 0; i < 5; i++)
+        {
+            addTriangle(new Triangle((partOfScreenX * i*2) + (maxWidth / 12),
+                (partOfScreenY) + (maxHeight / 18), maxWidth / 16,
+                Color.red));
+        }
+
 
         for (Triangle t: getTriangleList())
         {

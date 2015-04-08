@@ -36,13 +36,6 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void initialize()
     {
-        // TODO: Remove this! This is just for testing the shape view.
-        Triangle t1 = new Triangle(125, 50, 15, Color.blue);
-        t1.setColor(Color.black);
-        t1.setFillColor(Color.blue);
-        //add(t1);
-        // End TODO
-
         Triangle t2 = new Triangle(160, 50, 15, Color.blue);
         t2.setColor(Color.black);
         t2.setFillColor(Color.blue);
@@ -51,8 +44,8 @@ public class TriangleSmashScreen extends ShapeScreen
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
 
-        paddle = new Paddle(xMax / 2, yMax - 2, 40, 10);
-        paddle.setPosition(xMax / 2, yMax - 10);
+        paddle = new Paddle(xMax / 2, yMax - 10, getWidth() / 6,
+            getHeight() / 20);
         paddle.setFillColor(Color.black);
         add(paddle);
 
@@ -65,15 +58,15 @@ public class TriangleSmashScreen extends ShapeScreen
         add(rightEdge);
         add(bottomEdge);
 
-        smashBall = new SmashBall(200, 200, 10);
+        smashBall = new SmashBall(200, 200, getHeight() / 24);
         smashBall.setFillColor(Color.aqua);
         smashBall.setColor(Color.black);
         add(smashBall);
         smashBall.setActive(true);
         smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
-        smashBall.setLinearVelocity(15, 25);
+        smashBall.setLinearVelocity(getWidth() / 8, getHeight() / 12);
 
-        gameLevel = new FirstLevel(1);
+        gameLevel = new FirstLevel(1, getHeight(), getWidth());
         gameLevel.addTrianglesToLevel();
         for (Triangle t: gameLevel.getTriangleList())
         {
