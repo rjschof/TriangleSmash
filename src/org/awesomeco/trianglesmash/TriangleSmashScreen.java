@@ -1,18 +1,9 @@
 package org.awesomeco.trianglesmash;
 
-import sofia.graphics.ViewEdges;
 import sofia.graphics.ShapeMotion;
-import sofia.graphics.Timings;
-import sofia.graphics.OvalShape;
-import sofia.graphics.Shape;
-import sofia.graphics.Polygon;
-import sofia.graphics.PolygonShape;
 import sofia.graphics.Color;
-import sofia.graphics.RectangleShape;
-import sofia.graphics.ShapeView;
 import android.widget.TextView;
 import sofia.app.ShapeScreen;
-import android.view.MotionEvent;
 
 /**
  * The TriangleSmashScreen class handles all of the operations necessary for
@@ -30,9 +21,15 @@ public class TriangleSmashScreen extends ShapeScreen
     private float xMax;
     private float yMax;
 
-    private TriangleShape t;
-    private OvalShape o;
     private Paddle paddle;
+    private SmashBall smashBall;
+
+    private Edge topEdge;
+    private Edge leftEdge;
+    private Edge rightEdge;
+    private Edge bottomEdge;
+
+    private GameLevel gameLevel;
 
     /**
      * Initializes the screen.
@@ -40,19 +37,48 @@ public class TriangleSmashScreen extends ShapeScreen
     public void initialize()
     {
         // TODO: Remove this! This is just for testing the shape view.
-        t = new TriangleShape(100, 50, 150, 100);
-        t.setColor(Color.black);
-        t.setFillColor(Color.blue);
-        add(t);
+        Triangle t1 = new Triangle(125, 50, 15, Color.blue);
+        t1.setColor(Color.black);
+        t1.setFillColor(Color.blue);
+        //add(t1);
         // End TODO
 
-        xMax = getShapeView().getHeight();
-        yMax = getShapeView().getWidth();
+        Triangle t2 = new Triangle(160, 50, 15, Color.blue);
+        t2.setColor(Color.black);
+        t2.setFillColor(Color.blue);
+        //add(t2);
+
+        xMax = getShapeView().getHeight() - 20;
+        yMax = getShapeView().getWidth() + 20;
 
         paddle = new Paddle(xMax / 2, yMax - 2, 40, 10);
         paddle.setPosition(xMax / 2, yMax - 10);
         paddle.setFillColor(Color.black);
         add(paddle);
+
+        topEdge = new Edge(0, -1, xMax, -1);
+        leftEdge = new Edge(-1, 0, -1, yMax);
+        rightEdge = new Edge(xMax, 0, xMax, yMax);
+        bottomEdge = new Edge(0, yMax, xMax, yMax);
+        add(topEdge);
+        add(leftEdge);
+        add(rightEdge);
+        add(bottomEdge);
+
+        smashBall = new SmashBall(200, 200, 10);
+        smashBall.setFillColor(Color.aqua);
+        smashBall.setColor(Color.black);
+        add(smashBall);
+        smashBall.setActive(true);
+        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
+        smashBall.setLinearVelocity(15, 25);
+
+        gameLevel = new FirstLevel(1);
+        gameLevel.addTrianglesToLevel();
+        for (Triangle t: gameLevel.getTriangleList())
+        {
+            add(t);
+        }
 
         gameStatus.setText("Game initialized successfully. ");
     }
@@ -79,8 +105,53 @@ public class TriangleSmashScreen extends ShapeScreen
         paddle.setPosition(x, yMax - 10);
     }
 
+    /**
+     * When a collision occurs between a triangle and the ball, the triangle
+     * is removed from the screen and removed from the model.
+     * @param ball the ball that collided
+     * @param triangle the triangle the ball collided with
+     */
+    public void onCollisionBetween(SmashBall ball, Edge edge)
+    {
+        if (edge.equals(topEdge))
+        {
+            smashBall.setLinearVelocity(smashBall.getLinearVelocity().x,
+                -smashBall.getLinearVelocity().y);
+        }
+        else if (edge.equals(rightEdge) || edge.equals(leftEdge))
+        {
+            smashBall.setLinearVelocity(-smashBall.getLinearVelocity().x,
+                smashBall.getLinearVelocity().y);
+        }//
+        else if (edge.equals(bottomEdge))
+        {
+            smashBall.setLinearVelocity(smashBall.getLinearVelocity().x,
+                -smashBall.getLinearVelocity().y);
+            //gameStatus.setText("Bottom was hit! You lose.");
+        }
+    }
+
+    /**
+     * When a collision occurs between a triangle and the ball, the triangle
+     * is removed from the screen and removed from the model.
+     * @param ball the ball that collided
+     * @param triangle the triangle the ball collided with
+     */
+    public void onCollisionBetween(SmashBall ball, Triangle triangle)
+    {
+        gameLevel.removeTriangle(triangle);
+        remove(triangle);
+        if (gameLevel.getNumTriangles() == 0)
+        {
+            smashBall.setLinearVelocity(0, 0);
+        }
+    }
+
+    /**
+     * Currently, this button serves no real purpose.
+     */
     public void buttonClicked()
     {
-        initialize();
+
     }
 }

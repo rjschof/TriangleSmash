@@ -1,5 +1,7 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.Color;
+
 // -------------------------------------------------------------------------
 /**
  *  The Triangle class maintains the data for the triangles that will be placed
@@ -20,10 +22,12 @@ public class Triangle extends TriangleShape
     /**
      * Create a new Triangle object for the game.
      */
-    public Triangle(float x, float y, float size)
+    public Triangle(float x, float y, float size, Color color)
     {
         super(x - size, y - size, x + size, y + size);
         this.x = x;
         this.y = y;
+        setFillColor(color);
+        setColor(Color.black);
     }
 }
