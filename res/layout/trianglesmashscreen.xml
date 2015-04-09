@@ -26,7 +26,7 @@
             android:layout_above="@+id/infoLabel"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/button"
-            android:layout_weight="1.14" />
+            android:layout_weight="0.90" />
 
         <TextView
             android:id="@+id/gameStatus"

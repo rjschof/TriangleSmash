@@ -67,6 +67,9 @@ public class TriangleShape extends FillableShape
         getPaint().setAntiAlias(true);
     }
 
+    /**
+     * Creates fixtures for the JBox2D functions of the shape.
+     */
     @Override
     protected void createFixtures()
     {
@@ -144,9 +147,6 @@ public class TriangleShape extends FillableShape
     // ----------------------------------------------------------
     /**
      * Retrieves the bounding box for this shape.
-     * TODO: Figure out how to really implement this.
-     * NOTICE: This method is entirely based off of the getBounds() method from
-     * OvalShape.
      * @return the bounding box for this shape
      */
     @Override
@@ -170,9 +170,6 @@ public class TriangleShape extends FillableShape
     // ----------------------------------------------------------
     /**
      * Sets the bounding box for this shape.
-     * TODO: Figure out how to really implement this.
-     * NOTICE: This method is entirely based off of the getBounds() method from
-     * OvalShape.
      */
     @Override
     public void setBounds(RectF newBounds)
