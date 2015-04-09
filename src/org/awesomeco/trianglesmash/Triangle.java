@@ -21,6 +21,10 @@ public class Triangle extends TriangleShape
     // ----------------------------------------------------------
     /**
      * Create a new Triangle object for the game.
+     * @param x the x coordinate of the triangle
+     * @param y the y coordinate of the triangle
+     * @param size the size of the triangle, measured from the centroid
+     * @param color the color of the triangle
      */
     public Triangle(float x, float y, float size, Color color)
     {

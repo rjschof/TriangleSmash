@@ -40,8 +40,17 @@ public class Paddle extends RectangleShape
     }
 
     /**
+     * Sets the height of the paddle.
+     * @param newHeight the new height of the paddle
+     */
+    public void setHeight(float newHeight)
+    {
+        ySize = newHeight;
+    }
+
+    /**
      * Sets the width of the paddle.
-     * @param newWidth - the new width of the paddle
+     * @param newWidth the new width of the paddle
      */
     public void setWidth(float newWidth)
     {
@@ -49,8 +58,8 @@ public class Paddle extends RectangleShape
     }
 
     /**
-     * returns the current width of the paddle.
-     * @return xSize - the width of the paddle
+     * Returns the current width of the paddle.
+     * @return xSize the width of the paddle
      */
     public float getWidth()
     {

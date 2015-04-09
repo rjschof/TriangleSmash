@@ -8,7 +8,7 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="21" />
 
-     <instrumentation android:targetPackage="org.awesomeco.TriangleSmash"
+     <instrumentation android:targetPackage="org.awesomeco.trianglesmash"
         android:name="android.test.InstrumentationTestRunner">
     </instrumentation>
     

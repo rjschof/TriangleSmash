@@ -12,30 +12,16 @@ import sofia.graphics.Color;
 
 public class FirstLevel extends GameLevel
 {
-    private float maxHeight;
-    private float maxWidth;
-
     // ----------------------------------------------------------
     /**
      * Create a new FirstLevel object.
-     * @param levelNum
+     * @param levelNum the number of this level
+     * @param height the height of the view
+     * @param width the width of the view
      */
-    public FirstLevel(int levelNum)
+    public FirstLevel(int levelNum, float width, float height)
     {
-        super(levelNum);
-    }
-
-    /**
-     * Create a new FirstLevel object.
-     * @param levelNum the number for the level
-     * @param maxHeight the maximum height
-     * @param maxWidth the maximum width
-     */
-    public FirstLevel(int levelNum, float maxHeight, float maxWidth)
-    {
-        super(levelNum);
-        this.maxHeight = maxHeight;
-        this.maxWidth = maxWidth;
+        super(levelNum, width, height);
     }
 
     // ----------------------------------------------------------
@@ -48,18 +34,20 @@ public class FirstLevel extends GameLevel
     @Override
     public void addTrianglesToLevel()
     {
-        float partOfScreenX = maxWidth / 12;
-        float partOfScreenY = maxHeight / 14;
+        float partOfScreenX = getViewWidth() / 12;
+        float partOfScreenY = getViewHeight() / 14;
         for (int i = 0; i < 5; i++)
         {
-            addTriangle(new Triangle((partOfScreenX * i*2) + (maxWidth / 12),
-                (partOfScreenY) + (maxHeight / 18), maxWidth / 16,
+            addTriangle(
+                new Triangle((partOfScreenX * i*2) + (getViewWidth() / 12),
+                (partOfScreenY) + (getViewHeight() / 18), getViewWidth() / 16,
                 Color.red));
         }
 
 
         for (Triangle t: getTriangleList())
         {
+            // TODO: Figure out how to really implement this.
             t.setRestitution(0.0f); // Restitution is the "bounciness" of a
                                     // shape. Make this higher in other levels
                                     // to increase the difficulty.

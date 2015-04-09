@@ -15,6 +15,9 @@ import student.AndroidTestCase;
 public class TriangleSmashScreenTest
     extends AndroidTestCase<TriangleSmashScreen>
 {
+
+    private TriangleSmashScreen smashScreen;
+
     /**
      * Constructor for the TriangleSmashScreenTest class.
      */
@@ -28,7 +31,12 @@ public class TriangleSmashScreenTest
      */
     public void setUp()
     {
-        // TODO
+        smashScreen = this.getScreen();
+    }
+
+    public void testOnCollisionBetweenBallEdge()
+    {
+
     }
 
 }

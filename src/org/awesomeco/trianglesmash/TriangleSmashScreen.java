@@ -21,9 +21,6 @@ public class TriangleSmashScreen extends ShapeScreen
     private float xMax;
     private float yMax;
 
-    private Paddle paddle;
-    private SmashBall smashBall;
-
     private Edge topEdge;
     private Edge leftEdge;
     private Edge rightEdge;
@@ -36,19 +33,19 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void initialize()
     {
-        Triangle t2 = new Triangle(160, 50, 15, Color.blue);
-        t2.setColor(Color.black);
-        t2.setFillColor(Color.blue);
-        //add(t2);
-
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
 
-        paddle = new Paddle(xMax / 2, yMax - 10, getWidth() / 6,
-            getHeight() / 20);
-        paddle.setFillColor(Color.black);
-        add(paddle);
+        gameLevel = new FirstLevel(1, xMax, yMax);
+        gameLevel.addTrianglesToLevel();
+        for (Triangle t: gameLevel.getTriangleList())
+        {
+            add(t);
+        }
 
+        add(gameLevel.getPaddle());
+
+        // TODO: Should we put these in the model? Probably not.
         topEdge = new Edge(0, -1, xMax, -1);
         leftEdge = new Edge(-1, 0, -1, yMax);
         rightEdge = new Edge(xMax, 0, xMax, yMax);
@@ -58,21 +55,12 @@ public class TriangleSmashScreen extends ShapeScreen
         add(rightEdge);
         add(bottomEdge);
 
-        smashBall = new SmashBall(getWidth() / 2, getHeight() / 2, 
-            getHeight() / 24);
-        smashBall.setFillColor(Color.aqua);
-        smashBall.setColor(Color.black);
-        add(smashBall);
-        smashBall.setActive(true);
-        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
-        smashBall.setLinearVelocity(getWidth() / 8, getHeight() / 12);
-
-        gameLevel = new FirstLevel(1, getHeight(), getWidth());
-        gameLevel.addTrianglesToLevel();
-        for (Triangle t: gameLevel.getTriangleList())
-        {
-            add(t);
-        }
+        add(gameLevel.getSmashBall());
+        gameLevel.getSmashBall().setActive(true);
+        gameLevel.getSmashBall().setShapeMotion(ShapeMotion.DYNAMIC);
+        gameLevel.getSmashBall().setLinearVelocity(getWidth() / 8,
+            getHeight() / 12);
+        gameLevel.getSmashBall().setAngularVelocity(15);
 
         gameStatus.setText("Game initialized successfully. ");
     }
@@ -85,7 +73,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        paddle.setPosition(x, yMax - 10);
+        gameLevel.getPaddle().setPosition(x, yMax - 10);
     }
 
     /**
@@ -96,32 +84,34 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchMove(float x, float y)
     {
-        paddle.setPosition(x, yMax - 10);
+        gameLevel.getPaddle().setPosition(x, yMax - 10);
     }
 
     /**
      * When a collision occurs between a triangle and the ball, the triangle
      * is removed from the screen and removed from the model.
      * @param ball the ball that collided
-     * @param triangle the triangle the ball collided with
+     * @param edge the edge object the ball collided with
      */
     public void onCollisionBetween(SmashBall ball, Edge edge)
     {
         if (edge.equals(topEdge))
         {
-            smashBall.setLinearVelocity(smashBall.getLinearVelocity().x,
-                -smashBall.getLinearVelocity().y);
+            gameLevel.getSmashBall().setLinearVelocity(
+                gameLevel.getSmashBall().getLinearVelocity().x,
+                -gameLevel.getSmashBall().getLinearVelocity().y);
         }
         else if (edge.equals(rightEdge) || edge.equals(leftEdge))
         {
-            smashBall.setLinearVelocity(-smashBall.getLinearVelocity().x,
-                smashBall.getLinearVelocity().y);
+            gameLevel.getSmashBall().setLinearVelocity(
+                -gameLevel.getSmashBall().getLinearVelocity().x,
+                gameLevel.getSmashBall().getLinearVelocity().y);
         }//
         else if (edge.equals(bottomEdge))
         {
-            smashBall.setLinearVelocity(smashBall.getLinearVelocity().x,
-                -smashBall.getLinearVelocity().y);
-            //gameStatus.setText("Bottom was hit! You lose.");
+            gameLevel.getSmashBall().setLinearVelocity(
+                gameLevel.getSmashBall().getLinearVelocity().x,
+                -gameLevel.getSmashBall().getLinearVelocity().y);
         }
     }
 
@@ -137,15 +127,17 @@ public class TriangleSmashScreen extends ShapeScreen
         remove(triangle);
         if (gameLevel.getNumTriangles() == 0)
         {
-            smashBall.setLinearVelocity(0, 0);
+            gameLevel.getSmashBall().setLinearVelocity(0, 0);
         }
     }
 
     /**
-     * Currently, this button serves no real purpose.
+     * Returns the gameLevel object that represents the data model for this
+     * game.
+     * @return the gameLevel object
      */
-    public void buttonClicked()
+    public GameLevel getGameLevel()
     {
-
+        return gameLevel;
     }
 }

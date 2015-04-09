@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.Color;
 import java.util.LinkedList;
 import java.util.Queue;
 import sofia.graphics.ShapeView;
@@ -19,21 +20,30 @@ public abstract class GameLevel
     private int levelNum;
     private Paddle paddle;
     private SmashBall smashBall;
-
-
-
-    private Queue<Bonus> powers;
+    private float viewHeight;
+    private float viewWidth;
 
     // ----------------------------------------------------------
     /**
      * Create a new GameLevel object.
      * @param levelNum number identifier for this level
+     * @param height the height of the view
+     * @param width the width of the view
      */
-    public GameLevel(int levelNum)
+    public GameLevel(int levelNum, float width, float height)
     {
         this.levelNum = levelNum;
         triangleList = new ArrayList<Triangle>();
-        powers = new LinkedList<Bonus>();
+        viewHeight = height;
+        viewWidth = width;
+        smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
+            viewHeight / 24);
+        smashBall.setFillColor(Color.aqua);
+        smashBall.setColor(Color.black);
+        paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
+            viewHeight / 20);
+        paddle.setPosition(viewWidth / 2, viewHeight - 10);
+        paddle.setFillColor(Color.black);
     }
 
     // ----------------------------------------------------------
@@ -63,6 +73,15 @@ public abstract class GameLevel
         return levelNum;
     }
 
+    /**
+     * Returns the paddle that is part of the data model.
+     * @return the paddle from this model
+     */
+    public Paddle getPaddle()
+    {
+        return paddle;
+    }
+
     // ----------------------------------------------------------
     /**
      * Gets the number of triangles in the list for a level
@@ -73,6 +92,15 @@ public abstract class GameLevel
         return triangleList.size();
     }
 
+    /**
+     * Returns the SmashBall object that is part of the data model.
+     * @return the ball from the model
+     */
+    public SmashBall getSmashBall()
+    {
+        return smashBall;
+    }
+
     // ----------------------------------------------------------
     /**
      * Gets the list of triangles for the level
@@ -81,6 +109,24 @@ public abstract class GameLevel
     public ArrayList<Triangle> getTriangleList()
     {
         return triangleList;
+    }
+
+    /**
+     * Returns the height of the view
+     * @return the view height
+     */
+    public float getViewHeight()
+    {
+        return viewHeight;
+    }
+
+    /**
+     * Returns the width of the view
+     * @return the view width
+     */
+    public float getViewWidth()
+    {
+        return viewWidth;
     }
 
     /**
