@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // -------------------------------------------------------------------------
 /**
- *  The PowerQeuue is the data structure implemented to hold TriangleSmash
+ *  The PowerQueue is the data structure implemented to hold TriangleSmash
  *  game power-ups.
  *  @param <E> - Generic object type
  *
@@ -90,11 +90,6 @@ public class PowerQueue<E>
 
     }
 
-    /*public Iterator<E> iterator()
-    {
-        return new PowerQueueIterator();
-    }*/
-
     /**
      * Converts the PowerQueue into String form. ["item", "item", "item"]
      * @return String representation of the PowerQueue
@@ -123,35 +118,6 @@ public class PowerQueue<E>
         }
         return result;
     }
-
-    /*private class PowerQueueIterator implements Iterator<E>
-    {
-        private int index;
-        private E current;
-
-        public PowerQueueIterator()
-        {
-            index = 0;
-            current = nextToRemove();
-        }
-
-        public boolean hasNext()
-        {
-            return (index != size() - 1);
-        }
-
-        public E next()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        public void remove()
-        {
-            // TODO Auto-generated method stub
-
-        }
-    }*/
 
 
 
