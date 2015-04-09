@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import android.graphics.PointF;
 import sofia.graphics.Color;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -38,12 +39,8 @@ public abstract class GameLevel
         viewWidth = width;
         smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
             viewHeight / 24);
-        smashBall.setFillColor(Color.aqua);
-        smashBall.setColor(Color.black);
         paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
             viewHeight / 20);
-        paddle.setPosition(viewWidth / 2, viewHeight - 10);
-        paddle.setFillColor(Color.black);
     }
 
     // ----------------------------------------------------------
@@ -135,17 +132,17 @@ public abstract class GameLevel
      */
     public boolean isGameWon()
     {
+        System.out.println((triangleList.size() == 0));
         return (triangleList.size() == 0);
     }
 
     // ----------------------------------------------------------
     /**
-     * Removes the specified triangle from the list.
-     * @param triangle the triangle to remove from the list
+     * Removes the triangle at the specified index from the list.
+     * @param index of the triangle to remove
      */
-    public void removeTriangle(Triangle triangle)
+    public void removeTriangleAt(int index)
     {
-        triangleList.remove(triangle);
+        triangleList.remove(index);
     }
-
 }

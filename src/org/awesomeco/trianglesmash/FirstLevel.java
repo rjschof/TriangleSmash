@@ -43,15 +43,6 @@ public class FirstLevel extends GameLevel
                 (partOfScreenY) + (getViewHeight() / 18), getViewWidth() / 16,
                 Color.red));
         }
-
-
-        for (Triangle t: getTriangleList())
-        {
-            // TODO: Figure out how to really implement this.
-            t.setRestitution(0.0f); // Restitution is the "bounciness" of a
-                                    // shape. Make this higher in other levels
-                                    // to increase the difficulty.
-        }
     }
 
 }

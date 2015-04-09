@@ -1,5 +1,9 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.TextShape;
+import sofia.graphics.RectangleShape;
+import sofia.graphics.OvalShape;
+import java.util.ArrayList;
 import sofia.graphics.ShapeMotion;
 import sofia.graphics.Color;
 import android.widget.TextView;
@@ -21,6 +25,10 @@ public class TriangleSmashScreen extends ShapeScreen
     private float xMax;
     private float yMax;
 
+    private RectangleShape paddle;
+    private OvalShape smashBall;
+    private ArrayList<TriangleShape> triangles;
+
     private Edge topEdge;
     private Edge leftEdge;
     private Edge rightEdge;
@@ -33,20 +41,42 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void initialize()
     {
-
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
 
+        triangles = new ArrayList<TriangleShape>();
+
         gameLevel = new FirstLevel(1, xMax, yMax);
         gameLevel.addTrianglesToLevel();
-        for (Triangle t: gameLevel.getTriangleList())
+
+        Paddle modelPaddle = gameLevel.getPaddle();
+        paddle = new RectangleShape(
+            modelPaddle.getPosition().x - (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y - (modelPaddle.getHeight() / 2),
+            modelPaddle.getPosition().x + (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y + (modelPaddle.getHeight() / 2));
+        paddle.setFillColor(Color.black);
+
+        for (Triangle triangle: gameLevel.getTriangleList())
         {
-            add(t);
+            TriangleShape triangleShape = new TriangleShape(
+                triangle.getPosition().x - triangle.getSize(),
+                triangle.getPosition().y - triangle.getSize(),
+                triangle.getPosition().x + triangle.getSize(),
+                triangle.getPosition().y + triangle.getSize());
+            triangleShape.setColor(Color.black);
+            triangleShape.setFillColor(Color.red);
+            add(triangleShape);
+            triangles.add(triangleShape);
         }
 
-        add(gameLevel.getPaddle());
+        SmashBall modelBall = gameLevel.getSmashBall();
+        smashBall = new OvalShape(modelBall.getPosition().x,
+            modelBall.getPosition().y, modelBall.getRadius());
+        smashBall.setFillColor(Color.aqua);
+        smashBall.setColor(Color.black);
+        smashBall.setRestitution(5.0f);
 
-        // TODO: Should we put these in the model? Probably not.
         topEdge = new Edge(0, -1, xMax, -1);
         leftEdge = new Edge(-1, 0, -1, yMax);
         rightEdge = new Edge(xMax, 0, xMax, yMax);
@@ -56,12 +86,14 @@ public class TriangleSmashScreen extends ShapeScreen
         add(rightEdge);
         add(bottomEdge);
 
-        add(gameLevel.getSmashBall());
-        gameLevel.getSmashBall().setActive(true);
-        gameLevel.getSmashBall().setShapeMotion(ShapeMotion.DYNAMIC);
-        gameLevel.getSmashBall().setLinearVelocity(getWidth() / 8,
+        add(paddle);
+
+        add(smashBall);
+        smashBall.setActive(true);
+        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
+        smashBall.setLinearVelocity(getWidth() / 8,
             getHeight() / 12);
-        gameLevel.getSmashBall().setAngularVelocity(15);
+        smashBall.setAngularVelocity(15);
 
 
         gameStatus.setText("Game initialized successfully. ");
@@ -75,7 +107,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(x, yMax - 10);
+        paddle.setPosition(x, yMax - 10);
     }
 
     /**
@@ -86,50 +118,70 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchMove(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(x, yMax - 10);
+        paddle.setPosition(x, yMax - 10);
     }
 
     /**
-     * When a collision occurs between a triangle and the ball, the triangle
-     * is removed from the screen and removed from the model.
-     * @param ball the ball that collided
+     * When a collision occurs between the edge and the ball, the ball bounces
+     * in the opposite direction.
+     * @param oval the oval that collided.
      * @param edge the edge object the ball collided with
      */
-    public void onCollisionBetween(SmashBall ball, Edge edge)
+    public void onCollisionBetween(OvalShape oval, Edge edge)
     {
-        if (edge.equals(topEdge))
+        if(oval.equals(smashBall))
         {
-            gameLevel.getSmashBall().setLinearVelocity(
-                gameLevel.getSmashBall().getLinearVelocity().x,
-                -gameLevel.getSmashBall().getLinearVelocity().y);
+            if (edge.equals(topEdge))
+            {
+                smashBall.setLinearVelocity(
+                    smashBall.getLinearVelocity().x,
+                    -smashBall.getLinearVelocity().y);
+            }
+            else if (edge.equals(rightEdge) || edge.equals(leftEdge))
+            {
+                smashBall.setLinearVelocity(
+                    -smashBall.getLinearVelocity().x,
+                    smashBall.getLinearVelocity().y);
+            }//
+            else if (edge.equals(bottomEdge))
+            {
+                smashBall.setLinearVelocity(0, 0);
+                TextShape text = new TextShape("You lose.", xMax / 2, yMax / 2);
+                add(text);
+            }
         }
-        else if (edge.equals(rightEdge) || edge.equals(leftEdge))
-        {
-            gameLevel.getSmashBall().setLinearVelocity(
-                -gameLevel.getSmashBall().getLinearVelocity().x,
-                gameLevel.getSmashBall().getLinearVelocity().y);
-        }//
-        else if (edge.equals(bottomEdge))
-        {
-            gameLevel.getSmashBall().setLinearVelocity(
-                gameLevel.getSmashBall().getLinearVelocity().x,
-                -gameLevel.getSmashBall().getLinearVelocity().y);
-        }
+    }
+
+    /**
+     * When a collision occurs between the paddle and the ball, the ball changes
+     * direction.
+     * @param oval the oval that collided.
+     * @param rect the rectangle the oval collided with
+     */
+    public void onCollisionBetween(OvalShape oval, RectangleShape rect)
+    {
+        // Not yet implemented.
     }
 
     /**
      * When a collision occurs between a triangle and the ball, the triangle
      * is removed from the screen and removed from the model.
-     * @param ball the ball that collided
+     * @param oval the oval that collided
      * @param triangle the triangle the ball collided with
      */
-    public void onCollisionBetween(SmashBall ball, Triangle triangle)
+    public void onCollisionBetween(OvalShape oval, TriangleShape triangle)
     {
-        gameLevel.removeTriangle(triangle);
-        remove(triangle);
-        if (gameLevel.getNumTriangles() == 0)
+        if (oval.equals(smashBall))
         {
-            gameLevel.getSmashBall().setLinearVelocity(0, 0);
+            remove(triangle);
+            gameLevel.removeTriangleAt(triangles.indexOf(triangle));
+            triangles.remove(triangle);
+            if (gameLevel.isGameWon())
+            {
+                smashBall.setLinearVelocity(0, 0);
+                TextShape text = new TextShape("You win!", xMax / 2, yMax / 2);
+                add(text);
+            }
         }
     }
 

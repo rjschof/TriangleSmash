@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import android.graphics.PointF;
 import org.jbox2d.collision.shapes.EdgeShape;
 import sofia.graphics.ViewEdges;
 import sofia.graphics.RectangleShape;
@@ -15,28 +16,55 @@ import sofia.graphics.RectangleShape;
  *  @version 2015.03.23
  */
 
-public class Paddle extends RectangleShape
+public class Paddle
 {
     private float x;
     private float y;
-    private float xSize;
-    private float ySize;
+    private float width;
+    private float height;
 
     // ----------------------------------------------------------
     /**
      * Create a new Paddle object for the game.
      * @param x the x-coordinate for the center of the paddle
      * @param y the y-coordinate for the center of the paddle
-     * @param xSize the distance from the center to the edge in the x direction
-     * @param ySize the distance from the center to the edge in the y direction
+     * @param width the distance from the center to the edge in the x direction
+     * @param height the distance from the center to the edge in the y direction
      */
-    public Paddle(float x, float y, float xSize, float ySize)
+    public Paddle(float x, float y, float width, float height)
     {
-        super(x - xSize, y - ySize, x + xSize, y + ySize);
         this.x = x;
         this.y = y;
-        this.xSize = xSize;
-        this.ySize = ySize;
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+     * Gets the height of the paddle.
+     * @return paddle height
+     */
+    public float getHeight()
+    {
+        return height;
+    }
+
+    /**
+     * Gets the position of the paddle on the screen in the form of a PointF
+     * object.
+     * @return position of the paddle as PointF
+     */
+    public PointF getPosition()
+    {
+        return new PointF(x, y);
+    }
+
+    /**
+     * Gets the width of the paddle
+     * @return width of the paddle
+     */
+    public float getWidth()
+    {
+        return width;
     }
 
     /**
@@ -45,7 +73,7 @@ public class Paddle extends RectangleShape
      */
     public void setHeight(float newHeight)
     {
-        ySize = newHeight;
+        height = newHeight;
     }
 
     /**
@@ -54,15 +82,6 @@ public class Paddle extends RectangleShape
      */
     public void setWidth(float newWidth)
     {
-        xSize = newWidth;
-    }
-
-    /**
-     * Returns the current width of the paddle.
-     * @return xSize the width of the paddle
-     */
-    public float getWidth()
-    {
-        return xSize;
+        width = newWidth;
     }
 }

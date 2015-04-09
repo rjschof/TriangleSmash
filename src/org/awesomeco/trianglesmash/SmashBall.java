@@ -15,8 +15,11 @@ import sofia.graphics.OvalShape;
  *  @version Apr 7, 2015
  */
 
-public class SmashBall extends OvalShape
+public class SmashBall
 {
+    private float x;
+    private float y;
+    private float radius;
 
     // ----------------------------------------------------------
     /**
@@ -27,18 +30,27 @@ public class SmashBall extends OvalShape
      */
     public SmashBall(float x, float y, float radius)
     {
-        super(x, y, radius);
-        setRestitution(5.0f);
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
     }
 
     /**
-     * Called when the ball collides with the paddle on the screen.
-     *
-     * @param paddle the paddle for the game
+     * Gets the position of the paddle on the screen in the form of a PointF
+     * object.
+     * @return position of the paddle as PointF
      */
-    public void onCollisionWith(Paddle paddle)
+    public PointF getPosition()
     {
-        setLinearVelocity(getLinearVelocity().x, -getLinearVelocity().y);
+        return new PointF(x, y);
     }
 
+    /**
+     * Gets the radius of the ball
+     * @return ball radius
+     */
+    public float getRadius()
+    {
+        return radius;
+    }
 }

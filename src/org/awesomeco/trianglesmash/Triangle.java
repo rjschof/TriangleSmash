@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import android.graphics.PointF;
 import sofia.graphics.Color;
 
 // -------------------------------------------------------------------------
@@ -13,10 +14,12 @@ import sofia.graphics.Color;
  *  @version 2015.03.23
  */
 
-public class Triangle extends TriangleShape
+public class Triangle
 {
     private float x;
     private float y;
+    private float size;
+    private Color fillColor;
 
     // ----------------------------------------------------------
     /**
@@ -28,10 +31,55 @@ public class Triangle extends TriangleShape
      */
     public Triangle(float x, float y, float size, Color color)
     {
-        super(x - size, y - size, x + size, y + size);
         this.x = x;
         this.y = y;
-        setFillColor(color);
-        setColor(Color.black);
+        this.size = size;
+        fillColor = color;
+    }
+
+    /**
+     * Returns the fill color set for this triangle
+     * @return fill color of triangle
+     */
+    public Color getFillColor()
+    {
+        return fillColor;
+    }
+
+    /**
+     * Gets the position of a triangle in the form of a PointF object.
+     * @return the triangle's position
+     */
+    public PointF getPosition()
+    {
+        return new PointF(x, y);
+    }
+
+    /**
+     * Gets the size of this triangle, measured as distance from the centroid
+     * @return distance of triangle vertices from centroid
+     */
+    public float getSize()
+    {
+        return size;
+    }
+
+    /**
+     * Tells whether this object is equal to another object. If the other object
+     * is an instance of Triangle, then the other object's position is compared
+     * to this object's position for equality.
+     * @return true if position is same, false if otherwise or not Triangle
+     */
+    @Override
+    public boolean equals(Object other)
+    {
+        if (other instanceof Triangle)
+        {
+            return this.getPosition().equals(((Triangle)other).getPosition());
+        }
+        else
+        {
+            return false;
+        }
     }
 }
