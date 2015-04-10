@@ -142,7 +142,7 @@ public class TriangleSmashScreen extends ShapeScreen
                 smashBall.setLinearVelocity(
                     -smashBall.getLinearVelocity().x,
                     smashBall.getLinearVelocity().y);
-            }//
+            }
             else if (edge.equals(bottomEdge))
             {
                 smashBall.setLinearVelocity(0, 0);
@@ -152,16 +152,7 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
-    /**
-     * When a collision occurs between the paddle and the ball, the ball changes
-     * direction.
-     * @param oval the oval that collided.
-     * @param rect the rectangle the oval collided with
-     */
-    public void onCollisionBetween(OvalShape oval, RectangleShape rect)
-    {
-        // Not yet implemented.
-    }
+    // ~~~~ Everything below is included to make testing easier.
 
     /**
      * When a collision occurs between a triangle and the ball, the triangle
@@ -194,4 +185,42 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         return gameLevel;
     }
+
+    /**
+     * Returns the paddle for the screen.
+     * @return the game paddle
+     */
+    public RectangleShape getPaddle()
+    {
+        return paddle;
+    }
+
+    /**
+     * Returns the ball from the screen
+     * @return the smash ball
+     */
+    public OvalShape getSmashBall()
+    {
+        return smashBall;
+    }
+
+    /**
+     * Returns all four edges from the screen as an array of Edge objects.
+     * Index 0: top edge
+     * Index 1: left edge
+     * Index 2: bottom edge
+     * Index 3: right edge
+     * @return array of edges for the screen
+     */
+    public Edge[] getEdges()
+    {
+        Edge[] edges = new Edge[4];
+        edges[0] = topEdge;
+        edges[1] = leftEdge;
+        edges[2] = bottomEdge;
+        edges[3] = rightEdge;
+        return edges;
+    }
+
+
 }

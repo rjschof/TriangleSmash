@@ -19,10 +19,8 @@ import sofia.graphics.Drawing;
  *  Currently, triangles can only be oriented two different ways: with the tip
  *  of the triangle pointed up, with the tip pointed down.
  *
- *  TODO: Reorganize some of the operations and data in this class.
- *
  *  @author Robert Schofield (rjschof)
- *  @version 2015.03.30
+ *  @version 2015.04.02
  */
 
 public class TriangleShape extends FillableShape

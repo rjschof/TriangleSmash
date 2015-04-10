@@ -4,7 +4,7 @@ import student.AndroidTestCase;
 
 // -------------------------------------------------------------------------
 /**
- *  Tests for the TriangleSmashScreen class.
+ * Tests for the TriangleSmashScreen class.
  *
  * @author Lauren Malhotra (laurcm6)
  * @author Robert Schofield (rjschof)
@@ -33,10 +33,4 @@ public class TriangleSmashScreenTest
     {
         smashScreen = this.getScreen();
     }
-
-    public void testOnCollisionBetweenBallEdge()
-    {
-
-    }
-
 }
