@@ -1,9 +1,6 @@
 package org.awesomeco.trianglesmash;
 
 import android.graphics.PointF;
-import org.jbox2d.collision.shapes.EdgeShape;
-import sofia.graphics.ViewEdges;
-import sofia.graphics.RectangleShape;
 
 // -------------------------------------------------------------------------
 /**
