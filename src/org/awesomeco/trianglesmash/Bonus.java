@@ -45,6 +45,9 @@ public class Bonus
         BULLDOZE
     }
 
+    /**
+     *
+     */
     public Bonus(String bonusName)
     {
         this.bonusName = bonusName;

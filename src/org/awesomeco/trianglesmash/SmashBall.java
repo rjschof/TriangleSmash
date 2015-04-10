@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-import sofia.graphics.ViewEdges;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import sofia.graphics.OvalShape;
@@ -11,15 +10,17 @@ import sofia.graphics.OvalShape;
  *  Follow it with additional details about its purpose, what abstraction
  *  it represents, and how to use it.
  *
- *  @author Robert
- *  @version Apr 7, 2015
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.07
  */
 
 public class SmashBall
 {
-    private float x;
-    private float y;
-    private float radius;
+    private float x;    // the x coordinate of the ball center
+    private float y;    //the y coordinate of the ball center
+    private float radius; //the radius of the ball
 
     // ----------------------------------------------------------
     /**

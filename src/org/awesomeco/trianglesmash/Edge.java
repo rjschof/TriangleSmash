@@ -10,8 +10,10 @@ import sofia.graphics.LineShape;
  *  Follow it with additional details about its purpose, what abstraction
  *  it represents, and how to use it.
  *
- *  @author Robert
- *  @version Apr 7, 2015
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.07
  */
 
 public class Edge extends LineShape

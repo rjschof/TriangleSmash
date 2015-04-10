@@ -6,7 +6,9 @@ import sofia.graphics.Color;
 /**
  *  This class manages the information for the first level in the game.
  *
- *  @author Robert Schofield (rjschof)
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
  *  @version 2015.04.07
  */
 
