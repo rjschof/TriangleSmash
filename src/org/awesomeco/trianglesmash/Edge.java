@@ -1,7 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-import android.graphics.PointF;
-import android.graphics.RectF;
 import sofia.graphics.LineShape;
 
 // -------------------------------------------------------------------------

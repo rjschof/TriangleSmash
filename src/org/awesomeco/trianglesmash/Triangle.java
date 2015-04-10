@@ -73,7 +73,11 @@ public class Triangle
     @Override
     public boolean equals(Object other)
     {
-        if (other instanceof Triangle)
+        if (other == null)
+        {
+            return false;
+        }
+        else if (other instanceof Triangle)
         {
             return this.getPosition().equals(((Triangle)other).getPosition());
         }
