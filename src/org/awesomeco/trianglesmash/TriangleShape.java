@@ -15,9 +15,7 @@ import sofia.graphics.Drawing;
 
 // -------------------------------------------------------------------------
 /**
- *  This class creates a new triangle shape that will be displayed in the view.
- *  Currently, triangles can only be oriented two different ways: with the tip
- *  of the triangle pointed up, with the tip pointed down.
+ *  TODO: Add a good description here.
  *
  *  @author Robert Schofield (rjschof)
  *  @version 2015.04.02
@@ -61,8 +59,6 @@ public class TriangleShape extends FillableShape
 
         polygon = new Polygon(left + Math.abs((right-left)/2), top,
             left, bottom, right, bottom);
-
-        getPaint().setAntiAlias(true);
     }
 
     /**

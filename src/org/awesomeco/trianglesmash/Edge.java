@@ -27,7 +27,6 @@ public class Edge extends LineShape
     public Edge(float left, float top, float right, float bottom)
     {
         super(left, top, right, bottom);
-        // TODO Auto-generated constructor stub
     }
 
 }

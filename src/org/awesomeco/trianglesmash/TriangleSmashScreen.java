@@ -1,5 +1,7 @@
 package org.awesomeco.trianglesmash;
 
+
+import sofia.graphics.Shape;
 import sofia.graphics.TextShape;
 import sofia.graphics.RectangleShape;
 import sofia.graphics.OvalShape;
@@ -20,13 +22,16 @@ import sofia.app.ShapeScreen;
  */
 public class TriangleSmashScreen extends ShapeScreen
 {
+    private GameLevel[] levels;
     private TextView gameStatus;
 
     private float xMax;
     private float yMax;
 
     private RectangleShape paddle;
+    private RectangleShape background;
     private OvalShape smashBall;
+    private TextShape text;
     private ArrayList<TriangleShape> triangles;
 
     private Edge topEdge;
@@ -46,55 +51,12 @@ public class TriangleSmashScreen extends ShapeScreen
 
         triangles = new ArrayList<TriangleShape>();
 
-        gameLevel = new FirstLevel(1, xMax, yMax);
-        gameLevel.addTrianglesToLevel();
+        levels = new GameLevel[] {
+            new GameLevel(0, 15, xMax, yMax, "myresource"),
+            new GameLevel(1, 10, xMax, yMax)
+        };
 
-        Paddle modelPaddle = gameLevel.getPaddle();
-        paddle = new RectangleShape(
-            modelPaddle.getPosition().x - (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y - (modelPaddle.getHeight() / 2),
-            modelPaddle.getPosition().x + (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y + (modelPaddle.getHeight() / 2));
-        paddle.setFillColor(Color.black);
-
-        for (Triangle triangle: gameLevel.getTriangleList())
-        {
-            TriangleShape triangleShape = new TriangleShape(
-                triangle.getPosition().x - triangle.getSize(),
-                triangle.getPosition().y - triangle.getSize(),
-                triangle.getPosition().x + triangle.getSize(),
-                triangle.getPosition().y + triangle.getSize());
-            triangleShape.setColor(Color.black);
-            triangleShape.setFillColor(Color.red);
-            add(triangleShape);
-            triangles.add(triangleShape);
-        }
-
-        SmashBall modelBall = gameLevel.getSmashBall();
-        smashBall = new OvalShape(modelBall.getPosition().x,
-            modelBall.getPosition().y, modelBall.getRadius());
-        smashBall.setFillColor(Color.aqua);
-        smashBall.setColor(Color.black);
-        smashBall.setRestitution(5.0f);
-
-        topEdge = new Edge(0, -1, xMax, -1);
-        leftEdge = new Edge(-1, 0, -1, yMax);
-        rightEdge = new Edge(xMax, 0, xMax, yMax);
-        bottomEdge = new Edge(0, yMax, xMax, yMax);
-        add(topEdge);
-        add(leftEdge);
-        add(rightEdge);
-        add(bottomEdge);
-
-        add(paddle);
-
-        add(smashBall);
-        smashBall.setActive(true);
-        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
-        smashBall.setLinearVelocity(getWidth() / 8,
-            getHeight() / 12);
-        smashBall.setAngularVelocity(15);
-
+        setUpForLevel(0);
 
         gameStatus.setText("Game initialized successfully. ");
     }
@@ -146,13 +108,11 @@ public class TriangleSmashScreen extends ShapeScreen
             else if (edge.equals(bottomEdge))
             {
                 smashBall.setLinearVelocity(0, 0);
-                TextShape text = new TextShape("You lose.", xMax / 2, yMax / 2);
+                text = new TextShape("You lose.", xMax / 2, yMax / 2);
                 add(text);
             }
         }
     }
-
-    // ~~~~ Everything below is included to make testing easier.
 
     /**
      * When a collision occurs between a triangle and the ball, the triangle
@@ -170,11 +130,125 @@ public class TriangleSmashScreen extends ShapeScreen
             if (gameLevel.isGameWon())
             {
                 smashBall.setLinearVelocity(0, 0);
-                TextShape text = new TextShape("You win!", xMax / 2, yMax / 2);
+                text = new TextShape("You win!", xMax / 2, yMax / 2);
+                text.setColor(Color.black);
                 add(text);
+
+                // TODO: Consider a better way to do this.
+                int count = 0;
+                while (count < 3)
+                {
+                    final int c = count;
+                    try {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                TriangleSmashScreen.this.gameStatus.setText(
+                                    3 - c + " seconds until next level...");
+                            }
+                        });
+                        Thread.sleep(1000);
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    count++;
+                }
+
+                remove(paddle);
+                remove(smashBall);
+                remove(text);
+                remove(background);
+                final int levelNum = gameLevel.getLevelNum() + 2;
+                setUpForLevel(gameLevel.getLevelNum() + 1);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        TriangleSmashScreen.this.gameStatus.setText(
+                            "Level " + levelNum + "!");
+                    }
+                });
             }
         }
     }
+
+    public void setUpForLevel(int number)
+    {
+        gameLevel = levels[number];
+
+        Paddle modelPaddle = gameLevel.getPaddle();
+        paddle = new RectangleShape(
+            modelPaddle.getPosition().x - (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y - (modelPaddle.getHeight() / 2),
+            modelPaddle.getPosition().x + (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y + (modelPaddle.getHeight() / 2));
+        paddle.setFillColor(Color.black);
+
+        for (Triangle triangle: gameLevel.getTriangleList())
+        {
+            TriangleShape triangleShape = new TriangleShape(
+                triangle.getPosition().x - triangle.getSize(),
+                triangle.getPosition().y - triangle.getSize(),
+                triangle.getPosition().x + triangle.getSize(),
+                triangle.getPosition().y + triangle.getSize());
+            triangleShape.setColor(Color.black);
+            triangleShape.setFillColor(Color.red);
+            add(triangleShape);
+            triangles.add(triangleShape);
+        }
+
+        SmashBall modelBall = gameLevel.getSmashBall();
+        smashBall = new OvalShape(modelBall.getPosition().x,
+            modelBall.getPosition().y, modelBall.getRadius());
+        smashBall.setFillColor(Color.aqua);
+        smashBall.setColor(Color.black);
+        smashBall.setRestitution(5.0f);
+
+        topEdge = new Edge(0, -1, xMax, -1);
+        leftEdge = new Edge(-1, 0, -1, yMax);
+        rightEdge = new Edge(xMax, 0, xMax, yMax);
+        bottomEdge = new Edge(0, yMax, xMax, yMax);
+        add(topEdge);
+        add(leftEdge);
+        add(rightEdge);
+        add(bottomEdge);
+
+        add(paddle);
+
+        add(smashBall);
+        smashBall.setActive(true);
+        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
+        smashBall.setLinearVelocity(getWidth() / 8,
+            getHeight() / 12);
+        smashBall.setAngularVelocity(15);
+
+        background = new RectangleShape(0, 0, xMax, yMax);
+        if (!gameLevel.getBackground().equals("NONE"))
+        {
+            background.setImage(gameLevel.getBackground());
+        }
+        else
+        {
+            background.setColor(Color.beige);
+        }
+        background.setZIndex(0);
+        background.setActive(false);
+        add(background);
+
+        for (Shape s: getShapeView().getShapes())
+        {
+            s.setZIndex(1);
+        }
+    }
+
+    public void buttonClicked()
+    {
+        for (Shape s: getShapeView().getShapeField())
+        {
+            s.remove();
+        }
+        initialize();
+    }
+
+    // ~~~~ Everything below is included to make testing easier.
 
     /**
      * Returns the gameLevel object that represents the data model for this

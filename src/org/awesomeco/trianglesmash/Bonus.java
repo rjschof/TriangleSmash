@@ -57,5 +57,4 @@ public class Bonus
     {
         return bonusName;
     }
-
 }

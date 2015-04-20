@@ -4,13 +4,13 @@ import android.graphics.PointF;
 
 // -------------------------------------------------------------------------
 /**
- *  The Paddle class maintains the data for the paddle that will be placed
- *  on the screen.
+ * The Paddle class maintains the data for the paddle that will be placed
+ * on the screen.
  *
- *  @author Lauren Malhotra (laurcm6)
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.03.23
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.03.23
  */
 
 public class Paddle
