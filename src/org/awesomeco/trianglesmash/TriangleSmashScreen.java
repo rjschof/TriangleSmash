@@ -1,6 +1,7 @@
 package org.awesomeco.trianglesmash;
 
 
+import android.graphics.PointF;
 import sofia.graphics.Shape;
 import sofia.graphics.TextShape;
 import sofia.graphics.RectangleShape;
@@ -40,7 +41,7 @@ public class TriangleSmashScreen extends ShapeScreen
     private Edge bottomEdge;
 
     private GameLevel gameLevel;
-
+    private int currentLevel;
     /**
      * Initializes the screen.
      */
@@ -52,11 +53,19 @@ public class TriangleSmashScreen extends ShapeScreen
         triangles = new ArrayList<TriangleShape>();
 
         levels = new GameLevel[] {
-            new GameLevel(0, 15, xMax, yMax, "myresource"),
-            new GameLevel(1, 10, xMax, yMax)
+            new GameLevel(0, 5, xMax, yMax),
+            new GameLevel(1, 10, xMax, yMax, "myresource")
         };
 
-        setUpForLevel(0);
+        for (GameLevel l: levels)
+        {
+            l.addObserver(this);
+            l.getPaddle().addObserver(this);
+            l.addTrianglesToLevel();
+        }
+
+        currentLevel = 0;
+        setUpForLevel();
 
         gameStatus.setText("Game initialized successfully. ");
     }
@@ -69,7 +78,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        paddle.setPosition(x, yMax - 10);
+        gameLevel.getPaddle().setPosition(new PointF(x, yMax - 10));
     }
 
     /**
@@ -80,7 +89,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchMove(float x, float y)
     {
-        paddle.setPosition(x, yMax - 10);
+        gameLevel.getPaddle().setPosition(new PointF(x, yMax - 10));
     }
 
     /**
@@ -127,7 +136,22 @@ public class TriangleSmashScreen extends ShapeScreen
             remove(triangle);
             gameLevel.removeTriangleAt(triangles.indexOf(triangle));
             triangles.remove(triangle);
-            if (gameLevel.isGameWon())
+        }
+    }
+
+    /**
+     *
+     */
+    public void changeWasObserved(Paddle gamePaddle)
+    {
+        paddle.setPosition(gamePaddle.getPosition());
+    }
+
+    public void changeWasObserved(GameLevel level)
+    {
+        if (level.equals(levels[currentLevel]))
+        {
+            if (level.isGameWon())
             {
                 smashBall.setLinearVelocity(0, 0);
                 text = new TextShape("You win!", xMax / 2, yMax / 2);
@@ -159,20 +183,38 @@ public class TriangleSmashScreen extends ShapeScreen
                 remove(text);
                 remove(background);
                 final int levelNum = gameLevel.getLevelNum() + 2;
-                setUpForLevel(gameLevel.getLevelNum() + 1);
+                currentLevel++;
+                setUpForLevel();
                 runOnUiThread(new Runnable() {
                     public void run() {
                         TriangleSmashScreen.this.gameStatus.setText(
                             "Level " + levelNum + "!");
                     }
                 });
+
             }
         }
     }
 
-    public void setUpForLevel(int number)
+    /**
+     *
+     */
+    public void setUpForLevel()
     {
-        gameLevel = levels[number];
+        gameLevel = levels[currentLevel];
+
+        background = new RectangleShape(0, 0, xMax, yMax);
+        if (!gameLevel.getBackground().equals("NONE"))
+        {
+            background.setImage(gameLevel.getBackground());
+        }
+        else
+        {
+            background.setColor(Color.beige);
+        }
+        background.setZIndex(0);
+        background.setActive(false);
+        add(background);
 
         Paddle modelPaddle = gameLevel.getPaddle();
         paddle = new RectangleShape(
@@ -220,19 +262,6 @@ public class TriangleSmashScreen extends ShapeScreen
             getHeight() / 12);
         smashBall.setAngularVelocity(15);
 
-        background = new RectangleShape(0, 0, xMax, yMax);
-        if (!gameLevel.getBackground().equals("NONE"))
-        {
-            background.setImage(gameLevel.getBackground());
-        }
-        else
-        {
-            background.setColor(Color.beige);
-        }
-        background.setZIndex(0);
-        background.setActive(false);
-        add(background);
-
         for (Shape s: getShapeView().getShapes())
         {
             s.setZIndex(1);
@@ -241,14 +270,14 @@ public class TriangleSmashScreen extends ShapeScreen
 
     public void buttonClicked()
     {
-        for (Shape s: getShapeView().getShapeField())
+        for (int i = 0; i < gameLevel.getTriangleList().size(); i++)
         {
-            s.remove();
+            gameLevel.removeTriangleAt(i);
+            triangles.remove(i);
         }
-        initialize();
     }
 
-    // ~~~~ Everything below is included to make testing easier.
+    // ~~~~~ Everything below is included to make testing easier.
 
     /**
      * Returns the gameLevel object that represents the data model for this

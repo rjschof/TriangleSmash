@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.util.Observable;
 import sofia.graphics.Color;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * @version 2015.04.07
  */
 
-public class GameLevel
+public class GameLevel extends Observable
 {
     private ArrayList<Triangle> triangleList;
     private int levelNum;
@@ -44,7 +45,6 @@ public class GameLevel
         paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
             viewHeight / 20);
         backgroundImage = "NONE";
-        addTrianglesToLevel();
     }
 
     // ----------------------------------------------------------
@@ -71,7 +71,7 @@ public class GameLevel
      * FIXME: Change the coordinate points to scale to the screen based on the
      * size of the device.
      */
-    private void addTrianglesToLevel()
+    public void addTrianglesToLevel()
     {
         float centerX = getViewWidth() / 2;
         float centerY = getViewHeight() / 13;
@@ -116,6 +116,7 @@ public class GameLevel
             s *= -1;
             count++;
         }
+        notifyObservers();
     }
 
     // ----------------------------------------------------------
@@ -127,6 +128,30 @@ public class GameLevel
     {
         triangleList.add(triangle);
     }
+
+    /**
+     * Tells whether this object is equal to another object. If the other object
+     * is an instance of Triangle, then the other object's position is compared
+     * to this object's position for equality.
+     * @return true if position is same, false if otherwise or not Triangle
+     */
+    @Override
+    public boolean equals(Object other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        else if (other instanceof GameLevel)
+        {
+            return levelNum == ((GameLevel) other).levelNum;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     // ----------------------------------------------------------
     /**
@@ -226,5 +251,6 @@ public class GameLevel
     public void removeTriangleAt(int index)
     {
         triangleList.remove(index);
+        notifyObservers();
     }
 }

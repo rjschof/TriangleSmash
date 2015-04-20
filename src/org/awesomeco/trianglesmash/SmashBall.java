@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.util.Observable;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import sofia.graphics.OvalShape;
@@ -16,7 +17,7 @@ import sofia.graphics.OvalShape;
  * @version 2015.04.07
  */
 
-public class SmashBall
+public class SmashBall extends Observable
 {
     private float x;    // the x coordinate of the ball center
     private float y;    //the y coordinate of the ball center

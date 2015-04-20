@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.util.Observable;
 import android.graphics.PointF;
 
 // -------------------------------------------------------------------------
@@ -13,7 +14,7 @@ import android.graphics.PointF;
  * @version 2015.03.23
  */
 
-public class Paddle
+public class Paddle extends Observable
 {
     private float x;
     private float y;
@@ -71,6 +72,17 @@ public class Paddle
     public void setHeight(float newHeight)
     {
         height = newHeight;
+    }
+
+    /**
+     * Sets the paddle to a new position on the screen.
+     * @param position the position on the screen as a PointF object
+     */
+    public void setPosition(PointF position)
+    {
+        this.x = position.x;
+        this.y = position.y;
+        notifyObservers();
     }
 
     /**
