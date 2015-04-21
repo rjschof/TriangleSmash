@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-import android.graphics.PointF;
 import sofia.graphics.Color;
 
 // -------------------------------------------------------------------------
@@ -14,12 +13,11 @@ import sofia.graphics.Color;
  *  @version 2015.03.23
  */
 
-public class Triangle
+public class Triangle extends TriangleShape
 {
     private float x;
     private float y;
     private float size;
-    private Color fillColor;
 
     // ----------------------------------------------------------
     /**
@@ -31,28 +29,13 @@ public class Triangle
      */
     public Triangle(float x, float y, float size, Color color)
     {
+        super(x - size, y - size, x + size, y + size);
         this.x = x;
         this.y = y;
         this.size = size;
-        fillColor = color;
-    }
-
-    /**
-     * Returns the fill color set for this triangle
-     * @return fill color of triangle
-     */
-    public Color getFillColor()
-    {
-        return fillColor;
-    }
-
-    /**
-     * Gets the position of a triangle in the form of a Position object.
-     * @return the triangle's position
-     */
-    public Position getPosition()
-    {
-        return new Position(x, y);
+        setColor(Color.black);
+        setFillColor(color);
+        setPosition(x, y);
     }
 
     /**
@@ -79,7 +62,8 @@ public class Triangle
         }
         else if (other instanceof Triangle)
         {
-            return this.getPosition().equals(((Triangle)other).getPosition());
+            return getPosition().x == ((Triangle)other).getPosition().x &&
+                getPosition().y == ((Triangle)other).getPosition().y;
         }
         else
         {

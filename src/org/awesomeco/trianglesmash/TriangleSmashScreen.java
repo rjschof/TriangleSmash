@@ -32,7 +32,6 @@ public class TriangleSmashScreen extends ShapeScreen
     private RectangleShape paddle;
     private RectangleShape background;
     private OvalShape smashBall;
-    private ArrayList<TriangleShape> triangles;
 
     private Edge topEdge;
     private Edge leftEdge;
@@ -48,8 +47,6 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
-
-        triangles = new ArrayList<TriangleShape>();
 
         levels = new GameLevel[] {
             new GameLevel(1, 5, xMax, yMax),
@@ -124,13 +121,12 @@ public class TriangleSmashScreen extends ShapeScreen
      * @param oval the oval that collided
      * @param triangle the triangle the ball collided with
      */
-    public void onCollisionBetween(OvalShape oval, TriangleShape triangle)
+    public void onCollisionBetween(OvalShape oval, Triangle triangle)
     {
         if (oval.equals(smashBall))
         {
             remove(triangle);
-            gameLevel.removeTriangleAt(triangles.indexOf(triangle));
-            triangles.remove(triangle);
+            gameLevel.removeTriangle(triangle);
         }
     }
 
@@ -221,15 +217,7 @@ public class TriangleSmashScreen extends ShapeScreen
 
         for (Triangle triangle: gameLevel.getTriangleList())
         {
-            TriangleShape triangleShape = new TriangleShape(
-                triangle.getPosition().x() - triangle.getSize(),
-                triangle.getPosition().y() - triangle.getSize(),
-                triangle.getPosition().x() + triangle.getSize(),
-                triangle.getPosition().y() + triangle.getSize());
-            triangleShape.setColor(Color.black);
-            triangleShape.setFillColor(Color.red);
-            add(triangleShape);
-            triangles.add(triangleShape);
+            add(triangle);
         }
 
         SmashBall modelBall = gameLevel.getSmashBall();
@@ -268,17 +256,11 @@ public class TriangleSmashScreen extends ShapeScreen
         remove(paddle);
         remove(smashBall);
         remove(background);
-        for (int i = 0; i < gameLevel.getTriangleList().size(); i++)
-        {
-            gameLevel.removeTriangleAt(i);
-            triangles.remove(i);
-        }
-        for (TriangleShape t: triangles)
+        for (Triangle t: gameLevel.getTriangleList())
         {
             remove(t);
         }
         gameLevel.reset();
-        triangles = new ArrayList<TriangleShape>();
         setUpForLevel();
     }
 

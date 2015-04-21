@@ -281,9 +281,9 @@ public class GameLevel extends Observable
      * Removes the triangle at the specified index from the list.
      * @param index of the triangle to remove
      */
-    public void removeTriangleAt(int index)
+    public void removeTriangle(Triangle triangle)
     {
-        triangleList.remove(index);
+        triangleList.remove(triangle);
         notifyObservers();
     }
 }

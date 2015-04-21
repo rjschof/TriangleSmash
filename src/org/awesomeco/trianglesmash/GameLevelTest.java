@@ -44,11 +44,11 @@ public class GameLevelTest extends student.TestCase
     public void testRemoveTriangleAtIndex()
     {
         setUp();
-        Triangle test = new Triangle (15, 15, 10, Color.black);
+        Triangle test = new Triangle(15, 15, 10, Color.black);
         gameLevel.addTriangle(test);
         assertFalse(gameLevel.isGameWon());
         assertEquals(1, gameLevel.getTriangleList().size());
-        gameLevel.removeTriangleAt(0);
+        gameLevel.removeTriangle(new Triangle (15, 15, 10, Color.black));
         assertEquals(0, gameLevel.getTriangleList().size());
         assertTrue(gameLevel.isGameWon());
     }
@@ -111,7 +111,7 @@ public class GameLevelTest extends student.TestCase
         Triangle test = new Triangle (15, 15, 10, Color.black);
         gameLevel.addTriangle(test);
         assertFalse(gameLevel.isGameWon());
-        gameLevel.removeTriangleAt(0);
+        gameLevel.removeTriangle(new Triangle (15, 15, 10, Color.black));
         assertTrue(gameLevel.isGameWon());
     }
 }
