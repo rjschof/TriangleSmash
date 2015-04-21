@@ -59,6 +59,7 @@ public class TriangleShape extends FillableShape
 
         polygon = new Polygon(left + Math.abs((right-left)/2), top,
             left, bottom, right, bottom);
+
     }
 
     /**
@@ -98,15 +99,31 @@ public class TriangleShape extends FillableShape
             Paint paint = getPaint();
             RectF bounds = getBounds();
             Path linePath = new Path();
-            linePath.moveTo(bounds.left +
-                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
-            linePath.lineTo(bounds.left, bounds.bottom);
-            linePath.moveTo(bounds.left, bounds.bottom);
-            linePath.lineTo(bounds.right, bounds.bottom);
-            linePath.moveTo(bounds.right, bounds.bottom);
-            linePath.lineTo(bounds.left +
-                Math.abs((bounds.right - bounds.left) / 2), bounds.top);
-            linePath.close();
+            if (bottom > top)
+            {
+                linePath.moveTo(bounds.left +
+                    Math.abs((bounds.right - bounds.left) / 2), bounds.top);
+                linePath.lineTo(bounds.left, bounds.bottom);
+                linePath.moveTo(bounds.left, bounds.bottom);
+                linePath.lineTo(bounds.right, bounds.bottom);
+                linePath.moveTo(bounds.right, bounds.bottom);
+                linePath.lineTo(bounds.left +
+                    Math.abs((bounds.right - bounds.left) / 2), bounds.top);
+                linePath.close();
+            }
+            else if (top > bottom)
+            {
+                linePath.moveTo(bounds.left +
+                    Math.abs((bounds.right - bounds.left) / 2), bounds.bottom);
+                linePath.lineTo(bounds.left, bounds.top);
+                linePath.moveTo(bounds.left, bounds.top);
+                linePath.lineTo(bounds.right, bounds.top);
+                linePath.moveTo(bounds.right, bounds.top);
+                linePath.lineTo(bounds.left +
+                    Math.abs((bounds.right - bounds.left) / 2), bounds.bottom);
+                linePath.close();
+            }
+
             canvas.drawPath(linePath, paint);
         }
     }
@@ -120,9 +137,18 @@ public class TriangleShape extends FillableShape
     public void setPosition(float x, float y)
     {
         left = x - distanceX;
-        top = y - distanceYTop;
         right = x + distanceX;
-        bottom = y + distanceYBottom;
+
+        if (bottom > top)
+        {
+            top = y - distanceYTop;
+            bottom = y + distanceYBottom;
+        }
+        else
+        {
+            top = y + distanceYTop;
+            bottom = y - distanceYBottom;
+        }
         super.setPosition(x, y);
     }
 
@@ -157,8 +183,16 @@ public class TriangleShape extends FillableShape
             Box2DUtils.vec2ToPointF(b2Body.getPosition(), center);
         }
 
-        return new RectF(center.x - distanceX, center.y - distanceYTop,
-            center.x + distanceX, center.y + distanceYBottom);
+        if (bottom > top)
+        {
+            return new RectF(center.x - distanceX, center.y - distanceYTop,
+                center.x + distanceX, center.y + distanceYBottom);
+        }
+        else
+        {
+            return new RectF(center.x - distanceX, center.y - distanceYBottom,
+                center.x + distanceX, center.y + distanceYTop);
+        }
     }
 
     // ----------------------------------------------------------

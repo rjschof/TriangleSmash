@@ -133,9 +133,10 @@ public class TriangleSmashScreenTests
             getScreen().getPaddle().getPosition().y, 0.001);
         touchMove(Float.valueOf(150), 60f);
         touchUp();
-        float x = getScreen().getPaddle().getPosition().x;
-        assertEquals(150, x, 15);
+        assertEquals(150, getScreen().getPaddle().getPosition().x, 10);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
             getScreen().getPaddle().getPosition().y, 0.001);
     }
+
+
 }

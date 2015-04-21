@@ -22,7 +22,7 @@ public class GameLevelTest extends student.TestCase
 
     public void setUp()
     {
-        gameLevel = new GameLevel(1, 5, 300, 300);
+        gameLevel = new GameLevel(1, 5, 1.0f, 300, 300);
     }
 
     /**

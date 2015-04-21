@@ -1,8 +1,8 @@
 package org.awesomeco.trianglesmash;
 
+import java.util.LinkedList;
 import sofia.util.Observable;
 import sofia.graphics.Color;
-import java.util.ArrayList;
 
 // -------------------------------------------------------------------------
 /**
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class GameLevel extends Observable
 {
-    private ArrayList<Triangle> triangleList;
+    private LinkedList<Triangle> triangleList;
     private int levelNum;
     private Paddle paddle;
     private boolean gameLost;
@@ -31,18 +31,21 @@ public class GameLevel extends Observable
      * Create a new GameLevel object.
      * @param levelNum number identifier for this level
      * @param numTriangles the number of triangles to put on the screen
+     * @param ballSpeed the speed of the ball
      * @param height the height of the view
      * @param width the width of the view
      */
-    public GameLevel(int levelNum, int numTriangles, float width, float height)
+    public GameLevel(int levelNum, int numTriangles, float ballSpeed,
+        float width, float height)
     {
         this.levelNum = levelNum;
         this.numTriangles = numTriangles;
-        triangleList = new ArrayList<Triangle>();
+        triangleList = new LinkedList<Triangle>();
         viewHeight = height;
         viewWidth = width;
         smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
-            viewHeight / 24);
+            viewHeight / 24, ballSpeed * (viewWidth / 8),
+            ballSpeed * (viewHeight / 12));
         paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
             viewHeight / 20);
         backgroundImage = "NONE";
@@ -55,23 +58,21 @@ public class GameLevel extends Observable
      * Create a new GameLevel object.
      * @param levelNum
      * @param numTriangles
+     * @param ballSpeed
      * @param width
      * @param height
      * @param background
      */
-    public GameLevel(int levelNum, int numTriangles, float width, float height,
-        String background)
+    public GameLevel(int levelNum, int numTriangles, float ballSpeed,
+        float width, float height, String background)
     {
-        this(levelNum, numTriangles, width, height);
+        this(levelNum, numTriangles, ballSpeed, width, height);
         backgroundImage = background;
     }
 
     // ----------------------------------------------------------
     /**
      * Method to add triangles to the level.
-     *
-     * FIXME: Change the coordinate points to scale to the screen based on the
-     * size of the device.
      */
     public void addTrianglesToLevel()
     {
@@ -210,7 +211,7 @@ public class GameLevel extends Observable
      * Gets the list of triangles for the level
      * @return the list of triangles
      */
-    public ArrayList<Triangle> getTriangleList()
+    public LinkedList<Triangle> getTriangleList()
     {
         return triangleList;
     }
@@ -260,7 +261,7 @@ public class GameLevel extends Observable
      */
     public void reset()
     {
-        triangleList = new ArrayList<Triangle>();
+        triangleList = new LinkedList<Triangle>();
         gameLost = false;
         paddle.setPosition(new Position(viewWidth / 2, viewHeight - 10));
         addTrianglesToLevel();

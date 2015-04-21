@@ -32,7 +32,7 @@ public class SmashBallTest extends TestCase
      */
     public void setUp()
     {
-        testBall = new SmashBall(100, 100, 20);
+        testBall = new SmashBall(100, 100, 20, 5, 7);
     }
 
     /**

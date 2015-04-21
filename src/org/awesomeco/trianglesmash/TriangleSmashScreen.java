@@ -1,12 +1,9 @@
 package org.awesomeco.trianglesmash;
 
 
-import android.graphics.PointF;
 import sofia.graphics.Shape;
-import sofia.graphics.TextShape;
 import sofia.graphics.RectangleShape;
 import sofia.graphics.OvalShape;
-import java.util.ArrayList;
 import sofia.graphics.ShapeMotion;
 import sofia.graphics.Color;
 import android.widget.TextView;
@@ -48,16 +45,11 @@ public class TriangleSmashScreen extends ShapeScreen
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
 
-        levels = new GameLevel[] {
-            new GameLevel(1, 5, xMax, yMax),
-            new GameLevel(2, 10, xMax, yMax, "myresource")
-        };
-
-        for (GameLevel l: levels)
+        for (GameLevel level: levels)
         {
-            l.addObserver(this);
-            l.getPaddle().addObserver(this);
-            l.addTrianglesToLevel();
+            level.addObserver(this);
+            level.getPaddle().addObserver(this);
+            level.addTrianglesToLevel();
         }
 
         currentLevel = 0;
@@ -150,16 +142,12 @@ public class TriangleSmashScreen extends ShapeScreen
                 int count = 0;
                 while (count < 3)
                 {
-                    final int c = count;
-                    try {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                TriangleSmashScreen.this.gameStatus.setText(
-                                    3 - c + " seconds until next level...");
-                            }
-                        });
-                        Thread.sleep(1000);
-                    } catch (Exception e)
+                    displayMessage(3 - count + " seconds until next level...");
+                    try
+                    {
+                        Thread.sleep(1000); // wait for one second
+                    }
+                    catch (InterruptedException e)
                     {
                         e.printStackTrace();
                     }
@@ -175,6 +163,7 @@ public class TriangleSmashScreen extends ShapeScreen
             else if (level.isGameLost())
             {
                 smashBall.setLinearVelocity(0, 0);
+                displayMessage("You lost! Press reset to try again.");
             }
         }
     }
@@ -186,13 +175,7 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         gameLevel = levels[currentLevel];
 
-        final int levelNum = gameLevel.getLevelNum();
-        runOnUiThread(new Runnable() {
-            public void run() {
-                TriangleSmashScreen.this.gameStatus.setText(
-                    "Level " + levelNum + "!");
-            }
-        });
+        displayMessage("Level " + currentLevel + 1 + "!");
 
         background = new RectangleShape(0, 0, xMax, yMax);
         if (!gameLevel.getBackground().equals("NONE"))
@@ -241,9 +224,8 @@ public class TriangleSmashScreen extends ShapeScreen
         add(smashBall);
         smashBall.setActive(true);
         smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
-        smashBall.setLinearVelocity(getWidth() / 8,
-            getHeight() / 12);
-        smashBall.setAngularVelocity(15);
+        smashBall.setLinearVelocity(gameLevel.getSmashBall().getVelocityX(),
+            gameLevel.getSmashBall().getVelocityY());
 
         for (Shape s: getShapeView().getShapes())
         {
@@ -251,7 +233,7 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
-    public void buttonClicked()
+    public void resetClicked()
     {
         remove(paddle);
         remove(smashBall);
@@ -262,6 +244,17 @@ public class TriangleSmashScreen extends ShapeScreen
         }
         gameLevel.reset();
         setUpForLevel();
+    }
+
+    public void displayMessage(String message)
+    {
+        final String text = message;
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TriangleSmashScreen.this.gameStatus.setText(text);
+            }
+        });
+
     }
 
     // ~~~~~ Everything below is included to make testing easier.
