@@ -42,7 +42,7 @@ public class SmashBallTest extends TestCase
     public void testGetPosition()
     {
         setUp();
-        PointF testPoint = new PointF(100, 100);
+        Position testPoint = new Position(100, 100);
         assertEquals(testPoint, testBall.getPosition());
     }
 

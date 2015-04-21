@@ -47,12 +47,12 @@ public class Triangle
     }
 
     /**
-     * Gets the position of a triangle in the form of a PointF object.
+     * Gets the position of a triangle in the form of a Position object.
      * @return the triangle's position
      */
-    public PointF getPosition()
+    public Position getPosition()
     {
-        return new PointF(x, y);
+        return new Position(x, y);
     }
 
     /**

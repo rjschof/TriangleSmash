@@ -32,7 +32,6 @@ public class TriangleSmashScreen extends ShapeScreen
     private RectangleShape paddle;
     private RectangleShape background;
     private OvalShape smashBall;
-    private TextShape text;
     private ArrayList<TriangleShape> triangles;
 
     private Edge topEdge;
@@ -53,8 +52,8 @@ public class TriangleSmashScreen extends ShapeScreen
         triangles = new ArrayList<TriangleShape>();
 
         levels = new GameLevel[] {
-            new GameLevel(0, 5, xMax, yMax),
-            new GameLevel(1, 10, xMax, yMax, "myresource")
+            new GameLevel(1, 5, xMax, yMax),
+            new GameLevel(2, 10, xMax, yMax, "myresource")
         };
 
         for (GameLevel l: levels)
@@ -66,8 +65,6 @@ public class TriangleSmashScreen extends ShapeScreen
 
         currentLevel = 0;
         setUpForLevel();
-
-        gameStatus.setText("Game initialized successfully. ");
     }
 
     /**
@@ -78,7 +75,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(new PointF(x, yMax - 10));
+        gameLevel.getPaddle().setPosition(new Position(x, yMax - 10));
     }
 
     /**
@@ -89,7 +86,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchMove(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(new PointF(x, yMax - 10));
+        gameLevel.getPaddle().setPosition(new Position(x, yMax - 10));
     }
 
     /**
@@ -116,9 +113,7 @@ public class TriangleSmashScreen extends ShapeScreen
             }
             else if (edge.equals(bottomEdge))
             {
-                smashBall.setLinearVelocity(0, 0);
-                text = new TextShape("You lose.", xMax / 2, yMax / 2);
-                add(text);
+                gameLevel.setGameLost(true);
             }
         }
     }
@@ -144,7 +139,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void changeWasObserved(Paddle gamePaddle)
     {
-        paddle.setPosition(gamePaddle.getPosition());
+        paddle.setPosition(gamePaddle.getPosition().toPointF());
     }
 
     public void changeWasObserved(GameLevel level)
@@ -154,9 +149,6 @@ public class TriangleSmashScreen extends ShapeScreen
             if (level.isGameWon())
             {
                 smashBall.setLinearVelocity(0, 0);
-                text = new TextShape("You win!", xMax / 2, yMax / 2);
-                text.setColor(Color.black);
-                add(text);
 
                 // TODO: Consider a better way to do this.
                 int count = 0;
@@ -180,18 +172,13 @@ public class TriangleSmashScreen extends ShapeScreen
 
                 remove(paddle);
                 remove(smashBall);
-                remove(text);
                 remove(background);
-                final int levelNum = gameLevel.getLevelNum() + 2;
                 currentLevel++;
                 setUpForLevel();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        TriangleSmashScreen.this.gameStatus.setText(
-                            "Level " + levelNum + "!");
-                    }
-                });
-
+            }
+            else if (level.isGameLost())
+            {
+                smashBall.setLinearVelocity(0, 0);
             }
         }
     }
@@ -202,6 +189,14 @@ public class TriangleSmashScreen extends ShapeScreen
     public void setUpForLevel()
     {
         gameLevel = levels[currentLevel];
+
+        final int levelNum = gameLevel.getLevelNum();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TriangleSmashScreen.this.gameStatus.setText(
+                    "Level " + levelNum + "!");
+            }
+        });
 
         background = new RectangleShape(0, 0, xMax, yMax);
         if (!gameLevel.getBackground().equals("NONE"))
@@ -218,19 +213,19 @@ public class TriangleSmashScreen extends ShapeScreen
 
         Paddle modelPaddle = gameLevel.getPaddle();
         paddle = new RectangleShape(
-            modelPaddle.getPosition().x - (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y - (modelPaddle.getHeight() / 2),
-            modelPaddle.getPosition().x + (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y + (modelPaddle.getHeight() / 2));
+            modelPaddle.getPosition().x() - (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y() - (modelPaddle.getHeight() / 2),
+            modelPaddle.getPosition().x() + (modelPaddle.getWidth() / 2),
+            modelPaddle.getPosition().y() + (modelPaddle.getHeight() / 2));
         paddle.setFillColor(Color.black);
 
         for (Triangle triangle: gameLevel.getTriangleList())
         {
             TriangleShape triangleShape = new TriangleShape(
-                triangle.getPosition().x - triangle.getSize(),
-                triangle.getPosition().y - triangle.getSize(),
-                triangle.getPosition().x + triangle.getSize(),
-                triangle.getPosition().y + triangle.getSize());
+                triangle.getPosition().x() - triangle.getSize(),
+                triangle.getPosition().y() - triangle.getSize(),
+                triangle.getPosition().x() + triangle.getSize(),
+                triangle.getPosition().y() + triangle.getSize());
             triangleShape.setColor(Color.black);
             triangleShape.setFillColor(Color.red);
             add(triangleShape);
@@ -238,8 +233,8 @@ public class TriangleSmashScreen extends ShapeScreen
         }
 
         SmashBall modelBall = gameLevel.getSmashBall();
-        smashBall = new OvalShape(modelBall.getPosition().x,
-            modelBall.getPosition().y, modelBall.getRadius());
+        smashBall = new OvalShape(modelBall.getPosition().x(),
+            modelBall.getPosition().y(), modelBall.getRadius());
         smashBall.setFillColor(Color.aqua);
         smashBall.setColor(Color.black);
         smashBall.setRestitution(5.0f);
@@ -270,11 +265,21 @@ public class TriangleSmashScreen extends ShapeScreen
 
     public void buttonClicked()
     {
+        remove(paddle);
+        remove(smashBall);
+        remove(background);
         for (int i = 0; i < gameLevel.getTriangleList().size(); i++)
         {
             gameLevel.removeTriangleAt(i);
             triangles.remove(i);
         }
+        for (TriangleShape t: triangles)
+        {
+            remove(t);
+        }
+        gameLevel.reset();
+        triangles = new ArrayList<TriangleShape>();
+        setUpForLevel();
     }
 
     // ~~~~~ Everything below is included to make testing easier.

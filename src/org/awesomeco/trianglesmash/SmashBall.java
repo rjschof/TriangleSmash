@@ -40,11 +40,11 @@ public class SmashBall extends Observable
     /**
      * Gets the position of the paddle on the screen in the form of a PointF
      * object.
-     * @return position of the paddle as PointF
+     * @return position of the paddle as a Position object
      */
-    public PointF getPosition()
+    public Position getPosition()
     {
-        return new PointF(x, y);
+        return new Position(x, y);
     }
 
     /**

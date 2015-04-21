@@ -19,6 +19,7 @@ public class GameLevel extends Observable
     private ArrayList<Triangle> triangleList;
     private int levelNum;
     private Paddle paddle;
+    private boolean gameLost;
     private SmashBall smashBall;
     private int numTriangles;
     private float viewHeight;
@@ -45,6 +46,7 @@ public class GameLevel extends Observable
         paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
             viewHeight / 20);
         backgroundImage = "NONE";
+        gameLost = false;
     }
 
     // ----------------------------------------------------------
@@ -241,6 +243,37 @@ public class GameLevel extends Observable
     public boolean isGameWon()
     {
         return (triangleList.size() == 0);
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Tells whether or not the game has been lost by the player.
+     * @return true if edge was touched, false otherwise
+     */
+    public boolean isGameLost()
+    {
+        return gameLost;
+    }
+
+    /**
+     * Resets the game level to its initial state.
+     */
+    public void reset()
+    {
+        triangleList = new ArrayList<Triangle>();
+        gameLost = false;
+        paddle.setPosition(new Position(viewWidth / 2, viewHeight - 10));
+        addTrianglesToLevel();
+    }
+
+    /**
+     * Set the gameLost flag
+     * @param lost whether the game was lost or not
+     */
+    public void setGameLost(boolean lost)
+    {
+        gameLost = lost;
+        notifyObservers();
     }
 
     // ----------------------------------------------------------

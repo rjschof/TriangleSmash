@@ -47,13 +47,13 @@ public class Paddle extends Observable
     }
 
     /**
-     * Gets the position of the paddle on the screen in the form of a PointF
+     * Gets the position of the paddle on the screen in the form of a Position
      * object.
      * @return position of the paddle as PointF
      */
-    public PointF getPosition()
+    public Position getPosition()
     {
-        return new PointF(x, y);
+        return new Position(x, y);
     }
 
     /**
@@ -76,12 +76,12 @@ public class Paddle extends Observable
 
     /**
      * Sets the paddle to a new position on the screen.
-     * @param position the position on the screen as a PointF object
+     * @param position the position on the screen as a Position object
      */
-    public void setPosition(PointF position)
+    public void setPosition(Position position)
     {
-        this.x = position.x;
-        this.y = position.y;
+        this.x = position.x();
+        this.y = position.y();
         notifyObservers();
     }
 

@@ -69,7 +69,7 @@ public class GameLevelTest extends student.TestCase
     {
         setUp();
         assertNotNull(gameLevel.getSmashBall());
-        assertEquals(new PointF(150, 150),
+        assertEquals(new Position(150, 150),
             gameLevel.getSmashBall().getPosition());
     }
 
@@ -80,7 +80,8 @@ public class GameLevelTest extends student.TestCase
     {
         setUp();
         assertNotNull(gameLevel.getPaddle());
-        assertEquals(new PointF(150, 290), gameLevel.getPaddle().getPosition());
+        assertEquals(new Position(150, 290),
+            gameLevel.getPaddle().getPosition());
     }
 
     /**
