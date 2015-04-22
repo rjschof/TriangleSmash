@@ -198,4 +198,22 @@ public class SmashGame extends Observable
         notifyObservers();
     }
 
+    public void startOver()
+    {
+        for (GameLevel level: gameLevels)
+        {
+            level.reset();
+        }
+        currentLevel = gameLevels.getFirst();
+    }
+
+    public String toString()
+    {
+        String game = "Levels currently in the game: \n";
+        for (GameLevel level: gameLevels)
+        {
+            game = game + level.toString() + "\n";
+        }
+        return game;
+    }
 }

@@ -244,4 +244,10 @@ public class GameLevel extends Observable
         numTriangles--;
         notifyObservers();
     }
+
+    public String toString()
+    {
+        return "[#" + levelNum + "] Triangle(s): " + numTriangles
+            + " Background: " + backgroundImage;
+    }
 }
