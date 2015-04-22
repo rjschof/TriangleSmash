@@ -80,4 +80,13 @@ public class SmashBall extends Observable
     {
         return radius;
     }
+
+    /**
+     * Gets an OvalShape object that has the same parameters as this object.
+     * @return an OvalShape object that represents this ball
+     */
+    public OvalShape toOvalShape()
+    {
+        return new OvalShape(x, y, radius);
+    }
 }

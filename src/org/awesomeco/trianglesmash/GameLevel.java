@@ -18,10 +18,10 @@ public class GameLevel extends Observable
 {
     private LinkedList<Triangle> triangleList;
     private int levelNum;
-    private Paddle paddle;
     private boolean gameLost;
     private SmashBall smashBall;
     private int numTriangles;
+    private int initialNumTriangles;
     private float viewHeight;
     private float viewWidth;
     private String backgroundImage;
@@ -29,30 +29,27 @@ public class GameLevel extends Observable
     // ----------------------------------------------------------
     /**
      * Create a new GameLevel object.
-     * @param levelNum number identifier for this level
      * @param numTriangles the number of triangles to put on the screen
      * @param ballSpeed the speed of the ball
      * @param height the height of the view
      * @param width the width of the view
      */
-    public GameLevel(int levelNum, int numTriangles, float ballSpeed,
-        float width, float height)
+    public GameLevel(int levelNum, int numTriangles, float ballSpeed)
     {
         this.levelNum = levelNum;
         this.numTriangles = numTriangles;
+        this.initialNumTriangles = numTriangles;
         triangleList = new LinkedList<Triangle>();
-        viewHeight = height;
-        viewWidth = width;
+        viewHeight = SmashGame.getViewHeight();
+        viewWidth = SmashGame.getViewWidth();
         smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
             viewHeight / 24, ballSpeed * (viewWidth / 8),
             ballSpeed * (viewHeight / 12));
-        paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
-            viewHeight / 20);
         backgroundImage = "NONE";
         gameLost = false;
+        addTrianglesToLevel();
     }
 
-    // ----------------------------------------------------------
     // ----------------------------------------------------------
     /**
      * Create a new GameLevel object.
@@ -64,9 +61,9 @@ public class GameLevel extends Observable
      * @param background
      */
     public GameLevel(int levelNum, int numTriangles, float ballSpeed,
-        float width, float height, String background)
+        String background)
     {
-        this(levelNum, numTriangles, ballSpeed, width, height);
+        this(levelNum, numTriangles, ballSpeed);
         backgroundImage = background;
     }
 
@@ -74,7 +71,7 @@ public class GameLevel extends Observable
     /**
      * Method to add triangles to the level.
      */
-    public void addTrianglesToLevel()
+    private void addTrianglesToLevel()
     {
         float centerX = getViewWidth() / 2;
         float centerY = getViewHeight() / 13;
@@ -178,16 +175,6 @@ public class GameLevel extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Returns the paddle that is part of the data model.
-     * @return the paddle from this model
-     */
-    public Paddle getPaddle()
-    {
-        return paddle;
-    }
-
-    // ----------------------------------------------------------
-    /**
      * Gets the number of triangles in the list for a level
      * @return the number of triangles in the list
      */
@@ -236,45 +223,14 @@ public class GameLevel extends Observable
         return viewWidth;
     }
 
-    // ----------------------------------------------------------
-    /**
-     * Tells whether or not the game has been won by the player.
-     * @return true if the list of triangles is empty, false if otherwise
-     */
-    public boolean isGameWon()
-    {
-        return (triangleList.size() == 0);
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Tells whether or not the game has been lost by the player.
-     * @return true if edge was touched, false otherwise
-     */
-    public boolean isGameLost()
-    {
-        return gameLost;
-    }
-
     /**
      * Resets the game level to its initial state.
      */
     public void reset()
     {
         triangleList = new LinkedList<Triangle>();
-        gameLost = false;
-        paddle.setPosition(new Position(viewWidth / 2, viewHeight - 10));
+        numTriangles = initialNumTriangles;
         addTrianglesToLevel();
-    }
-
-    /**
-     * Set the gameLost flag
-     * @param lost whether the game was lost or not
-     */
-    public void setGameLost(boolean lost)
-    {
-        gameLost = lost;
-        notifyObservers();
     }
 
     // ----------------------------------------------------------
@@ -285,6 +241,7 @@ public class GameLevel extends Observable
     public void removeTriangle(Triangle triangle)
     {
         triangleList.remove(triangle);
+        numTriangles--;
         notifyObservers();
     }
 }

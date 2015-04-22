@@ -1,6 +1,8 @@
 package org.awesomeco.trianglesmash;
 
 
+import android.widget.Button;
+import android.os.Handler;
 import sofia.graphics.Shape;
 import sofia.graphics.RectangleShape;
 import sofia.graphics.OvalShape;
@@ -20,23 +22,24 @@ import sofia.app.ShapeScreen;
  */
 public class TriangleSmashScreen extends ShapeScreen
 {
-    private GameLevel[] levels;
     private TextView gameStatus;
 
     private float xMax;
     private float yMax;
+    private boolean gameStarted;
 
     private RectangleShape paddle;
     private RectangleShape background;
     private OvalShape smashBall;
+    private Button gameButton;
 
     private Edge topEdge;
     private Edge leftEdge;
     private Edge rightEdge;
     private Edge bottomEdge;
 
-    private GameLevel gameLevel;
-    private int currentLevel;
+    private SmashGame smashGame;
+
     /**
      * Initializes the screen.
      */
@@ -45,14 +48,18 @@ public class TriangleSmashScreen extends ShapeScreen
         xMax = getShapeView().getHeight() - 20;
         yMax = getShapeView().getWidth() + 20;
 
-        for (GameLevel level: levels)
-        {
-            level.addObserver(this);
-            level.getPaddle().addObserver(this);
-            level.addTrianglesToLevel();
-        }
+        smashGame = new SmashGame(xMax, yMax);
+        smashGame.addObserver(this);
+        smashGame.getPaddle().addObserver(this);
 
-        currentLevel = 0;
+        smashGame.addLevel(new GameLevel(1, 1, 1.0f));
+        smashGame.addLevel(new GameLevel(2, 10, 5.0f, "myresource"));
+        smashGame.addLevel(new GameLevel(3, 15, 12.5f));
+
+        gameStarted = false;
+
+        gameStatus.setText("Press start to begin the game!");
+        gameButton.setText("Start");
         setUpForLevel();
     }
 
@@ -64,7 +71,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(new Position(x, yMax - 10));
+        smashGame.movePaddle(x);
     }
 
     /**
@@ -75,7 +82,7 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void onTouchMove(float x, float y)
     {
-        gameLevel.getPaddle().setPosition(new Position(x, yMax - 10));
+        smashGame.movePaddle(x);
     }
 
     /**
@@ -102,7 +109,7 @@ public class TriangleSmashScreen extends ShapeScreen
             }
             else if (edge.equals(bottomEdge))
             {
-                gameLevel.setGameLost(true);
+                smashGame.gameLost();
             }
         }
     }
@@ -118,53 +125,52 @@ public class TriangleSmashScreen extends ShapeScreen
         if (oval.equals(smashBall))
         {
             remove(triangle);
-            gameLevel.removeTriangle(triangle);
+            smashGame.removeTriangle(triangle);
         }
     }
 
     /**
      *
      */
-    public void changeWasObserved(Paddle gamePaddle)
+    public void changeWasObserved(SmashGame game)
     {
-        paddle.setPosition(gamePaddle.getPosition().toPointF());
-    }
-
-    public void changeWasObserved(GameLevel level)
-    {
-        if (level.equals(levels[currentLevel]))
+        if (paddle != null)
         {
-            if (level.isGameWon())
+            paddle.setPosition(game.getPaddle().getPosition().toPointF());
+        }
+        if (smashGame.isGameWon())
+        {
+            smashBall.setLinearVelocity(0, 0);
+            smashGame.nextLevel();
+            try
             {
-                smashBall.setLinearVelocity(0, 0);
-
-                // TODO: Consider a better way to do this.
-                int count = 0;
-                while (count < 3)
-                {
-                    displayMessage(3 - count + " seconds until next level...");
-                    try
-                    {
-                        Thread.sleep(1000); // wait for one second
-                    }
-                    catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    count++;
-                }
-
-                remove(paddle);
-                remove(smashBall);
-                remove(background);
-                currentLevel++;
-                setUpForLevel();
+                displayMessage("You won!");
+                Thread.sleep(750);
+                displayMessage("3 seconds until next level...");
+                Thread.sleep(1000);
+                displayMessage("2 seconds until next level...");
+                Thread.sleep(1000);
+                displayMessage("1 seconds until next level...");
+                Thread.sleep(1000);
             }
-            else if (level.isGameLost())
+            catch (InterruptedException e)
             {
-                smashBall.setLinearVelocity(0, 0);
-                displayMessage("You lost! Press reset to try again.");
+                e.printStackTrace();
             }
+
+
+            remove(paddle);
+            remove(smashBall);
+            remove(background);
+            setUpForLevel();
+            smashBall.setLinearVelocity(
+                smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
+                smashGame.getCurrentLevel().getSmashBall().getVelocityY());
+        }
+        else if (smashGame.isGameLost())
+        {
+            smashBall.setLinearVelocity(0, 0);
+            displayMessage("You lost! Press reset to try again.");
         }
     }
 
@@ -173,78 +179,97 @@ public class TriangleSmashScreen extends ShapeScreen
      */
     public void setUpForLevel()
     {
-        gameLevel = levels[currentLevel];
-
-        displayMessage("Level " + currentLevel + 1 + "!");
-
-        background = new RectangleShape(0, 0, xMax, yMax);
-        if (!gameLevel.getBackground().equals("NONE"))
+        int index = 0;
+        for (int i = 0; i < smashGame.getLevelList().size(); i++)
         {
-            background.setImage(gameLevel.getBackground());
+            if (smashGame.getCurrentLevel()
+                .equals(smashGame.getLevelList().get(i)))
+            {
+                index = i;
+            }
+        }
+
+        if (index != smashGame.getLevelList().size() - 1)
+        {
+            GameLevel gameLevel = smashGame.getCurrentLevel();
+
+            displayMessage("Level " + gameLevel.getLevelNum() + "!");
+
+            background = new RectangleShape(0, 0, xMax, yMax);
+            if (!gameLevel.getBackground().equals("NONE"))
+            {
+                background.setImage(gameLevel.getBackground());
+            }
+            else
+            {
+                background.setColor(Color.beige);
+            }
+            background.setActive(false);
+            add(background);
+
+            paddle = smashGame.getPaddle().toRectangleShape();
+            paddle.setFillColor(Color.black);
+
+            for (Triangle triangle: gameLevel.getTriangleList())
+            {
+                add(triangle);
+            }
+
+            smashBall = smashGame.getCurrentLevel().getSmashBall().toOvalShape();
+            smashBall.setFillColor(Color.aqua);
+            smashBall.setColor(Color.black);
+            smashBall.setRestitution(5.0f);
+
+            topEdge = smashGame.getEdges()[0];
+            leftEdge = smashGame.getEdges()[1];
+            rightEdge = smashGame.getEdges()[2];
+            bottomEdge = smashGame.getEdges()[3];
+            add(topEdge);
+            add(leftEdge);
+            add(rightEdge);
+            add(bottomEdge);
+
+            add(paddle);
+
+            add(smashBall);
+            smashBall.setActive(true);
+            smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
+
+            for (Shape s: getShapeView().getShapes())
+            {
+                s.setZIndex(1);
+            }
+            background.setZIndex(0);
+        }
+    }
+
+    public void gameButtonClicked()
+    {
+        if (!gameStarted)
+        {
+            smashBall.setLinearVelocity(
+                smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
+                smashGame.getCurrentLevel().getSmashBall().getVelocityY());
+            gameButton.setText("Reset");
+            gameStarted = true;
         }
         else
         {
-            background.setColor(Color.beige);
-        }
-        background.setZIndex(0);
-        background.setActive(false);
-        add(background);
-
-        Paddle modelPaddle = gameLevel.getPaddle();
-        paddle = new RectangleShape(
-            modelPaddle.getPosition().x() - (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y() - (modelPaddle.getHeight() / 2),
-            modelPaddle.getPosition().x() + (modelPaddle.getWidth() / 2),
-            modelPaddle.getPosition().y() + (modelPaddle.getHeight() / 2));
-        paddle.setFillColor(Color.black);
-
-        for (Triangle triangle: gameLevel.getTriangleList())
-        {
-            add(triangle);
-        }
-
-        SmashBall modelBall = gameLevel.getSmashBall();
-        smashBall = new OvalShape(modelBall.getPosition().x(),
-            modelBall.getPosition().y(), modelBall.getRadius());
-        smashBall.setFillColor(Color.aqua);
-        smashBall.setColor(Color.black);
-        smashBall.setRestitution(5.0f);
-
-        topEdge = new Edge(0, -1, xMax, -1);
-        leftEdge = new Edge(-1, 0, -1, yMax);
-        rightEdge = new Edge(xMax, 0, xMax, yMax);
-        bottomEdge = new Edge(0, yMax, xMax, yMax);
-        add(topEdge);
-        add(leftEdge);
-        add(rightEdge);
-        add(bottomEdge);
-
-        add(paddle);
-
-        add(smashBall);
-        smashBall.setActive(true);
-        smashBall.setShapeMotion(ShapeMotion.DYNAMIC);
-        smashBall.setLinearVelocity(gameLevel.getSmashBall().getVelocityX(),
-            gameLevel.getSmashBall().getVelocityY());
-
-        for (Shape s: getShapeView().getShapes())
-        {
-            s.setZIndex(1);
+            remove(paddle);
+            remove(smashBall);
+            remove(background);
+            for (Triangle t: smashGame.getCurrentLevel().getTriangleList())
+            {
+                remove(t);
+            }
+            smashGame.resetLevel();
+            setUpForLevel();
+            smashBall.setLinearVelocity(
+                smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
+                smashGame.getCurrentLevel().getSmashBall().getVelocityY());
         }
     }
 
-    public void resetClicked()
-    {
-        remove(paddle);
-        remove(smashBall);
-        remove(background);
-        for (Triangle t: gameLevel.getTriangleList())
-        {
-            remove(t);
-        }
-        gameLevel.reset();
-        setUpForLevel();
-    }
 
     public void displayMessage(String message)
     {
@@ -258,16 +283,6 @@ public class TriangleSmashScreen extends ShapeScreen
     }
 
     // ~~~~~ Everything below is included to make testing easier.
-
-    /**
-     * Returns the gameLevel object that represents the data model for this
-     * game.
-     * @return the gameLevel object
-     */
-    public GameLevel getGameLevel()
-    {
-        return gameLevel;
-    }
 
     /**
      * Returns the paddle for the screen.
@@ -286,24 +301,4 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         return smashBall;
     }
-
-    /**
-     * Returns all four edges from the screen as an array of Edge objects.
-     * Index 0: top edge
-     * Index 1: left edge
-     * Index 2: bottom edge
-     * Index 3: right edge
-     * @return array of edges for the screen
-     */
-    public Edge[] getEdges()
-    {
-        Edge[] edges = new Edge[4];
-        edges[0] = topEdge;
-        edges[1] = leftEdge;
-        edges[2] = bottomEdge;
-        edges[3] = rightEdge;
-        return edges;
-    }
-
-
 }

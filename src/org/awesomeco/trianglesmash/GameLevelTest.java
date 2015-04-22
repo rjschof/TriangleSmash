@@ -22,7 +22,7 @@ public class GameLevelTest extends student.TestCase
 
     public void setUp()
     {
-        gameLevel = new GameLevel(1, 5, 1.0f, 300, 300);
+        gameLevel = new GameLevel(1, 5, 1.0f);
     }
 
     /**
@@ -32,7 +32,6 @@ public class GameLevelTest extends student.TestCase
     {
         setUp();
         gameLevel.addTriangle(new Triangle (15, 15, 10, Color.black));
-        assertFalse(gameLevel.isGameWon());
         assertEquals(1, gameLevel.getTriangleList().size());
         gameLevel.addTriangle(new Triangle (35, 35, 10, Color.black));
         assertEquals(2, gameLevel.getTriangleList().size());
@@ -46,11 +45,9 @@ public class GameLevelTest extends student.TestCase
         setUp();
         Triangle test = new Triangle(15, 15, 10, Color.black);
         gameLevel.addTriangle(test);
-        assertFalse(gameLevel.isGameWon());
         assertEquals(1, gameLevel.getTriangleList().size());
         gameLevel.removeTriangle(new Triangle (15, 15, 10, Color.black));
         assertEquals(0, gameLevel.getTriangleList().size());
-        assertTrue(gameLevel.isGameWon());
     }
 
     /**
@@ -73,16 +70,6 @@ public class GameLevelTest extends student.TestCase
             gameLevel.getSmashBall().getPosition());
     }
 
-    /**
-     * Tests the getPaddle() method in GameLevel.
-     */
-    public void testGetPaddle()
-    {
-        setUp();
-        assertNotNull(gameLevel.getPaddle());
-        assertEquals(new Position(150, 290),
-            gameLevel.getPaddle().getPosition());
-    }
 
     /**
      * Tests the getViewHeight() method in GameLevel.
@@ -100,18 +87,5 @@ public class GameLevelTest extends student.TestCase
     {
         setUp();
         assertEquals(300f, gameLevel.getViewWidth(), 0.001);
-    }
-
-    /**
-     * Tests the isGameWon() method in GameLevel.
-     */
-    public void testIsGameWon()
-    {
-        setUp();
-        Triangle test = new Triangle (15, 15, 10, Color.black);
-        gameLevel.addTriangle(test);
-        assertFalse(gameLevel.isGameWon());
-        gameLevel.removeTriangle(new Triangle (15, 15, 10, Color.black));
-        assertTrue(gameLevel.isGameWon());
     }
 }

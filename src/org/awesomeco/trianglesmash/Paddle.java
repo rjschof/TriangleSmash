@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import sofia.graphics.RectangleShape;
 import sofia.util.Observable;
 import android.graphics.PointF;
 
@@ -83,6 +84,12 @@ public class Paddle extends Observable
         this.x = position.x();
         this.y = position.y();
         notifyObservers();
+    }
+
+    public RectangleShape toRectangleShape()
+    {
+        return new RectangleShape(x - (width / 2), y - (height / 2),
+            x + (width / 2), y + (height / 2));
     }
 
     /**
