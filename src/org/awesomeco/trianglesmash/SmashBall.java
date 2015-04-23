@@ -1,8 +1,6 @@
 package org.awesomeco.trianglesmash;
 
 import sofia.util.Observable;
-import android.graphics.PointF;
-import android.graphics.RectF;
 import sofia.graphics.OvalShape;
 
 // -------------------------------------------------------------------------
@@ -24,6 +22,7 @@ public class SmashBall extends Observable
     private float radius; //the radius of the ball
     private float velocityX; // x-component for velocity of the ball
     private float velocityY; // y-component for velocity of the ball
+    private Position initialPosition;
 
     // ----------------------------------------------------------
     /**
@@ -42,6 +41,7 @@ public class SmashBall extends Observable
         this.radius = radius;
         this.velocityX = velocityX;
         this.velocityY = velocityY;
+        this.initialPosition = new Position(x, y);
     }
 
     /**
@@ -87,6 +87,6 @@ public class SmashBall extends Observable
      */
     public OvalShape toOvalShape()
     {
-        return new OvalShape(x, y, radius);
+        return new OvalShape(initialPosition.x(), initialPosition.y(), radius);
     }
 }

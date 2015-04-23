@@ -20,6 +20,7 @@ public class GameLevel extends Observable
     private int levelNum;
     private boolean gameLost;
     private SmashBall smashBall;
+    private float ballSpeed;
     private int numTriangles;
     private int initialNumTriangles;
     private float viewHeight;
@@ -39,6 +40,7 @@ public class GameLevel extends Observable
         this.levelNum = levelNum;
         this.numTriangles = numTriangles;
         this.initialNumTriangles = numTriangles;
+        this.ballSpeed = ballSpeed;
         triangleList = new LinkedList<Triangle>();
         viewHeight = SmashGame.getViewHeight();
         viewWidth = SmashGame.getViewWidth();
@@ -172,6 +174,17 @@ public class GameLevel extends Observable
 
     // ----------------------------------------------------------
     /**
+     * Returns the speed multiplier for the SmashBall object that is part of
+     * the data model.
+     * @return the speed of the SmashBall
+     */
+    public float getBallSpeed()
+    {
+        return ballSpeed;
+    }
+
+    // ----------------------------------------------------------
+    /**
      * Returns the SmashBall object that is part of the data model.
      * @return the ball from the model
      */
@@ -217,6 +230,9 @@ public class GameLevel extends Observable
     {
         triangleList = new LinkedList<Triangle>();
         numTriangles = initialNumTriangles;
+        smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
+            viewHeight / 24, ballSpeed * (viewWidth / 8),
+            ballSpeed * (viewHeight / 12));
         addTrianglesToLevel();
     }
 
