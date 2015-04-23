@@ -30,10 +30,9 @@ public class GameLevel extends Observable
     // ----------------------------------------------------------
     /**
      * Create a new GameLevel object.
+     * @param levelNum the current numbered level of the game
      * @param numTriangles the number of triangles to put on the screen
      * @param ballSpeed the speed of the ball
-     * @param height the height of the view
-     * @param width the width of the view
      */
     public GameLevel(int levelNum, int numTriangles, float ballSpeed)
     {
@@ -55,12 +54,11 @@ public class GameLevel extends Observable
     // ----------------------------------------------------------
     /**
      * Create a new GameLevel object.
-     * @param levelNum
-     * @param numTriangles
-     * @param ballSpeed
-     * @param width
-     * @param height
-     * @param background
+     * @param levelNum the numbered level of the game
+     * @param numTriangles the initial number of triangles on the screen for
+     * the level
+     * @param ballSpeed the initial speed of the ball
+     * @param background the background image of the screen
      */
     public GameLevel(int levelNum, int numTriangles, float ballSpeed,
         String background)
@@ -71,7 +69,8 @@ public class GameLevel extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Method to add triangles to the level.
+     * Method to add triangles to the level in a pattern centered on the
+     * center of the screen in the x axis.
      */
     public void addTrianglesToLevel()
     {
