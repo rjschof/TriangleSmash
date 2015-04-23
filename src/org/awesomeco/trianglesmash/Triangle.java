@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import android.graphics.RectF;
 import sofia.graphics.Color;
 
 // -------------------------------------------------------------------------
@@ -26,10 +27,16 @@ public class Triangle extends TriangleShape
      * @param y the y coordinate of the triangle
      * @param size the size of the triangle, measured from the centroid
      * @param color the color of the triangle
+     * @param flipped whether the triangle is flipped
      */
-    public Triangle(float x, float y, float size, Color color)
+    public Triangle(float x, float y, float size, Color color, boolean flipped)
     {
         super(x - size, y - size, x + size, y + size);
+        if (flipped)
+        {
+            this.setBounds(new RectF(x - size, y + size, x + size, y - size));
+            this.recreateFixtures();
+        }
         this.x = x;
         this.y = y;
         this.size = size;
@@ -38,6 +45,7 @@ public class Triangle extends TriangleShape
         setPosition(x, y);
     }
 
+    //---------------------------------------------------------
     /**
      * Gets the size of this triangle, measured as distance from the centroid
      * @return distance of triangle vertices from centroid
@@ -47,6 +55,7 @@ public class Triangle extends TriangleShape
         return size;
     }
 
+    //----------------------------------------------------------
     /**
      * Tells whether this object is equal to another object. If the other object
      * is an instance of Triangle, then the other object's position is compared

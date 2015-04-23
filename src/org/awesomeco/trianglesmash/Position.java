@@ -4,18 +4,19 @@ import android.graphics.PointF;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * Creates Position objects to contain x and y coordinates to be used in the
+ * model in place of PointF objects.
  *
- *  @author Robert
- *  @version Apr 20, 2015
+ *  @author Robert Schofield (rjschof)
+ *  @author Lauren Malhotra (laurcm6)
+ *  @author Adam Zelenka (zadam7)
+ *  @version 2015.04.20
  */
 
 public class Position
 {
-    private float x;
-    private float y;
+    private float x; //x coordinate of position
+    private float y; //y coordinate of position
 
     // ----------------------------------------------------------
     /**
@@ -27,6 +28,7 @@ public class Position
         this.y = y;
     }
 
+    //-----------------------------------------------------------
     /**
      * Gets the position as a PointF object.
      * @return this position as PointF
@@ -36,6 +38,7 @@ public class Position
         return new PointF(x, y);
     }
 
+    //-----------------------------------------------------------
     /**
      * Gets the x coordinate for this position.
      * @return the x coordinate for this position
@@ -45,6 +48,7 @@ public class Position
         return x;
     }
 
+    //-----------------------------------------------------------
     /**
      * Gets the y coordinate for this position.
      * @return the y coordinate for this position
@@ -54,6 +58,7 @@ public class Position
         return y;
     }
 
+    //-----------------------------------------------------------
     /**
      * Tells whether this object is equal to another object. If the other object
      * is an instance of Position, then the other object's x and y coordinates

@@ -55,8 +55,6 @@ public class TriangleShape extends FillableShape
         this.distanceYBottom = Math.abs(bottom - calculateCentroid().y);
         this.distanceX = Math.abs(left - calculateCentroid().x);
 
-        setPosition(calculateCentroid().x, calculateCentroid().y);
-
         polygon = new Polygon(left + Math.abs((right-left)/2), top,
             left, bottom, right, bottom);
 
@@ -169,6 +167,18 @@ public class TriangleShape extends FillableShape
 
     // ----------------------------------------------------------
     /**
+     * Calculates the centroid of the triangle.
+     * @return PointF object that represents the coordinates of the centroid
+     */
+    public PointF calculateCenterOfBox()
+    {
+        float x = Math.abs((left + right) / 2);
+        float y = Math.abs((bottom + top) / 2);
+        return new PointF(x, y);
+    }
+
+    // ----------------------------------------------------------
+    /**
      * Retrieves the bounding box for this shape.
      * @return the bounding box for this shape
      */
@@ -201,16 +211,25 @@ public class TriangleShape extends FillableShape
     // ----------------------------------------------------------
     /**
      * Sets the bounding box for this shape.
+     * @param newBounds the new bounding box for this shape
      */
     @Override
     public void setBounds(RectF newBounds)
     {
+        left = newBounds.left;
+        right = newBounds.right;
+        bottom = newBounds.bottom;
+        top = newBounds.top;
+
         updateTransform(newBounds.centerX(), newBounds.centerY());
         float y = (top + bottom + bottom) / 3;
 
-        distanceX = newBounds.width() / 2;
-        distanceYTop = newBounds.top - y;
-        distanceYBottom = newBounds.bottom - y;
+        this.distanceYTop = Math.abs(top - calculateCentroid().y);
+        this.distanceYBottom = Math.abs(bottom - calculateCentroid().y);
+        this.distanceX = Math.abs(left - calculateCentroid().x);
+
+        polygon = new Polygon(left + Math.abs((right-left)/2), top,
+            left, bottom, right, bottom);
 
         recreateFixtures();
         conditionallyRepaint();

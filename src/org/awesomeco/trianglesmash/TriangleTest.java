@@ -33,7 +33,7 @@ public class TriangleTest extends TestCase
      */
     public void setUp()
     {
-        testTri = new Triangle(100, 100, 30, Color.red);
+        testTri = new Triangle(100, 100, 30, Color.red, true);
     }
 
     /**
@@ -76,9 +76,9 @@ public class TriangleTest extends TestCase
         assertFalse(testTri.equals(other));
         Triangle other2 = null;
         assertFalse(testTri.equals(other2));
-        Triangle other3 = new Triangle(100, 90, 30, Color.red);
+        Triangle other3 = new Triangle(100, 90, 30, Color.red, true);
         assertFalse(testTri.equals(other3));
-        Triangle other4 = new Triangle(100, 100, 20, Color.red);
+        Triangle other4 = new Triangle(100, 100, 20, Color.red, true);
         assertTrue(testTri.equals(other4));
     }
 }

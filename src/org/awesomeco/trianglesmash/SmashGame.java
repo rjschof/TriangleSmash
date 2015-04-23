@@ -5,31 +5,31 @@ import java.util.LinkedList;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  Handles the TriangleSmash data model, the list of levels of the game, and
+ *  other necessary data, excluding physics handling.
  *
- *  @author Robert
- *  @version Apr 21, 2015
+ *  @author Robert Schofield (rjschof)
+ *  @author Adam Zelenka (zadam7)
+ *  @author Lauren Malhotra (laurcm6)
+ *  @version 2015.04.21
  */
 
 public class SmashGame extends Observable
 {
-    private LinkedList<GameLevel> gameLevels;
-    private GameLevel currentLevel;
-    private static float viewWidth;
-    private static float viewHeight;
-    private boolean gameLost;
+    private LinkedList<GameLevel> gameLevels; //the levels of the game
+    private GameLevel currentLevel; //the current level the player is on
+    private static float viewWidth; //the width of the screen
+    private static float viewHeight; //the height of the screen
+    private boolean gameLost; //whether the player lost the game
+    private Paddle paddle; //the paddle
+    private Edge[] edges; //the edges of the screen
 
-    // ---------- Private fields for the game objects -----------
-    private Paddle paddle;
-    private Edge[] edges;
-
-    // ----------------------------------------------------------
+    //----------------------------------------------------------
     /**
-     * Create a new SmashGame object.
-     * @param width
-     * @param height
+     * Create a new SmashGame object and initializes the model's features to
+     * mirror the GUI
+     * @param width the width of the screen
+     * @param height the height of the screen
      */
     public SmashGame(float width, float height)
     {
@@ -47,10 +47,10 @@ public class SmashGame extends Observable
         };
     }
 
-    // ----------------------------------------------------------
+    //-----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param level
+     * Adds a GameLevel to the contained list of playable levels
+     * @param level the level being added to the game
      */
     public void addLevel(GameLevel level)
     {
@@ -64,7 +64,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     *
+     * Gives the list containing all the game levels
+     * @return gameLevels the list of game levels
      */
     public LinkedList<GameLevel> getLevelList()
     {
@@ -73,23 +74,14 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Moves to the next level in the game.
      */
     public void nextLevel()
     {
         currentLevel = gameLevels.get(currentLevel.getLevelNum());
+        //works because current level number is the index of the next level in
+        //the list
         notifyObservers();
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Place a description of your method here.
-     * @param level
-     */
-    public void removeLevel(GameLevel level)
-    {
-        gameLevels.remove(level);
     }
 
     // ----------------------------------------------------------
@@ -104,8 +96,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the level of the game currently displayed.
+     * @return currentLevel the current level
      */
     public GameLevel getCurrentLevel()
     {
@@ -114,8 +106,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the edges that are part of the data model.
+     * @return the edges in this model
      */
     public Edge[] getEdges()
     {
@@ -124,8 +116,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the height of the screen.
+     * @return the height of the screen
      */
     public static float getViewHeight()
     {
@@ -134,8 +126,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @return
+     * Returns the width of the screen.
+     * @return the width of the screen
      */
     public static float getViewWidth()
     {
@@ -154,7 +146,7 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * Sets the game to a state of being lost.
      */
     public void gameLost()
     {
@@ -174,8 +166,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param x
+     * Moves the paddle of the data model.
+     * @param x the position to which the paddle moves in the x axis
      */
     public void movePaddle(float x)
     {
@@ -220,7 +212,9 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     *
+     * Converts the list of levels contained by the model to be displayed as
+     * a String.
+     * @return game the String representation of the GameLevels
      */
     public String toString()
     {

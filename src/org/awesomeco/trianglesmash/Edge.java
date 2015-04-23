@@ -4,9 +4,8 @@ import sofia.graphics.LineShape;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * Creates edges to occupy the borders of the screen and prevent objects in the
+ * screen from leaving the screen.
  *
  * @author Lauren Malhotra (laurcm6)
  * @author Robert Schofield (rjschof)

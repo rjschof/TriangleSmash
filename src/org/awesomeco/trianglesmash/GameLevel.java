@@ -71,7 +71,7 @@ public class GameLevel extends Observable
     /**
      * Method to add triangles to the level.
      */
-    private void addTrianglesToLevel()
+    public void addTrianglesToLevel()
     {
         float centerX = getViewWidth() / 2;
         float centerY = getViewHeight() / 13;
@@ -84,7 +84,7 @@ public class GameLevel extends Observable
 
         float xPos = centerX;
         float yPos = centerY;
-        addTriangle(new Triangle(centerX, yPos, size, Color.red));
+        addTriangle(new Triangle(centerX, yPos, size, Color.red, true));
 
         while (count < numTriangles)
         {
@@ -96,11 +96,11 @@ public class GameLevel extends Observable
                 s = -1;
                 distance = viewWidth / 7;
                 yPos = ((row - 1) * size) + (row * centerY);
-                addTriangle(new Triangle(centerX, yPos, size, Color.red));
+                addTriangle(new Triangle(centerX, yPos, size, Color.red, true));
             }
             else
             {
-                addTriangle(new Triangle(xPos, yPos, size, Color.red));
+                addTriangle(new Triangle(xPos, yPos, size, Color.red, true));
                 if (count % 2 == 0)
                 {
                     if (row % 2 == 1)
@@ -181,6 +181,16 @@ public class GameLevel extends Observable
     public int getNumTriangles()
     {
         return triangleList.size();
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Gets the initial number of triangles for this level.
+     * @return the number of triangles in the list
+     */
+    public int getInitialNumTriangles()
+    {
+        return initialNumTriangles;
     }
 
     // ----------------------------------------------------------

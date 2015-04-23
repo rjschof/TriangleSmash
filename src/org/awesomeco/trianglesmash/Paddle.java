@@ -17,10 +17,10 @@ import android.graphics.PointF;
 
 public class Paddle extends Observable
 {
-    private float x;
-    private float y;
-    private float width;
-    private float height;
+    private float x; //x coordinate of the paddle
+    private float y; //y coordinate of the paddle
+    private float width; //the width of the paddle
+    private float height; //the height of the paddle
 
     // ----------------------------------------------------------
     /**
@@ -38,6 +38,7 @@ public class Paddle extends Observable
         this.height = height;
     }
 
+    //------------------------------------------------------------
     /**
      * Gets the height of the paddle.
      * @return paddle height
@@ -47,6 +48,7 @@ public class Paddle extends Observable
         return height;
     }
 
+    //------------------------------------------------------------
     /**
      * Gets the position of the paddle on the screen in the form of a Position
      * object.
@@ -57,6 +59,7 @@ public class Paddle extends Observable
         return new Position(x, y);
     }
 
+    //------------------------------------------------------------
     /**
      * Gets the width of the paddle
      * @return width of the paddle
@@ -66,6 +69,7 @@ public class Paddle extends Observable
         return width;
     }
 
+    //------------------------------------------------------------
     /**
      * Sets the height of the paddle.
      * @param newHeight the new height of the paddle
@@ -75,6 +79,7 @@ public class Paddle extends Observable
         height = newHeight;
     }
 
+    //------------------------------------------------------------
     /**
      * Sets the paddle to a new position on the screen.
      * @param position the position on the screen as a Position object
@@ -86,12 +91,14 @@ public class Paddle extends Observable
         notifyObservers();
     }
 
+    //-------------------------------------------------------------
     public RectangleShape toRectangleShape()
     {
         return new RectangleShape(x - (width / 2), y - (height / 2),
             x + (width / 2), y + (height / 2));
     }
 
+    //-------------------------------------------------------------
     /**
      * Sets the width of the paddle.
      * @param newWidth the new width of the paddle
