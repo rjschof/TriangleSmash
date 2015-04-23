@@ -14,24 +14,6 @@ import sofia.graphics.Color;
  */
 public class ComplexGameLevel extends GameLevel
 {
-
-    // ----------------------------------------------------------
-    /**
-     * Create a new ComplexGameLevel with a starry background
-     * @param levelNum the number of the current level
-     * @param numTriangles the initial number of triangles in the level
-     * @param ballSpeed the speed of the ball
-     * @param background the background
-     */
-    public ComplexGameLevel(
-        int levelNum,
-        int numTriangles,
-        float ballSpeed,
-        String background)
-    {
-        super(levelNum, numTriangles, ballSpeed, background);
-    }
-
     //-----------------------------------------------------------
     /**
      * Creates a new ComplexGameLevel with a blank background
@@ -42,6 +24,20 @@ public class ComplexGameLevel extends GameLevel
     public ComplexGameLevel(int levelNum, int numTriangles, float ballSpeed)
     {
         super(levelNum, numTriangles, ballSpeed);
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new ComplexGameLevel with a starry background
+     * @param levelNum the number of the current level
+     * @param numTriangles the initial number of triangles in the level
+     * @param ballSpeed the speed of the ball
+     * @param background the background
+     */
+    public ComplexGameLevel(int levelNum, int numTriangles, float ballSpeed,
+        String background)
+    {
+        super(levelNum, numTriangles, ballSpeed, background);
     }
 
     //------------------------------------------------------------

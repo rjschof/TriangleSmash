@@ -73,47 +73,24 @@ public class GameLevel extends Observable
      */
     public void addTrianglesToLevel()
     {
-        float centerX = getViewWidth() / 2;
-        float centerY = getViewHeight() / 13;
         float size = getViewWidth() / 16;
-        float distance = getViewWidth() / 7;
-
+        float xPos = size;
+        float yPos = getViewHeight() / 13;
         int count = 1;
-        float row = 1;
-        float s = 1;
-
-        float xPos = centerX;
-        float yPos = centerY;
-        addTriangle(new Triangle(centerX, yPos, size, Color.red, true));
-
-        while (count < numTriangles)
+        addTriangle(new Triangle(xPos, yPos, size, Color.red, false));
+        while (count < getInitialNumTriangles())
         {
-            xPos = centerX + distance*s;
-            if (xPos > viewWidth || xPos < 0)
+            xPos += 2 * size;
+            if (xPos > getViewWidth() - size)
             {
-                row++;
-                xPos = centerX;
-                s = -1;
-                distance = viewWidth / 7;
-                yPos = ((row - 1) * size) + (row * centerY);
-                addTriangle(new Triangle(centerX, yPos, size, Color.red, true));
+
+                xPos = size;
+                yPos += 2 * size;
             }
-            else
-            {
-                addTriangle(new Triangle(xPos, yPos, size, Color.red, true));
-                if (count % 2 == 0)
-                {
-                    if (row % 2 == 1)
-                    {
-                        distance *= 2;
-                    }
-                }
-                else if (count % 2 == 1 && row % 2 == 0)
-                {
-                    distance *= 2;
-                }
-            }
-            s *= -1;
+            System.out.println(xPos);
+            Triangle triangle;
+            triangle = new Triangle(xPos, yPos, size, Color.red, false);
+            addTriangle(triangle);
             count++;
         }
         notifyObservers();
