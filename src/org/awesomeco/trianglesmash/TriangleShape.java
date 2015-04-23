@@ -130,8 +130,11 @@ public class TriangleShape extends FillableShape
 
     // ----------------------------------------------------------
     /**
-     * Calculates the centroid of the triangle.
-     * @return PointF object that represents the coordinates of the centroid
+     * Sets the position of the triangle. The left, right, top, and bottom
+     * fields are all updated because they are used to calculate different parts
+     * of the TriangleShape.
+     * @param x the x coordinate of the position
+     * @param y the y coordinate of the position
      */
     @Override
     public void setPosition(float x, float y)

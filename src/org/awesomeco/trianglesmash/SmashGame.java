@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-import java.util.Stack;
 import sofia.util.Observable;
 import java.util.LinkedList;
 
@@ -63,6 +62,7 @@ public class SmashGame extends Observable
         }
     }
 
+    // ----------------------------------------------------------
     /**
      *
      */
@@ -192,12 +192,23 @@ public class SmashGame extends Observable
         currentLevel.reset();
     }
 
-    public void removeTriangle(Triangle triangle)
+    // ----------------------------------------------------------
+    /**
+     * If a triangle collided with the ball, it should be removed from the
+     * level.
+     * @param triangle the triangle that was hit by the ball
+     */
+    public void triangleCollided(Triangle triangle)
     {
         currentLevel.removeTriangle(triangle);
         notifyObservers();
     }
 
+    // ----------------------------------------------------------
+    /**
+     * The startOver method resets all of the levels in the game and then sets
+     * the currentLevel pointed to the first level in the game.
+     */
     public void startOver()
     {
         for (GameLevel level: gameLevels)
@@ -207,6 +218,10 @@ public class SmashGame extends Observable
         currentLevel = gameLevels.getFirst();
     }
 
+    // ----------------------------------------------------------
+    /**
+     *
+     */
     public String toString()
     {
         String game = "Levels currently in the game: \n";

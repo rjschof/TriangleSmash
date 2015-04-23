@@ -1,7 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-
-import android.os.Handler;
 import android.widget.Button;
 import sofia.graphics.Shape;
 import sofia.graphics.RectangleShape;
@@ -40,6 +38,7 @@ public class TriangleSmashScreen extends ShapeScreen
 
     private SmashGame smashGame;
 
+    // ----------------------------------------------------------
     /**
      * Initializes the screen.
      */
@@ -64,6 +63,7 @@ public class TriangleSmashScreen extends ShapeScreen
 
     }
 
+    // ----------------------------------------------------------
     /**
      * When a finger touches down on the screen, the paddle is moved to the
      * location represented by the movement.
@@ -75,6 +75,7 @@ public class TriangleSmashScreen extends ShapeScreen
         smashGame.movePaddle(x);
     }
 
+    // ----------------------------------------------------------
     /**
      * When a finger moves across the screen, the paddle is moved to the
      * location represented by the movement.
@@ -86,6 +87,7 @@ public class TriangleSmashScreen extends ShapeScreen
         smashGame.movePaddle(x);
     }
 
+    // ----------------------------------------------------------
     /**
      * When a collision occurs between the edge and the ball, the ball bounces
      * in the opposite direction.
@@ -115,6 +117,7 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
+    // ----------------------------------------------------------
     /**
      * When a collision occurs between a triangle and the ball, the triangle
      * is removed from the screen and removed from the model.
@@ -126,10 +129,11 @@ public class TriangleSmashScreen extends ShapeScreen
         if (oval.equals(smashBall))
         {
             remove(triangle);
-            smashGame.removeTriangle(triangle);
+            smashGame.triangleCollided(triangle);
         }
     }
 
+    // ----------------------------------------------------------
     /**
      *
      */
@@ -176,6 +180,7 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
+    // ----------------------------------------------------------
     /**
      *
      */
@@ -245,6 +250,10 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     *
+     */
     public void gameButtonClicked()
     {
         if (!gameStarted)
@@ -291,7 +300,10 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
-
+    // ----------------------------------------------------------
+    /**
+     *
+     */
     public void displayMessage(String message)
     {
         final String text = message;
@@ -305,6 +317,7 @@ public class TriangleSmashScreen extends ShapeScreen
 
     // ~~~~~ Everything below is included to make testing easier.
 
+    // ----------------------------------------------------------
     /**
      * Returns the paddle for the screen.
      * @return the game paddle
@@ -314,6 +327,7 @@ public class TriangleSmashScreen extends ShapeScreen
         return paddle;
     }
 
+    // ----------------------------------------------------------
     /**
      * Returns the ball from the screen
      * @return the smash ball
