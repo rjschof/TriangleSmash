@@ -64,7 +64,6 @@ public class ComplexGameLevel extends GameLevel
                 yPos += 2 * size;
             }
             flipped = !flipped;
-            System.out.println(xPos);
             Triangle triangle;
             triangle = new Triangle(xPos, yPos, size, Color.red, flipped);
             if (flipped)

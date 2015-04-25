@@ -78,9 +78,7 @@ public class SmashGame extends Observable
      */
     public void nextLevel()
     {
-        currentLevel = gameLevels.get(currentLevel.getLevelNum());
-        //works because current level number is the index of the next level in
-        //the list
+        currentLevel = gameLevels.get(gameLevels.indexOf(currentLevel) + 1);
         notifyObservers();
     }
 
@@ -224,5 +222,19 @@ public class SmashGame extends Observable
             game = game + level.toString() + "\n";
         }
         return game;
+    }
+
+    /**
+     * @precondition: the level already exists in the gameLevels list.
+     */
+    public void getLevel(GameLevel level)
+    {
+        for (GameLevel l: gameLevels)
+        {
+            if (l.equals(level))
+            {
+                currentLevel = l;
+            }
+        }
     }
 }

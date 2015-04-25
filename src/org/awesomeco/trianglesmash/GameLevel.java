@@ -88,7 +88,6 @@ public class GameLevel extends Observable
                 xPos = size;
                 yPos += 2 * size;
             }
-            System.out.println(xPos);
             Triangle triangle;
             triangle = new Triangle(xPos, yPos, size, Color.red, false);
             addTriangle(triangle);

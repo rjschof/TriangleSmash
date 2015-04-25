@@ -1,9 +1,6 @@
 package org.awesomeco.trianglesmash;
 
-import sofia.util.Timer;
-import sofia.graphics.Shape;
-import sofia.graphics.OvalShape;
-import sofia.graphics.Color;
+import android.widget.Button;
 import student.AndroidTestCase;
 
 // -------------------------------------------------------------------------
@@ -20,7 +17,7 @@ public class TriangleSmashScreenTests
     extends AndroidTestCase<TriangleSmashScreen>
 {
 
-    private OvalShape smashBall;
+    private Button gameButton;
 
     // ----------------------------------------------------------
     /**
@@ -31,64 +28,84 @@ public class TriangleSmashScreenTests
         super(TriangleSmashScreen.class);
     }
 
+    public void setUp()
+    {
+        GameLevel level = new GameLevel(9001, 1, 1.0f);
+        getScreen().getSmashGame().addLevel(level);
+        getScreen().goToLevel(level);
+    }
+
+    public void setUpFullRow()
+    {
+        GameLevel level = new GameLevel(9001, 8, 1.0f);
+        getScreen().getSmashGame().addLevel(level);
+        getScreen().goToLevel(level);
+    }
+
     public void testCollisionTriangleBall()
     {
-        //assertEquals(5, getScreen().getGameLevel().getTriangleList().size());
-        getScreen().getSmashBall().setPosition(
-            getScreen().getShapeView().getWidth() / 2, 55);
-        getScreen().getSmashBall().setLinearVelocity(0, -500);
         try
         {
-            Thread.sleep(1000);
+            GameLevel level = new GameLevel(9001, 8, 1.0f);
+            getScreen().getSmashGame().addLevel(level);
+            getScreen().goToLevel(level);
+            getScreen().getSmashBall().setPosition(
+                getScreen().getShapeView().getWidth() / 2 - 10, 55);
+            getScreen().getSmashBall().setLinearVelocity(0, -500);
+            Thread.sleep(1500);
+            assertEquals(7, getScreen().getSmashGame().getCurrentLevel()
+                .getTriangleList().size());
         }
-        catch (InterruptedException e)
+        catch (Exception e)
         {
             e.printStackTrace();
+            testCollisionTriangleBall();
         }
-        //assertEquals(4, getScreen().getGameLevel().getTriangleList().size());
     }
 
     public void testCollisionBallRightEdge()
     {
-        getScreen().getSmashBall().setPosition(
-            getScreen().getWidth() - 40, getScreen().getHeight() / 2);
-        getScreen().getSmashBall().setLinearVelocity(-25, 0);
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException e)
+        try {
+            setUp();
+            getScreen().getSmashBall().setPosition(
+                getScreen().getWidth() - 40, getScreen().getHeight() / 2);
+            getScreen().getSmashBall().setLinearVelocity(-25, 0);
+            Thread.sleep(1500);
+            assertEquals(-25, getScreen().getSmashBall().getLinearVelocity().x,
+                0.001);
+        } catch (Exception e)
         {
             e.printStackTrace();
+            testCollisionBallRightEdge();
         }
-        assertEquals(-25, getScreen().getSmashBall().getLinearVelocity().x,
-            0.001);
     }
 
     public void testCollisionBallLeftEdge()
     {
-        getScreen().getSmashBall().setPosition(
-            40, getScreen().getHeight() / 2);
-        getScreen().getSmashBall().setLinearVelocity(-25, 0);
-        try
-        {
-            Thread.sleep(1000);
+        setUp();
+        try {
+            getScreen().getSmashBall().setPosition(
+                40, getScreen().getHeight() / 2);
+            getScreen().getSmashBall().setLinearVelocity(-25, 0);
+            Thread.sleep(1500);
+            assertEquals(25, getScreen().getSmashBall().getLinearVelocity().x,
+                0.001);
         }
-        catch (InterruptedException e)
+        catch (Exception e)
         {
             e.printStackTrace();
+            testCollisionBallLeftEdge();
         }
-        assertEquals(25, getScreen().getSmashBall().getLinearVelocity().x,
-            0.001);
     }
 
     public void testCollisionBallTopEdge()
     {
-        getScreen().getSmashBall().setPosition(25, 40);
+        setUp();
+        getScreen().getSmashBall().setPosition(100, 40);
         getScreen().getSmashBall().setLinearVelocity(0, -25);
         try
         {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         }
         catch (InterruptedException e)
         {
@@ -100,25 +117,27 @@ public class TriangleSmashScreenTests
 
     public void testCollisionBallBottomEdge()
     {
-        getScreen().getSmashBall().setPosition(40,
-            getScreen().getShapeView().getHeight() - 40);
-        getScreen().getSmashBall().setLinearVelocity(0, 25);
         try
         {
+            setUp();
+            getScreen().getSmashBall().setPosition(40,
+                getScreen().getShapeView().getHeight() - 40);
+            getScreen().getSmashBall().setLinearVelocity(0, 25);
             Thread.sleep(1000);
+            assertEquals(0, getScreen().getSmashBall().getLinearVelocity().x,
+                0.001);
+            assertEquals(0, getScreen().getSmashBall().getLinearVelocity().y,
+                0.001);
         }
-        catch (InterruptedException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        assertEquals(0, getScreen().getSmashBall().getLinearVelocity().x,
-            0.001);
-        assertEquals(0, getScreen().getSmashBall().getLinearVelocity().y,
-            0.001);
     }
 
     public void testOnTouchDown()
     {
+        setUp();
         touchDown(getScreen().getShapeView(), 30, 40);
         assertEquals(30, getScreen().getPaddle().getPosition().x, 0.001);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
@@ -127,16 +146,80 @@ public class TriangleSmashScreenTests
 
     public void testOnTouchMove()
     {
+        setUp();
         touchDown(getScreen().getShapeView(), 30, 40);
         assertEquals(30, getScreen().getPaddle().getPosition().x, 0.001);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
             getScreen().getPaddle().getPosition().y, 0.001);
         touchMove(Float.valueOf(150), 60f);
+        System.out.println("POS: " + getScreen().getPaddle().getPosition().x);
+        System.out.println("POS: " + getScreen().getPaddle().getPosition().y);
         touchUp();
         assertEquals(150, getScreen().getPaddle().getPosition().x, 10);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
             getScreen().getPaddle().getPosition().y, 0.001);
     }
 
+    public void testGameButtonStart()
+    {
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().x == 0);
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().y == 0);
+        setUp();
+        click(gameButton);
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().x > 0);
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().y > 0);
+    }
+
+    public void testGameButtonResetInGame()
+    {
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().x == 0);
+        assertTrue(getScreen().getSmashBall().getLinearVelocity().y == 0);
+        setUpFullRow();
+        click(gameButton);
+        getScreen().getSmashBall().setLinearVelocity(0, 0);
+        getScreen().getSmashBall().setPosition(
+            getScreen().getShapeView().getWidth() / 2 - 10, 55);
+        getScreen().getSmashBall().setLinearVelocity(0, -500);
+        try
+        {
+            Thread.sleep(1000);
+            assertEquals(7, getScreen().getSmashGame().getCurrentLevel()
+                .getNumTriangles());
+            Thread.sleep(1500);
+            click(gameButton);
+            assertEquals(8, getScreen().getSmashGame().getCurrentLevel()
+                .getNumTriangles());
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void testGameButtonStartOver()
+    {
+        System.out.println("START OVER");
+        GameLevel level = new GameLevel(9001, 1, 1.0f);
+        getScreen().getSmashGame().addLevel(level);
+        getScreen().goToLevel(level);
+        click(gameButton);
+        getScreen().getSmashBall().setLinearVelocity(0, 0);
+        getScreen().getSmashBall().setPosition(30, 70);
+        getScreen().getSmashBall().setLinearVelocity(0, -500);
+        try
+        {
+            Thread.sleep(3000);
+            assertEquals(0, getScreen().getSmashGame().getCurrentLevel()
+                .getNumTriangles());
+            click(gameButton);
+            Thread.sleep(1000);
+            assertEquals(1, getScreen().getSmashGame().getCurrentLevel()
+                .getLevelNum());
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
 }

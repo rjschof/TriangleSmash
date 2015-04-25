@@ -153,6 +153,11 @@ public class TriangleSmashScreen extends ShapeScreen
             if (smashGame.getLevelList().indexOf(smashGame.getCurrentLevel())
                 < smashGame.getLevelList().size() - 1)
             {
+                System.out.println("C: " + smashGame.getCurrentLevel());
+                for (GameLevel level: smashGame.getLevelList())
+                {
+                    System.out.println("L: " + level);
+                }
                 smashGame.nextLevel();
                 displayMessage("You won! Press start to begin the next level.");
                 runOnUiThread(new Runnable() {
@@ -306,6 +311,19 @@ public class TriangleSmashScreen extends ShapeScreen
         }
     }
 
+    public void goToLevel(GameLevel level)
+    {
+        remove(paddle);
+        remove(smashBall);
+        remove(background);
+        for (Triangle t: smashGame.getCurrentLevel().getTriangleList())
+        {
+            remove(t);
+        }
+        smashGame.getLevel(level);
+        setUpForLevel();
+    }
+
     // ----------------------------------------------------------
     /**
      *
@@ -341,5 +359,15 @@ public class TriangleSmashScreen extends ShapeScreen
     public OvalShape getSmashBall()
     {
         return smashBall;
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Returns the SmashGame object that represents the data model
+     * @return the data model SmashGame object
+     */
+    public SmashGame getSmashGame()
+    {
+        return smashGame;
     }
 }
