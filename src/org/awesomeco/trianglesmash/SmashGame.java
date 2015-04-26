@@ -20,6 +20,7 @@ public class SmashGame extends Observable
     private GameLevel currentLevel; //the current level the player is on
     private static float viewWidth; //the width of the screen
     private static float viewHeight; //the height of the screen
+    private boolean gameComplete; //whether all levels have been played
     private boolean gameLost; //whether the player lost the game
     private Paddle paddle; //the paddle
     private Edge[] edges; //the edges of the screen
@@ -38,6 +39,7 @@ public class SmashGame extends Observable
         viewHeight = height;
         paddle = new Paddle(viewWidth / 2, viewHeight - 10, viewWidth / 6,
             viewHeight / 20);
+        gameComplete = false;
         gameLost = false;
         edges = new Edge[] {
             new Edge(0, -1, viewWidth, -1),
@@ -78,8 +80,14 @@ public class SmashGame extends Observable
      */
     public void nextLevel()
     {
-        currentLevel = gameLevels.get(gameLevels.indexOf(currentLevel) + 1);
-        notifyObservers();
+        if (gameLevels.indexOf(currentLevel) == gameLevels.size() - 1)
+        {
+            gameComplete = true;
+        }
+        else
+        {
+            currentLevel = gameLevels.get(gameLevels.indexOf(currentLevel) + 1);
+        }
     }
 
     // ----------------------------------------------------------
@@ -164,6 +172,16 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
+     * Tells whether or not the game has been won by the player.
+     * @return the gameLost field
+     */
+    public boolean isGameComplete()
+    {
+        return gameComplete;
+    }
+
+    // ----------------------------------------------------------
+    /**
      * Moves the paddle of the data model.
      * @param x the position to which the paddle moves in the x axis
      */
@@ -205,7 +223,10 @@ public class SmashGame extends Observable
         {
             level.reset();
         }
-        currentLevel = gameLevels.getFirst();
+        gameComplete = false;
+        gameLost = false;
+        currentLevel = gameLevels.get(0);
+        notifyObservers();
     }
 
     // ----------------------------------------------------------

@@ -152,8 +152,6 @@ public class TriangleSmashScreenTests
         assertEquals(getScreen().getShapeView().getHeight() - 10,
             getScreen().getPaddle().getPosition().y, 0.001);
         touchMove(Float.valueOf(150), 60f);
-        System.out.println("POS: " + getScreen().getPaddle().getPosition().x);
-        System.out.println("POS: " + getScreen().getPaddle().getPosition().y);
         touchUp();
         assertEquals(150, getScreen().getPaddle().getPosition().x, 10);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
@@ -198,17 +196,20 @@ public class TriangleSmashScreenTests
 
     public void testGameButtonStartOver()
     {
-        System.out.println("START OVER");
-        GameLevel level = new GameLevel(9001, 1, 1.0f);
-        getScreen().getSmashGame().addLevel(level);
+        setUp();
+        GameLevel level = getScreen().getSmashGame().getLevelList().getLast();
         getScreen().goToLevel(level);
         click(gameButton);
+        for (GameLevel l: getScreen().getSmashGame().getLevelList())
+        {
+            System.out.println(l);
+        }
         getScreen().getSmashBall().setLinearVelocity(0, 0);
-        getScreen().getSmashBall().setPosition(30, 70);
+        getScreen().getSmashBall().setPosition(30, 50);
         getScreen().getSmashBall().setLinearVelocity(0, -500);
         try
         {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             assertEquals(0, getScreen().getSmashGame().getCurrentLevel()
                 .getNumTriangles());
             click(gameButton);
