@@ -196,16 +196,12 @@ public class TriangleSmashScreenTests
 
     public void testGameButtonStartOver()
     {
-        setUp();
+        //setUp();
         GameLevel level = getScreen().getSmashGame().getLevelList().getLast();
         getScreen().goToLevel(level);
         click(gameButton);
-        for (GameLevel l: getScreen().getSmashGame().getLevelList())
-        {
-            System.out.println(l);
-        }
         getScreen().getSmashBall().setLinearVelocity(0, 0);
-        getScreen().getSmashBall().setPosition(30, 50);
+        getScreen().getSmashBall().setPosition(30, 60);
         getScreen().getSmashBall().setLinearVelocity(0, -500);
         try
         {

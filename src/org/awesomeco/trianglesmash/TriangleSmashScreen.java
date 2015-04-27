@@ -52,13 +52,14 @@ public class TriangleSmashScreen extends ShapeScreen
         smashGame.getPaddle().addObserver(this);
 
         smashGame.addLevel(new GameLevel(1, 1, 1.0f, "starbackground"));
-        /*smashGame.addLevel(new GameLevel(2, 16, 5.0f, "doomface"));
+        smashGame.addLevel(new GameLevel(2, 16, 5.0f, "doomface"));
         smashGame.addLevel(new ComplexGameLevel(3, 15, 10.0f,
             "starbackground"));
         smashGame.addLevel(new ComplexGameLevel(4, 30, 10.0f,
             "starbackground"));
         smashGame.addLevel(new ComplexGameLevel(5, 45, 10.0f,
-            "starbackground"));*/
+            "starbackground"));
+        smashGame.addLevel(new ComplexGameLevel(6, 8, 10.0f, "starbackground"));
 
         gameStarted = false;
 
@@ -200,7 +201,7 @@ public class TriangleSmashScreen extends ShapeScreen
             }
         }
 
-        if (index != smashGame.getLevelList().size())
+        if (!smashGame.isGameComplete())
         {
             GameLevel gameLevel = smashGame.getCurrentLevel();
 
@@ -262,11 +263,11 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         if (!gameStarted)
         {
-            /*smashBall.setLinearVelocity(
+            smashBall.setLinearVelocity(
                 smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
-                smashGame.getCurrentLevel().getSmashBall().getVelocityY());*/
+                smashGame.getCurrentLevel().getSmashBall().getVelocityY());
             smashBall.setPosition(30, 70);
-            smashBall.setLinearVelocity(0, -20);
+            //smashBall.setLinearVelocity(0, -20);
             displayMessage(
                 "Level " + smashGame.getCurrentLevel().getLevelNum() + "!");
             gameButton.setText("Reset");
@@ -298,10 +299,10 @@ public class TriangleSmashScreen extends ShapeScreen
             setUpForLevel();
             displayMessage(
                 "Level " + smashGame.getCurrentLevel().getLevelNum() + "!");
-            /*smashBall.setLinearVelocity(
+            smashBall.setLinearVelocity(
                 smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
-                smashGame.getCurrentLevel().getSmashBall().getVelocityY());*/
-            smashBall.setLinearVelocity(0, -20);
+                smashGame.getCurrentLevel().getSmashBall().getVelocityY());
+            //smashBall.setLinearVelocity(0, -20);
         }
     }
 
@@ -314,11 +315,11 @@ public class TriangleSmashScreen extends ShapeScreen
         {
             remove(t);
         }
-        smashGame.getLevel(level);
+        smashGame.goToLevel(level);
         setUpForLevel();
     }
 
-    // ----------------------------------------------------------
+    // ------*----------------------------------------------------
     /**
      *
      */
@@ -363,10 +364,5 @@ public class TriangleSmashScreen extends ShapeScreen
     public SmashGame getSmashGame()
     {
         return smashGame;
-    }
-
-    public void loadTestLevels()
-    {
-
     }
 }

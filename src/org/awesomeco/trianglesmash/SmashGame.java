@@ -248,7 +248,7 @@ public class SmashGame extends Observable
     /**
      * @precondition: the level already exists in the gameLevels list.
      */
-    public void getLevel(GameLevel level)
+    public void goToLevel(GameLevel level)
     {
         for (GameLevel l: gameLevels)
         {
