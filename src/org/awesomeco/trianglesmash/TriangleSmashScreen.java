@@ -1,5 +1,6 @@
 package org.awesomeco.trianglesmash;
 
+import android.media.MediaPlayer;
 import android.widget.Button;
 import sofia.graphics.Shape;
 import sofia.graphics.RectangleShape;
@@ -51,7 +52,7 @@ public class TriangleSmashScreen extends ShapeScreen
         smashGame.addObserver(this);
         smashGame.getPaddle().addObserver(this);
 
-        smashGame.addLevel(new GameLevel(1, 1, 1.0f, "starbackground"));
+        smashGame.addLevel(new GameLevel(1, 8, 1.0f, "starbackground"));
         smashGame.addLevel(new GameLevel(2, 16, 5.0f, "doomface"));
         smashGame.addLevel(new ComplexGameLevel(3, 15, 10.0f,
             "starbackground"));
@@ -59,7 +60,7 @@ public class TriangleSmashScreen extends ShapeScreen
             "starbackground"));
         smashGame.addLevel(new ComplexGameLevel(5, 45, 10.0f,
             "starbackground"));
-        smashGame.addLevel(new ComplexGameLevel(6, 8, 10.0f, "starbackground"));
+        smashGame.addLevel(new ComplexGameLevel(6, 60, 10.0f, "starbackground"));
 
         gameStarted = false;
 
