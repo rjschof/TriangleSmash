@@ -251,7 +251,7 @@ public class GameLevel extends Observable
 
     /**
      * Converts the attributes of the GameLevel to a String representation of
-     * the object. Example --> [#3] Triangles(s): 16 Background: starbackground
+     * the object. Example --> [#3] Triangle(s): 16 Background: starbackground
      * @return the String representation of the GameLevel
      */
     public String toString()
