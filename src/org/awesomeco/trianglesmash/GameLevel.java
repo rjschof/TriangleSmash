@@ -79,7 +79,7 @@ public class GameLevel extends Observable
         float xPos = size;
         float yPos = getViewHeight() / 13;
         int count = 1;
-        addTriangle(new Triangle(xPos, yPos, size, Color.red, false));
+        addTriangle(new Triangle(xPos, yPos, size, Color.orangeRed, false));
         while (count < getInitialNumTriangles())
         {
             xPos += 2 * size;                 //adds next triangle to the right
@@ -90,7 +90,7 @@ public class GameLevel extends Observable
                 yPos += 2 * size;             //moves to next row
             }
             Triangle triangle =
-                new Triangle(xPos, yPos, size, Color.red, false);
+                new Triangle(xPos, yPos, size, Color.orangeRed, false);
             addTriangle(triangle);
             count++;
         }

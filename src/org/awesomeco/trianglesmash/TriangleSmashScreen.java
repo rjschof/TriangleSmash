@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 
-import android.media.MediaPlayer;
 import android.widget.Button;
 import sofia.graphics.Shape;
 import sofia.graphics.RectangleShape;
@@ -41,7 +40,10 @@ public class TriangleSmashScreen extends ShapeScreen
 
     // ----------------------------------------------------------
     /**
-     * Initializes the screen.
+     * Initializes the screen. The maximum x and maximum y values are set for
+     * the screen, and passed to the SmashGame class. Observable objects are
+     * told that this screen in an observer, and the levels we designed for the
+     * game are added to the screen.
      */
     public void initialize()
     {
@@ -96,7 +98,8 @@ public class TriangleSmashScreen extends ShapeScreen
     // ----------------------------------------------------------
     /**
      * When a collision occurs between the edge and the ball, the ball bounces
-     * in the opposite direction.
+     * in the opposite direction. If the collision occurred between the ball
+     * and the bottom edge, this information is sent to the model.
      * @param oval the oval that collided.
      * @param edge the edge object the ball collided with
      */
@@ -126,7 +129,7 @@ public class TriangleSmashScreen extends ShapeScreen
     // ----------------------------------------------------------
     /**
      * When a collision occurs between a triangle and the ball, the triangle
-     * is removed from the screen and removed from the model.
+     * is removed from the screen and the model is informed of this occurance.
      * @param oval the oval that collided
      * @param triangle the triangle the ball collided with
      */
@@ -141,7 +144,9 @@ public class TriangleSmashScreen extends ShapeScreen
 
     // ----------------------------------------------------------
     /**
-     *
+     * If a change is observed in the game, this method will handle the
+     * change accordingly.
+     * @param game the SmashGame where a change was observed
      */
     public void changeWasObserved(SmashGame game)
     {
@@ -158,6 +163,13 @@ public class TriangleSmashScreen extends ShapeScreen
 
                 displayMessage("You won! Press start to begin the next level.");
                 runOnUiThread(new Runnable() {
+                    /**
+                     * This method is exexuted inside the Runnable class so
+                     * the game button text can be changed without an error
+                     * occurring. Before this was added, errors were thrown
+                     * because the gameButton text was being edited outside of
+                     * the screen thread.
+                     */
                     public void run() {
                         TriangleSmashScreen.this.gameButton.setText("Start");
                     }
@@ -172,6 +184,11 @@ public class TriangleSmashScreen extends ShapeScreen
             {
                 displayMessage("You beat the game! There are no more levels.");
                 runOnUiThread(new Runnable() {
+                    /**
+                     * This method is here for the same reason as the one above.
+                     * The gameButton's text is changed to "Start Over" so the
+                     * player has the option to begin the game from the start.
+                     */
                     public void run() {
                         TriangleSmashScreen.this.gameButton.setText(
                             "Start Over");
@@ -188,20 +205,11 @@ public class TriangleSmashScreen extends ShapeScreen
 
     // ----------------------------------------------------------
     /**
-     *
+     * The setUpForLevel method makes the screen represent the data in the model
+     * class, SmashGame.
      */
     public void setUpForLevel()
     {
-        int index = 0;
-        for (int i = 0; i < smashGame.getLevelList().size(); i++)
-        {
-            if (smashGame.getCurrentLevel()
-                .equals(smashGame.getLevelList().get(i)))
-            {
-                index = i;
-            }
-        }
-
         if (!smashGame.isGameComplete())
         {
             GameLevel gameLevel = smashGame.getCurrentLevel();
@@ -258,23 +266,29 @@ public class TriangleSmashScreen extends ShapeScreen
 
     // ----------------------------------------------------------
     /**
-     *
+     * When the game button is clicked, a couple of different things should
+     * occur based on the game states:
+     * 1. If the game has not yet been started, the game button will start the
+     *    game and change the text to "Reset."
+     * 2. If the game has started/was lost and the user presses the button, the
+     *    game will be reset to the state it was at the beginning of the level.
+     * 3. If the user has played all of the levels in the game and won, the
+     *    game is reset to the first level and all the levels are reset to their
+     *    initial states.
      */
     public void gameButtonClicked()
     {
-        if (!gameStarted)
+        if (!gameStarted) // game was not yet started
         {
             smashBall.setLinearVelocity(
                 smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
                 smashGame.getCurrentLevel().getSmashBall().getVelocityY());
-            //smashBall.setPosition(30, 70);
-            //smashBall.setLinearVelocity(0, -20);
             displayMessage(
                 "Level " + smashGame.getCurrentLevel().getLevelNum() + "!");
             gameButton.setText("Reset");
             gameStarted = true;
         }
-        else if (smashGame.isGameComplete())
+        else if (smashGame.isGameComplete()) // all levels have been played
         {
             smashGame.startOver();
             gameStarted = false;
@@ -287,7 +301,7 @@ public class TriangleSmashScreen extends ShapeScreen
             gameButton.setText("Start");
             setUpForLevel();
         }
-        else
+        else // player wants to reset the game during a level / after a loss
         {
             remove(paddle);
             remove(smashBall);
@@ -303,26 +317,14 @@ public class TriangleSmashScreen extends ShapeScreen
             smashBall.setLinearVelocity(
                 smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
                 smashGame.getCurrentLevel().getSmashBall().getVelocityY());
-            //smashBall.setLinearVelocity(0, -20);
         }
     }
 
-    public void goToLevel(GameLevel level)
-    {
-        remove(paddle);
-        remove(smashBall);
-        remove(background);
-        for (Triangle t: smashGame.getCurrentLevel().getTriangleList())
-        {
-            remove(t);
-        }
-        smashGame.goToLevel(level);
-        setUpForLevel();
-    }
-
-    // ------*----------------------------------------------------
+    // ----------------------------------------------------------
     /**
-     *
+     * The displayMessage method displays a message on in the gameStatus
+     * TextView object on the screen.
+     * @param message the method to display on the screen
      */
     public void displayMessage(String message)
     {
@@ -366,4 +368,23 @@ public class TriangleSmashScreen extends ShapeScreen
     {
         return smashGame;
     }
+
+    // ----------------------------------------------------------
+    /**
+     * Moves the SmashGame to the level specified in the parameters.
+     * @param level the level to switch the current level to
+     */
+    public void goToLevel(GameLevel level)
+    {
+        remove(paddle);
+        remove(smashBall);
+        remove(background);
+        for (Triangle t: smashGame.getCurrentLevel().getTriangleList())
+        {
+            remove(t);
+        }
+        smashGame.goToLevel(level);
+        setUpForLevel();
+    }
 }
+

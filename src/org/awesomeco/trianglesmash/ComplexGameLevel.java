@@ -55,25 +55,25 @@ public class ComplexGameLevel extends GameLevel
 
         int count = 1;
         boolean flipped = false;
-        addTriangle(new Triangle(xPos, yPos, size, Color.red, flipped));
+        addTriangle(new Triangle(xPos, yPos, size, Color.orangeRed, flipped));
         while (count < getInitialNumTriangles())
         {
-            xPos += size;                      //adds next triangle to the
-            if (xPos > getViewWidth() - size)  //right
+            xPos += size; //adds next triangle to the right
+            if (xPos > getViewWidth() - size)
             {
 
                 xPos = size;
-                yPos += 2 * size;              //moves to next row
+                yPos += 2 * size;  //moves to next row
             }
-            flipped = !flipped;           //switches between flipped, unflipped
+            flipped = !flipped; //switches between flipped, unflipped
             Triangle triangle =
-                new Triangle(xPos, yPos, size, Color.red, flipped);
+                new Triangle(xPos, yPos, size, Color.orangeRed, flipped);
             if (flipped)
             {   // offset centroid so flipped, unflipped triangles fit
                 float diffY = Math.abs(triangle.calculateCenterOfBox().y -
                     triangle.calculateCentroid().y);
                 triangle.setPosition(xPos, yPos - 2 * diffY);
-                triangle.setFillColor(Color.blue);
+                triangle.setFillColor(Color.maroon);
             }
             addTriangle(triangle);
             count++;
