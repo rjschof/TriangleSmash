@@ -58,8 +58,9 @@ public class SmashBallTest extends TestCase
 
     //------------------------------------------------------
     /**
-     * Tests whether the getRadius method for the SmashBall correctly returns
-     * the ball's radius.
+     * Tests whether the toOvalShape method for the SmashBall correctly
+     * converts the ball object to an OvalShape object of the same bounds and
+     * position.
      */
     public void testToOvalShape()
     {

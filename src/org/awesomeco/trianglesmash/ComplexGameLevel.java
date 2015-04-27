@@ -27,7 +27,7 @@ public class ComplexGameLevel extends GameLevel
 
     // ----------------------------------------------------------
     /**
-     * Create a new ComplexGameLevel with a starry background
+     * Create a new ComplexGameLevel with background image
      * @param levelNum the number of the current level
      * @param numTriangles the initial number of triangles in the level
      * @param ballSpeed the speed of the ball
@@ -41,8 +41,9 @@ public class ComplexGameLevel extends GameLevel
 
     //------------------------------------------------------------
     /**
-     * Adds triangles onto the screen in a pattern centered on the center of
-     * the screen in the x axis.
+     * Adds triangles to the level, starting from the top left corner and
+     * moving in rows until reaching the specified number of triangles for the
+     * level.
      */
     @Override
     public void addTrianglesToLevel()

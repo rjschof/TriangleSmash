@@ -40,7 +40,7 @@ public class Paddle extends Observable
     /**
      * Gets the position of the paddle on the screen in the form of a Position
      * object.
-     * @return position of the paddle as PointF
+     * @return position of the paddle as a Position object
      */
     public Position getPosition()
     {

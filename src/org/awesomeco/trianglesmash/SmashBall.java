@@ -20,7 +20,7 @@ public class SmashBall extends Observable
     private float radius; //the radius of the ball
     private float velocityX; // x-component for velocity of the ball
     private float velocityY; // y-component for velocity of the ball
-    private Position initialPosition;
+    private Position initialPosition; //initial position of the ball
 
     // ----------------------------------------------------------
     /**

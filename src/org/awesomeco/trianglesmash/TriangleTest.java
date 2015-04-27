@@ -82,7 +82,7 @@ public class TriangleTest extends TestCase
     }
 
     /**
-     * Tests the Triangle isFlipped method for flipped and unflipped triangle.
+     * Tests the Triangle isFlipped method for flipped and unflipped triangles.
      */
     public void testIsFlipped()
     {

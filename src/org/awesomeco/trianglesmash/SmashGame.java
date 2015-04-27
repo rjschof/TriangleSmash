@@ -76,7 +76,8 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Moves to the next level in the game.
+     * Moves to the next level in the game. If already at the last level,
+     * completes the game and the user wins.
      */
     public void nextLevel()
     {
@@ -142,7 +143,7 @@ public class SmashGame extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Tells whether or not the game has been won by the player.
+     * Tells whether or not the game level has been won by the player.
      * @return true if the list of triangles is empty, false if otherwise
      */
     public boolean isGameWon()
@@ -173,7 +174,7 @@ public class SmashGame extends Observable
     // ----------------------------------------------------------
     /**
      * Tells whether or not the game has been won by the player.
-     * @return the gameLost field
+     * @return the gameComplete field
      */
     public boolean isGameComplete()
     {
