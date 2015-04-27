@@ -42,6 +42,18 @@ public class TriangleSmashScreenTests
 
     // ----------------------------------------------------------
     /**
+     * This method sets up the game with a level that has a full row of
+     * triangles.
+     */
+    public void setUpFullRow()
+    {
+        GameLevel level = new GameLevel(9001, 8, 1.0f);
+        getScreen().getSmashGame().addLevel(level);
+        getScreen().goToLevel(level);
+    }
+
+    // ----------------------------------------------------------
+    /**
      * This method tests the operation of the screen when the ball collides with
      * a triangle object.
      */
@@ -188,7 +200,7 @@ public class TriangleSmashScreenTests
             getScreen().getPaddle().getPosition().y, 0.001);
         touchMove(Float.valueOf(150), 60f);
         touchUp();
-        assertEquals(150, getScreen().getPaddle().getPosition().x, 10);
+        assertEquals(150, getScreen().getPaddle().getPosition().x, 20);
         assertEquals(getScreen().getShapeView().getHeight() - 10,
             getScreen().getPaddle().getPosition().y, 0.001);
     }
@@ -217,18 +229,18 @@ public class TriangleSmashScreenTests
     {
         assertTrue(getScreen().getSmashBall().getLinearVelocity().x == 0);
         assertTrue(getScreen().getSmashBall().getLinearVelocity().y == 0);
-        setUp();
+        setUpFullRow();
         click(gameButton);
-        getScreen().getSmashBall().setLinearVelocity(0, 0);
-        getScreen().getSmashBall().setPosition(
-            getScreen().getShapeView().getWidth() / 2 - 10, 55);
-        getScreen().getSmashBall().setLinearVelocity(0, -500);
         try
         {
-            Thread.sleep(1000);
-            assertEquals(1, getScreen().getSmashGame().getCurrentLevel()
+            Thread.sleep(500);
+            assertEquals(8, getScreen().getSmashGame().getCurrentLevel()
                 .getNumTriangles());
-            Thread.sleep(1500);
+            getScreen().getSmashBall().setPosition(135, 150);
+            getScreen().getSmashBall().setLinearVelocity(0, -500);
+            Thread.sleep(3000);
+            assertEquals(7, getScreen().getSmashGame().getCurrentLevel()
+                .getNumTriangles());
             click(gameButton);
             assertEquals(8, getScreen().getSmashGame().getCurrentLevel()
                 .getNumTriangles());
