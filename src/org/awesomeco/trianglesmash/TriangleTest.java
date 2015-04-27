@@ -2,7 +2,7 @@ package org.awesomeco.trianglesmash;
 
 import sofia.graphics.Color;
 import student.TestCase;
-import android.graphics.PointF;
+
 
 // -------------------------------------------------------------------------
 /**

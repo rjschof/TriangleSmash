@@ -2,7 +2,6 @@ package org.awesomeco.trianglesmash;
 
 import sofia.graphics.RectangleShape;
 import sofia.util.Observable;
-import android.graphics.PointF;
 
 // -------------------------------------------------------------------------
 /**

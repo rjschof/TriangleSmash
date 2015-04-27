@@ -1,6 +1,5 @@
 package org.awesomeco.trianglesmash;
 import sofia.graphics.RectangleShape;
-import android.graphics.PointF;
 import student.TestCase;
 
 /**

@@ -2,7 +2,18 @@ package org.awesomeco.trianglesmash;
 
 import android.graphics.PointF;
 import student.TestCase;
-
+/**
+ * // -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ *
+ *  @author Adam Zelenka (zadam7)
+ *  @author Robert Schofield (rjschof)
+ *  @author Lauren Malhotra (laurcm6)
+ *  @version 2015.04.27
+ */
 public class PositionTest extends TestCase
 {
     private Position pos; //the Position object being tested
@@ -10,6 +21,7 @@ public class PositionTest extends TestCase
     //----------------------------------------------------------
     /**
      * Constructor for PositionTest does nothing.
+     * @param name name of the test
      */
     public PositionTest(String name)
     {

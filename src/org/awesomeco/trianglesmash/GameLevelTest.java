@@ -7,8 +7,10 @@ import sofia.graphics.Color;
 /**
  *  This class tests the methods in the GameLevel class.
  *
- *  @author Robert
- *  @version Apr 9, 2015
+ *  @author Robert Schofield (rjschof)
+ *  @author Adam Zelenka (zadam7)
+ *  @author Lauren Malhotra (laurcm6)
+ *  @version 2015.04.27
  */
 public class GameLevelTest extends student.TestCase
 {

@@ -21,6 +21,8 @@ public class Position
     // ----------------------------------------------------------
     /**
      * Create a new Position object.
+     * @param x the x coordinate of the position
+     * @param y the y coordinate of the position
      */
     public Position(float x, float y)
     {

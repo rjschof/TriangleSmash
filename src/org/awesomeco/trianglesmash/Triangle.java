@@ -16,8 +16,6 @@ import sofia.graphics.Color;
 
 public class Triangle extends TriangleShape
 {
-    private float x;
-    private float y;
     private float size;
     private boolean flipped;
 
@@ -38,8 +36,6 @@ public class Triangle extends TriangleShape
             this.setBounds(new RectF(x - size, y + size, x + size, y - size));
             this.recreateFixtures();
         }
-        this.x = x;
-        this.y = y;
         this.size = size;
         this.flipped= flipped;
         setColor(Color.black);

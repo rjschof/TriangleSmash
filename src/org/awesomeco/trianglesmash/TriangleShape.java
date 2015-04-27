@@ -234,7 +234,6 @@ public class TriangleShape extends FillableShape
         top = newBounds.top;
 
         updateTransform(newBounds.centerX(), newBounds.centerY());
-        float y = (top + bottom + bottom) / 3;
 
         this.distanceYTop = Math.abs(top - calculateCentroid().y);
         this.distanceYBottom = Math.abs(bottom - calculateCentroid().y);
