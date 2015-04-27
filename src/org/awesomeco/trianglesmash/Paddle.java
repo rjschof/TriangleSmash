@@ -107,4 +107,28 @@ public class Paddle extends Observable
     {
         width = newWidth;
     }
+
+    //--------------------------------------------------------------
+    /**
+     * Determines whether this Paddle is equal to another object.
+     * @return true if the objects are equal, false if they are not equal
+     */
+    @Override
+    public boolean equals(Object other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        else if (other instanceof Paddle)
+        {
+            return (this.getPosition().equals(((Paddle)other).getPosition()) &&
+                    this.getWidth() ==((Paddle)other).getWidth() &&
+                    this.getHeight() == ((Paddle)other).getHeight());
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

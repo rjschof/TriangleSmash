@@ -246,6 +246,8 @@ public class SmashGame extends Observable
     }
 
     /**
+     * Sets the current level to be a target level.
+     * @param level the level that the current level is being set to
      * @precondition: the level already exists in the gameLevels list.
      */
     public void goToLevel(GameLevel level)

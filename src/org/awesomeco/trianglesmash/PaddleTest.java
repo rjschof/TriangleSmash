@@ -88,4 +88,34 @@ public class PaddleTest extends TestCase
         assertEquals(20, testPaddle.getHeight(), 0.0001);
     }
 
+    //-----------------------------------------------------------
+    /**
+     * Tests the Paddle equals method for null, non-Paddle, equal, and non-equal
+     * Paddle objects.
+     */
+    public void testGetEquals()
+    {
+        Paddle nullPaddle = null;
+        assertFalse(testPaddle.equals(nullPaddle));
+        String notAPaddle = "";
+        assertFalse(testPaddle.equals(notAPaddle));
+        Paddle paddle1 = new Paddle(100, 100, 100, 30);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 100, 80, 20);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 100, 80, 30);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 90, 100, 30);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 90, 80, 20);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 90, 80, 30);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 90, 100, 20);
+        assertFalse(testPaddle.equals(paddle1));
+        paddle1 = new Paddle(100, 100, 100, 20);
+        assertTrue(testPaddle.equals(paddle1));
+
+    }
+
 }
