@@ -46,9 +46,6 @@ public class SmashGameTest extends TestCase
         assertEquals(1, myGame.getLevelList().size());
         myGame.addLevel(new GameLevel(2, 5, 10.0f));
         assertEquals(2, myGame.getLevelList().size());
-        assertEquals("Levels currently in the game: \n"
-            + "[#1] Triangle(s): 3 Background: NONE\n"
-            + "[#2] Triangle(s): 5 Background: NONE\n", myGame.toString());
     }
 
     //-------------------------------------------------------

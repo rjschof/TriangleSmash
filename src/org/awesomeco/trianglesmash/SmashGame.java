@@ -229,22 +229,6 @@ public class SmashGame extends Observable
         notifyObservers();
     }
 
-    // ----------------------------------------------------------
-    /**
-     * Converts the list of levels contained by the model to be displayed as
-     * a String.
-     * @return game the String representation of the GameLevels
-     */
-    public String toString()
-    {
-        String game = "Levels currently in the game: \n";
-        for (GameLevel level: gameLevels)
-        {
-            game = game + level.toString() + "\n";
-        }
-        return game;
-    }
-
     /**
      * Sets the current level to be a target level.
      * @param level the level that the current level is being set to
