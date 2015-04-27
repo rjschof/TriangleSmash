@@ -15,7 +15,15 @@ import sofia.graphics.Drawing;
 
 // -------------------------------------------------------------------------
 /**
- *  TODO: Add a good description here.
+ *  The TriangleShape class is a version of the Shape object that has three
+ *  vertices that are bounded inside a box. The bounding box's coordinate points
+ *  are specified in the constructor. This class was created as an addition to
+ *  the Shapes that are included in the sofia-graphics library.
+ *
+ *  Note: Everything in this class is utilized by the screen class. If the
+ *  screen class is working properly -- since it depends largely on the
+ *  proper operation of this code -- then it means that this class is working
+ *  properly, as well.
  *
  *  @author Robert Schofield (rjschof)
  *  @version 2015.04.02
@@ -95,11 +103,14 @@ public class TriangleShape extends FillableShape
         }
         if (!getColor().isTransparent())
         {
+            // if the getColor method returns another color that is not
+            // transparent, it means that there is an outline. this draws it:
             Paint paint = getPaint();
             RectF bounds = getBounds();
             Path linePath = new Path();
             if (bottom > top)
             {
+                // the triangle points upward in a default coordinate system
                 linePath.moveTo(bounds.left +
                     Math.abs((bounds.right - bounds.left) / 2), bounds.top);
                 linePath.lineTo(bounds.left, bounds.bottom);
@@ -112,6 +123,7 @@ public class TriangleShape extends FillableShape
             }
             else if (top > bottom)
             {
+                // the triangle points down in a default coordinate system
                 linePath.moveTo(bounds.left +
                     Math.abs((bounds.right - bounds.left) / 2), bounds.bottom);
                 linePath.lineTo(bounds.left, bounds.top);
@@ -122,8 +134,7 @@ public class TriangleShape extends FillableShape
                     Math.abs((bounds.right - bounds.left) / 2), bounds.bottom);
                 linePath.close();
             }
-
-            canvas.drawPath(linePath, paint);
+            canvas.drawPath(linePath, paint); // the path is drawn on the view
         }
     }
 

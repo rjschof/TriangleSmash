@@ -31,7 +31,10 @@ public class PositionTest extends TestCase
      */
     public void testToPointF()
     {
-        assertEquals(new PointF(5, 5), pos.toPointF());
+        Position position = new Position(5, 6);
+        PointF point = new PointF(5, 6);
+        assertEquals(point.x, position.x(), 0.01);
+        assertEquals(point.y, position.y(), 0.01);
     }
 
     //----------------------------------------------------------

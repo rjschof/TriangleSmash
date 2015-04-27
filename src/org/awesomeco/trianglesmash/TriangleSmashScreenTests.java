@@ -5,12 +5,13 @@ import student.AndroidTestCase;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  This class tests the TriangleSmashScreen class. All of the conditions that
+ *  may occur on the screen are tested.
  *
- *  @author Robert
- *  @version Apr 17, 2015
+ *  @author Lauren Malhotra (laurcm6)
+ *  @author Robert Schofield (rjschof)
+ *  @author Adam Zelenka (zadam7)
+ *  @version 2015.04.22
  */
 
 public class TriangleSmashScreenTests
@@ -28,6 +29,10 @@ public class TriangleSmashScreenTests
         super(TriangleSmashScreen.class);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method sets up the game with a level that has only one triangle.
+     */
     public void setUp()
     {
         GameLevel level = new GameLevel(9001, 1, 1.0f);
@@ -35,13 +40,11 @@ public class TriangleSmashScreenTests
         getScreen().goToLevel(level);
     }
 
-    public void setUpFullRow()
-    {
-        GameLevel level = new GameLevel(9001, 8, 1.0f);
-        getScreen().getSmashGame().addLevel(level);
-        getScreen().goToLevel(level);
-    }
-
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the ball collides with
+     * a triangle object.
+     */
     public void testCollisionTriangleBall()
     {
         try
@@ -63,6 +66,11 @@ public class TriangleSmashScreenTests
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the ball collides with
+     * the right edge object.
+     */
     public void testCollisionBallRightEdge()
     {
         try {
@@ -80,6 +88,11 @@ public class TriangleSmashScreenTests
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the ball collides with
+     * the left edge object.
+     */
     public void testCollisionBallLeftEdge()
     {
         setUp();
@@ -98,6 +111,11 @@ public class TriangleSmashScreenTests
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the ball collides with
+     * the top edge object.
+     */
     public void testCollisionBallTopEdge()
     {
         setUp();
@@ -115,6 +133,11 @@ public class TriangleSmashScreenTests
             0.001);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the ball collides with
+     * the bottom edge object.
+     */
     public void testCollisionBallBottomEdge()
     {
         try
@@ -135,6 +158,12 @@ public class TriangleSmashScreenTests
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the user touches their
+     * finger down on the screen. The paddle should reposition itself to match
+     * with the x-coordinate of the finger on the screen.
+     */
     public void testOnTouchDown()
     {
         setUp();
@@ -144,6 +173,12 @@ public class TriangleSmashScreenTests
             getScreen().getPaddle().getPosition().y, 0.001);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the screen when the user moves their
+     * finger across the screen. The paddle should reposition itself to match
+     * with the x-coordinate of the finger on the screen.
+     */
     public void testOnTouchMove()
     {
         setUp();
@@ -158,6 +193,11 @@ public class TriangleSmashScreenTests
             getScreen().getPaddle().getPosition().y, 0.001);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method tests the operation of the game button when the game has not
+     * yet been started.
+     */
     public void testGameButtonStart()
     {
         assertTrue(getScreen().getSmashBall().getLinearVelocity().x == 0);
@@ -168,11 +208,16 @@ public class TriangleSmashScreenTests
         assertTrue(getScreen().getSmashBall().getLinearVelocity().y > 0);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Test method for the game button when the game has been started and the
+     * user desires to reset the game state.
+     */
     public void testGameButtonResetInGame()
     {
         assertTrue(getScreen().getSmashBall().getLinearVelocity().x == 0);
         assertTrue(getScreen().getSmashBall().getLinearVelocity().y == 0);
-        setUpFullRow();
+        setUp();
         click(gameButton);
         getScreen().getSmashBall().setLinearVelocity(0, 0);
         getScreen().getSmashBall().setPosition(
@@ -181,7 +226,7 @@ public class TriangleSmashScreenTests
         try
         {
             Thread.sleep(1000);
-            assertEquals(7, getScreen().getSmashGame().getCurrentLevel()
+            assertEquals(1, getScreen().getSmashGame().getCurrentLevel()
                 .getNumTriangles());
             Thread.sleep(1500);
             click(gameButton);
@@ -194,9 +239,14 @@ public class TriangleSmashScreenTests
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Test method for the game button when the game needs to be started from
+     * the very beginning. This method tests the operation of the screen when
+     * the last level in the game was completed.
+     */
     public void testGameButtonStartOver()
     {
-        //setUp();
         GameLevel level = getScreen().getSmashGame().getLevelList().getLast();
         getScreen().goToLevel(level);
         click(gameButton);
