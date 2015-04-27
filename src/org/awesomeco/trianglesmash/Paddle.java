@@ -40,16 +40,6 @@ public class Paddle extends Observable
 
     //------------------------------------------------------------
     /**
-     * Gets the height of the paddle.
-     * @return paddle height
-     */
-    public float getHeight()
-    {
-        return height;
-    }
-
-    //------------------------------------------------------------
-    /**
      * Gets the position of the paddle on the screen in the form of a Position
      * object.
      * @return position of the paddle as PointF
@@ -57,26 +47,6 @@ public class Paddle extends Observable
     public Position getPosition()
     {
         return new Position(x, y);
-    }
-
-    //------------------------------------------------------------
-    /**
-     * Gets the width of the paddle
-     * @return width of the paddle
-     */
-    public float getWidth()
-    {
-        return width;
-    }
-
-    //------------------------------------------------------------
-    /**
-     * Sets the height of the paddle.
-     * @param newHeight the new height of the paddle
-     */
-    public void setHeight(float newHeight)
-    {
-        height = newHeight;
     }
 
     //------------------------------------------------------------
@@ -92,20 +62,14 @@ public class Paddle extends Observable
     }
 
     //-------------------------------------------------------------
+    /**
+     * Returns a RectangleShape object that represents this paddle's parameters.
+     * @return RectangleShape object that has same size/location as this paddle
+     */
     public RectangleShape toRectangleShape()
     {
         return new RectangleShape(x - (width / 2), y - (height / 2),
             x + (width / 2), y + (height / 2));
-    }
-
-    //-------------------------------------------------------------
-    /**
-     * Sets the width of the paddle.
-     * @param newWidth the new width of the paddle
-     */
-    public void setWidth(float newWidth)
-    {
-        width = newWidth;
     }
 
     //--------------------------------------------------------------
@@ -123,8 +87,8 @@ public class Paddle extends Observable
         else if (other instanceof Paddle)
         {
             return (this.getPosition().equals(((Paddle)other).getPosition()) &&
-                    this.getWidth() ==((Paddle)other).getWidth() &&
-                    this.getHeight() == ((Paddle)other).getHeight());
+                    this.width ==((Paddle)other).width &&
+                    this.height == ((Paddle)other).height);
         }
         else
         {

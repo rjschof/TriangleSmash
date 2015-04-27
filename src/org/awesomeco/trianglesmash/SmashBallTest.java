@@ -1,4 +1,5 @@
 package org.awesomeco.trianglesmash;
+import sofia.graphics.OvalShape;
 import student.TestCase;
 import android.graphics.PointF;
 
@@ -58,6 +59,23 @@ public class SmashBallTest extends TestCase
     {
         setUp();
         assertEquals(20.0, testBall.getRadius(), 0.0001);
+    }
+
+    //------------------------------------------------------
+    /**
+     * Tests whether the getRadius method for the SmashBall correctly returns
+     * the ball's radius.
+     */
+    public void testToOvalShape()
+    {
+        setUp();
+        OvalShape ball = testBall.toOvalShape();
+        assertEquals(100, ball.getPosition().x, 0.001);
+        assertEquals(100, ball.getPosition().y, 0.001);
+        assertEquals(80, ball.getBounds().left, 0.001);
+        assertEquals(80, ball.getBounds().top, 0.001);
+        assertEquals(120, ball.getBounds().right, 0.001);
+        assertEquals(120, ball.getBounds().bottom, 0.001);
     }
 
 }
