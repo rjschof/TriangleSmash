@@ -15,6 +15,11 @@ import sofia.graphics.LineShape;
 
 public class Edge extends LineShape
 {
+    private float left;
+    private float top;
+    private float right;
+    private float bottom;
+
     // ----------------------------------------------------------
     /**
      * Create a new Edge object.
@@ -26,6 +31,40 @@ public class Edge extends LineShape
     public Edge(float left, float top, float right, float bottom)
     {
         super(left, top, right, bottom);
+    }
+
+    //-----------------------------------------------------------
+    /**
+     * Determines whether the Edge object is equal to another object.
+     * @param other the other object being compared
+     * @return true if the objects are equal, false if they are not equal
+     */
+    @Override
+    public boolean equals(Object other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        else if (other instanceof Edge)
+        {
+            return (this.toString().equals(((Edge)other).toString()));
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //-------------------------------------------------------------
+    /**
+     * Converts the Edge object to a String.
+     * @return the String representation of the Edge object
+     */
+    @Override
+    public String toString()
+    {
+        return left + ", " + top + ", " + right + ", " + bottom;
     }
 
 }
