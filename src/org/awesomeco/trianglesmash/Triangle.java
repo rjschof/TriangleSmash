@@ -19,6 +19,7 @@ public class Triangle extends TriangleShape
     private float x;
     private float y;
     private float size;
+    private boolean flipped;
 
     // ----------------------------------------------------------
     /**
@@ -40,6 +41,7 @@ public class Triangle extends TriangleShape
         this.x = x;
         this.y = y;
         this.size = size;
+        this.flipped= flipped;
         setColor(Color.black);
         setFillColor(color);
         setPosition(x, y);
@@ -78,5 +80,16 @@ public class Triangle extends TriangleShape
         {
             return false;
         }
+    }
+
+    /**
+     * Tells whether the triangle is flipped (pointing downward) or unflipped
+     * (pointing upward).
+     * @return true if the triangle is flipped, false if the triangle is not
+     * flipped
+     */
+    public boolean isFlipped()
+    {
+        return flipped;
     }
 }

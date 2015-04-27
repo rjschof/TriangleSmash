@@ -106,6 +106,7 @@ public class GameLevel extends Observable
         triangleList.add(triangle);
     }
 
+    //-----------------------------------------------------------
     /**
      * Tells whether this object is equal to another object. If the other object
      * is an instance of Triangle, then the other object's position is compared
@@ -221,6 +222,7 @@ public class GameLevel extends Observable
         return viewWidth;
     }
 
+    //-----------------------------------------------------------
     /**
      * Resets the game level to its initial state.
      */
@@ -246,6 +248,11 @@ public class GameLevel extends Observable
         notifyObservers();
     }
 
+    /**
+     * Converts the attributes of the GameLevel to a String representation of
+     * the object
+     * @return the String representation of the GameLevel
+     */
     public String toString()
     {
         return "[#" + levelNum + "] Triangle(s): " + numTriangles

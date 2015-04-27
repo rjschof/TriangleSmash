@@ -52,7 +52,8 @@ public class TriangleTest extends TestCase
     {
         setUp();
         Position testPoint = new Position(100, 100);
-        assertEquals(testPoint, testTri.getPosition());
+        assertEquals(testPoint.x(), testTri.getPosition().x, 0.0001);
+        assertEquals(testPoint.y(), testTri.getPosition().y, 0.0001);
     }
 
     /**
@@ -80,5 +81,16 @@ public class TriangleTest extends TestCase
         assertFalse(testTri.equals(other3));
         Triangle other4 = new Triangle(100, 100, 20, Color.red, true);
         assertTrue(testTri.equals(other4));
+    }
+
+    /**
+     * Tests the Triangle isFlipped method for flipped and unflipped triangle.
+     */
+    public void testIsFlipped()
+    {
+        setUp();
+        assertEquals(true, testTri.isFlipped());
+        testTri = new Triangle(100, 100, 30, Color.red, false);
+        assertEquals(false, testTri.isFlipped());
     }
 }
