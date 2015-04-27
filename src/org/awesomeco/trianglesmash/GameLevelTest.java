@@ -1,7 +1,6 @@
 package org.awesomeco.trianglesmash;
 
 import java.util.LinkedList;
-import android.graphics.PointF;
 import sofia.graphics.Color;
 
 // -------------------------------------------------------------------------
@@ -19,6 +18,7 @@ public class GameLevelTest extends student.TestCase
     //-------------------------------------------------------------
     /**
      * Constructor for GameLevelTest does nothing.
+     * @param name name of the test
      */
     public GameLevelTest(String name)
     {

@@ -4,9 +4,7 @@ import student.TestCase;
 /**
  * // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  Tests methods of the SmashGame model class.
  *
  *  @author Adam Zelenka (zadam7)
  *  @author Robert Schofield (rjschof)
@@ -38,7 +36,8 @@ public class SmashGameTest extends TestCase
 
     //--------------------------------------------------------
     /**
-     * Tests the SmashGame addLevel method, as well as the getLevelList method.
+     * Tests the SmashGame addLevel method, as well as the getLevelList method,
+     * toString method.
      */
     public void testAddLevel()
     {
@@ -47,6 +46,9 @@ public class SmashGameTest extends TestCase
         assertEquals(1, myGame.getLevelList().size());
         myGame.addLevel(new GameLevel(2, 5, 10.0f));
         assertEquals(2, myGame.getLevelList().size());
+        assertEquals("Levels currently in the game: \n"
+            + "[#1] Triangle(s): 3 Background: NONE\n"
+            + "[#2] Triangle(s): 5 Background: NONE\n", myGame.toString());
     }
 
     //-------------------------------------------------------
@@ -187,6 +189,66 @@ public class SmashGameTest extends TestCase
         myGame.movePaddle(30);
         Position testPos = new Position(30, SmashGame.getViewHeight() - 10);
         assertEquals(testPos, myGame.getPaddle().getPosition());
+    }
+
+    //-----------------------------------------------------------
+    /**
+     * Tests the SmashGame triangleCollided method.
+     */
+    public void testTriangleCollided()
+    {
+        setUp();
+        GameLevel level1 = new GameLevel(1, 3, 5.0f);
+        myGame.addLevel(level1);
+        myGame.triangleCollided(
+            myGame.getCurrentLevel().getTriangleList().getFirst());
+        assertEquals(2, myGame.getCurrentLevel().getNumTriangles());
+    }
+
+    //-----------------------------------------------------------
+    /**
+     * Tests the SmashGame startOver method.
+     */
+    public void testStartOver()
+    {
+        setUp();
+        GameLevel level1 = new GameLevel(1, 3, 5.0f);
+        GameLevel level2 = new GameLevel(2, 10, 5.0f);
+        GameLevel level3 = new GameLevel(3, 10, 10.0f);
+        myGame.addLevel(level1);
+        myGame.addLevel(level2);
+        myGame.addLevel(level3);
+        myGame.getCurrentLevel().removeTriangle(
+            myGame.getCurrentLevel().getTriangleList().getFirst());
+        myGame.nextLevel();
+        myGame.getCurrentLevel().removeTriangle(
+            myGame.getCurrentLevel().getTriangleList().getFirst());
+        myGame.nextLevel();
+        myGame.getCurrentLevel().removeTriangle(
+            myGame.getCurrentLevel().getTriangleList().getFirst());
+
+        myGame.startOver();
+        assertEquals(3, myGame.getLevelList().get(0).getNumTriangles());
+        assertEquals(10, myGame.getLevelList().get(1).getNumTriangles());
+        assertEquals(10, myGame.getLevelList().get(2).getNumTriangles());
+    }
+
+    //-------------------------------------------------------------
+    /**
+     * Tests the SmashGame goToLevel method.
+     */
+    public void testGoToLevel()
+    {
+        setUp();
+        GameLevel level1 = new GameLevel(1, 3, 5.0f);
+        GameLevel level2 = new GameLevel(2, 10, 5.0f);
+        GameLevel level3 = new GameLevel(3, 10, 10.0f);
+        myGame.addLevel(level1);
+        myGame.addLevel(level2);
+        myGame.addLevel(level3);
+        assertEquals(1, myGame.getCurrentLevel().getLevelNum());
+        myGame.goToLevel(level3);
+        assertEquals(3, myGame.getCurrentLevel().getLevelNum());
     }
 
 

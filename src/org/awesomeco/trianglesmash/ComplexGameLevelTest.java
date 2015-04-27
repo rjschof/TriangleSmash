@@ -18,7 +18,8 @@ public class ComplexGameLevelTest extends TestCase
 
     //--------------------------------------------------------------
     /**
-     * Constructor for ComplexGameLevelTest doe nothing.
+     * Constructor for ComplexGameLevelTest does nothing.
+     * @param name name of the test
      */
     public ComplexGameLevelTest(String name)
     {
