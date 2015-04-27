@@ -3,7 +3,6 @@ package org.awesomeco.trianglesmash;
 import sofia.graphics.RectangleShape;
 import sofia.util.Observable;
 
-// -------------------------------------------------------------------------
 /**
  * The Paddle class maintains the data for the paddle that will be placed
  * on the screen.

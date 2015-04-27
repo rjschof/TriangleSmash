@@ -3,7 +3,6 @@ package org.awesomeco.trianglesmash;
 import sofia.util.Observable;
 import sofia.graphics.OvalShape;
 
-// -------------------------------------------------------------------------
 /**
  * The SmashBall class holds information about the SmashBall object that is
  * used for different levels in the game.

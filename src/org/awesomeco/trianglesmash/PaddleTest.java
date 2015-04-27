@@ -3,8 +3,6 @@ import sofia.graphics.RectangleShape;
 import student.TestCase;
 
 /**
- * // -------------------------------------------------------------------------
-/**
  * Tests implementation of the Paddle Class
  *
  * @author Lauren Malhotra (laurcm6)

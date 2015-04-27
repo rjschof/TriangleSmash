@@ -3,7 +3,6 @@ package org.awesomeco.trianglesmash;
 import java.util.LinkedList;
 import sofia.graphics.Color;
 
-// -------------------------------------------------------------------------
 /**
  * This class tests the methods in the GameLevel class.
  *

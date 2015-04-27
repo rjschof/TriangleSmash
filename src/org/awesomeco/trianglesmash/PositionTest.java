@@ -3,8 +3,6 @@ package org.awesomeco.trianglesmash;
 import android.graphics.PointF;
 import student.TestCase;
 /**
- * // -------------------------------------------------------------------------
-/**
  * This class tests the Position class.
  *
  * @author Adam Zelenka (zadam7)

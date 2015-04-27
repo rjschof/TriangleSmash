@@ -2,7 +2,6 @@ package org.awesomeco.trianglesmash;
 
 import android.graphics.PointF;
 
-// -------------------------------------------------------------------------
 /**
  * Creates Position objects to contain x and y coordinates to be used in the
  * model in place of PointF objects.

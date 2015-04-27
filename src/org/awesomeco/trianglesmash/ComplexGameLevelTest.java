@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import student.TestCase;
 
 /**
- *  Tests the methods in the ComplexGameLevel class.
+ * Tests the methods in the ComplexGameLevel class.
  *
- *  @author Adam Zelenka (zadam7)
- *  @author Robert Schofield (rjschof)
- *  @author Lauren Malhotra (laurcm6)
- *  @version 2015.04.26
+ * @author Adam Zelenka (zadam7)
+ * @author Robert Schofield (rjschof)
+ * @author Lauren Malhotra (laurcm6)
+ * @version 2015.04.26
  */
 public class ComplexGameLevelTest extends TestCase
 {

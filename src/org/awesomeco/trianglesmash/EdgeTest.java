@@ -3,12 +3,12 @@ package org.awesomeco.trianglesmash;
 import student.TestCase;
 
 /**
- *  Tests the operation of the Edge class.
+ * Tests the operation of the Edge class.
  *
- *  @author Adam Zelenka (zadam7)
- *  @author Robert Schofield (rjschof)
- *  @author Lauren Malhotra (laurcm6)
- *  @version 2015.04.26
+ * @author Adam Zelenka (zadam7)
+ * @author Robert Schofield (rjschof)
+ * @author Lauren Malhotra (laurcm6)
+ * @version 2015.04.26
  */
 public class EdgeTest extends TestCase
 {

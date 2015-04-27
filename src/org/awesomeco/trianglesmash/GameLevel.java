@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import sofia.util.Observable;
 import sofia.graphics.Color;
 
-// -------------------------------------------------------------------------
 /**
- *  This class manages information for the game levels.
+ * This class manages information for the game levels.
  *
  * @author Lauren Malhotra (laurcm6)
  * @author Robert Schofield (rjschof)
