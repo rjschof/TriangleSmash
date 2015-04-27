@@ -1,6 +1,6 @@
 package org.awesomeco.trianglesmash;
+import sofia.graphics.RectangleShape;
 import android.graphics.PointF;
-
 import student.TestCase;
 
 /**
@@ -36,25 +36,6 @@ public class PaddleTest extends TestCase
         testPaddle = new Paddle(100, 100, 100, 20);
     }
 
-    //-----------------------------------------------------------
-    /**
-     * tests the Paddle getHeight method
-     */
-    public void testGetHeight()
-    {
-        setUp();
-        assertEquals(20, testPaddle.getHeight(), 0.0001);
-    }
-
-    //----------------------------------------------------------
-    /**
-     * Tests the Paddle getWidth method
-     */
-    public void testGetWidth()
-    {
-        setUp();
-        assertEquals(100, testPaddle.getWidth(), 0.0001);
-    }
 
     //----------------------------------------------------------
     /**
@@ -64,28 +45,6 @@ public class PaddleTest extends TestCase
     {
         Position testPoint = new Position(100, 100);
         assertEquals(testPoint, testPaddle.getPosition());
-    }
-
-    //----------------------------------------------------------
-    /**
-     * tests the Paddle setWidth method
-     */
-    public void testSetWidth()
-    {
-        setUp();
-        testPaddle.setWidth(80);
-        assertEquals(80, testPaddle.getWidth(), 0.0001);
-    }
-
-    //----------------------------------------------------------
-    /**
-     * tests the Paddle setHeight method
-     */
-    public void testSetHeight()
-    {
-        setUp();
-        testPaddle.setHeight(20);
-        assertEquals(20, testPaddle.getHeight(), 0.0001);
     }
 
     //-----------------------------------------------------------
@@ -115,7 +74,19 @@ public class PaddleTest extends TestCase
         assertFalse(testPaddle.equals(paddle1));
         paddle1 = new Paddle(100, 100, 100, 20);
         assertTrue(testPaddle.equals(paddle1));
-
     }
 
+    //-----------------------------------------------------------
+    /**
+     * Tests the toRectangleShape method in the Paddle class.
+     */
+    public void testToRectangleShape()
+    {
+        setUp();
+        RectangleShape rect = testPaddle.toRectangleShape();
+        assertEquals(50, rect.getBounds().left, 0.001);
+        assertEquals(90, rect.getBounds().top, 0.001);
+        assertEquals(150, rect.getBounds().right, 0.001);
+        assertEquals(110, rect.getBounds().bottom, 0.001);
+    }
 }
