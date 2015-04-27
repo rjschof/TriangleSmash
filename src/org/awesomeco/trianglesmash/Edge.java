@@ -52,23 +52,14 @@ public class Edge extends LineShape
         }
         else if (other instanceof Edge)
         {
-            return (this.toString().equals(((Edge)other).toString()));
+            return (left == ((Edge)other).left) &&
+                (right == ((Edge)other).right) &&
+                (top == ((Edge)other).top) &&
+                (bottom == ((Edge)other).bottom);
         }
         else
         {
             return false;
         }
     }
-
-    //-------------------------------------------------------------
-    /**
-     * Converts the Edge object to a String.
-     * @return the String representation of the Edge object
-     */
-    @Override
-    public String toString()
-    {
-        return left + ", " + top + ", " + right + ", " + bottom;
-    }
-
 }
