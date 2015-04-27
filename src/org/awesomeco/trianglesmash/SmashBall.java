@@ -44,6 +44,7 @@ public class SmashBall extends Observable
         this.initialPosition = new Position(x, y);
     }
 
+    //---------------------------------------------------------
     /**
      * Gets the position of the paddle on the screen in the form of a PointF
      * object.
@@ -54,6 +55,7 @@ public class SmashBall extends Observable
         return new Position(x, y);
     }
 
+    //---------------------------------------------------------
     /**
      * Gets the x component of velocity for the ball.
      * @return the x-component of velocity
@@ -63,6 +65,7 @@ public class SmashBall extends Observable
         return velocityX;
     }
 
+    //---------------------------------------------------------
     /**
      * Gets the y component of velocity for the ball.
      * @return the y-component of velocity
@@ -72,6 +75,7 @@ public class SmashBall extends Observable
         return velocityY;
     }
 
+    //---------------------------------------------------------
     /**
      * Gets the radius of the ball
      * @return ball radius
@@ -81,6 +85,7 @@ public class SmashBall extends Observable
         return radius;
     }
 
+    //---------------------------------------------------------
     /**
      * Gets an OvalShape object that has the same parameters as this object.
      * @return an OvalShape object that represents this ball

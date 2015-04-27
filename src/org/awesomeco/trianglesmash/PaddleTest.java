@@ -17,6 +17,7 @@ public class PaddleTest extends TestCase
 {
     private Paddle testPaddle; // the paddle being tested
 
+    //-----------------------------------------------------------
     /**
      * Constructor for PaddleTest does nothing. It is intentionally left blank.
      */
@@ -25,6 +26,7 @@ public class PaddleTest extends TestCase
         //constructor intentionally left blank
     }
 
+    //-----------------------------------------------------------
     /**
      * Instantiates the Paddle for method testing. This is called at the start
      * of each method test.
@@ -34,6 +36,7 @@ public class PaddleTest extends TestCase
         testPaddle = new Paddle(100, 100, 100, 20);
     }
 
+    //-----------------------------------------------------------
     /**
      * tests the Paddle getHeight method
      */
@@ -43,6 +46,7 @@ public class PaddleTest extends TestCase
         assertEquals(20, testPaddle.getHeight(), 0.0001);
     }
 
+    //----------------------------------------------------------
     /**
      * Tests the Paddle getWidth method
      */
@@ -52,6 +56,7 @@ public class PaddleTest extends TestCase
         assertEquals(100, testPaddle.getWidth(), 0.0001);
     }
 
+    //----------------------------------------------------------
     /**
      * tests the Paddle getPosition method
      */
@@ -61,6 +66,7 @@ public class PaddleTest extends TestCase
         assertEquals(testPoint, testPaddle.getPosition());
     }
 
+    //----------------------------------------------------------
     /**
      * tests the Paddle setWidth method
      */
@@ -71,6 +77,7 @@ public class PaddleTest extends TestCase
         assertEquals(80, testPaddle.getWidth(), 0.0001);
     }
 
+    //----------------------------------------------------------
     /**
      * tests the Paddle setHeight method
      */

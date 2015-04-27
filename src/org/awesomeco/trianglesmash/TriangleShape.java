@@ -60,6 +60,7 @@ public class TriangleShape extends FillableShape
 
     }
 
+    //-----------------------------------------------------------
     /**
      * Creates fixtures for the JBox2D functions of the shape.
      */

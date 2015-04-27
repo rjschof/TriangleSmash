@@ -18,6 +18,7 @@ public class SmashBallTest extends TestCase
 {
     private SmashBall testBall; //the ball being tested
 
+    //-----------------------------------------------------
     /**
      * Constructor for the test class does nothing
      */
@@ -26,6 +27,7 @@ public class SmashBallTest extends TestCase
         //constructor left blank
     }
 
+    //-----------------------------------------------------
     /**
      * Instantiates the test ball for method testing. This is called at the
      * beginning of every method test.
@@ -35,6 +37,7 @@ public class SmashBallTest extends TestCase
         testBall = new SmashBall(100, 100, 20, 5, 7);
     }
 
+    //-----------------------------------------------------
     /**
      * Tests whether the getPosition method for the SmashBall correctly returns
      * the ball's position.
@@ -46,6 +49,7 @@ public class SmashBallTest extends TestCase
         assertEquals(testPoint, testBall.getPosition());
     }
 
+    //------------------------------------------------------
     /**
      * Tests whether the getRadius method for the SmashBall correctly returns
      * the ball's radius.
