@@ -31,6 +31,10 @@ public class Edge extends LineShape
     public Edge(float left, float top, float right, float bottom)
     {
         super(left, top, right, bottom);
+        this.left = left;
+        this.right = right;
+        this.top = top;
+        this.bottom = bottom;
     }
 
     //-----------------------------------------------------------
