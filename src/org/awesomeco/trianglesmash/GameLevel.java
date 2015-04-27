@@ -16,16 +16,15 @@ import sofia.graphics.Color;
 
 public class GameLevel extends Observable
 {
-    private LinkedList<Triangle> triangleList;
-    private int levelNum;
-    private boolean gameLost;
-    private SmashBall smashBall;
-    private float ballSpeed;
-    private int numTriangles;
-    private int initialNumTriangles;
-    private float viewHeight;
-    private float viewWidth;
-    private String backgroundImage;
+    private LinkedList<Triangle> triangleList;  //triangles in level
+    private int levelNum;                       //level number
+    private SmashBall smashBall;                //the ball
+    private float ballSpeed;                    //initial speed of ball
+    private int numTriangles;                   //current number of triangles
+    private int initialNumTriangles;            //initial number of triangles
+    private float viewHeight;                   //screen height
+    private float viewWidth;                    //screen width
+    private String backgroundImage;             //background image
 
     // ----------------------------------------------------------
     /**
@@ -40,14 +39,15 @@ public class GameLevel extends Observable
         this.numTriangles = numTriangles;
         this.initialNumTriangles = numTriangles;
         this.ballSpeed = ballSpeed;
+
         triangleList = new LinkedList<Triangle>();
         viewHeight = SmashGame.getViewHeight();
         viewWidth = SmashGame.getViewWidth();
+        // start ball in center of screen
         smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
             viewHeight / 24, ballSpeed * (viewWidth / 8),
             ballSpeed * (viewHeight / 12));
         backgroundImage = "NONE";
-        gameLost = false;
         addTrianglesToLevel();
     }
 
@@ -74,6 +74,7 @@ public class GameLevel extends Observable
      */
     public void addTrianglesToLevel()
     {
+        // scale triangle parts to screen size
         float size = getViewWidth() / 16;
         float xPos = size;
         float yPos = getViewHeight() / 13;
@@ -81,15 +82,15 @@ public class GameLevel extends Observable
         addTriangle(new Triangle(xPos, yPos, size, Color.red, false));
         while (count < getInitialNumTriangles())
         {
-            xPos += 2 * size;
+            xPos += 2 * size;                 //adds next triangle to the right
             if (xPos > getViewWidth() - size)
             {
 
                 xPos = size;
-                yPos += 2 * size;
+                yPos += 2 * size;             //moves to next row
             }
-            Triangle triangle;
-            triangle = new Triangle(xPos, yPos, size, Color.red, false);
+            Triangle triangle =
+                new Triangle(xPos, yPos, size, Color.red, false);
             addTriangle(triangle);
             count++;
         }
@@ -228,7 +229,7 @@ public class GameLevel extends Observable
      */
     public void reset()
     {
-        triangleList = new LinkedList<Triangle>();
+        triangleList.clear();
         numTriangles = initialNumTriangles;
         smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
             viewHeight / 24, ballSpeed * (viewWidth / 8),
@@ -238,8 +239,8 @@ public class GameLevel extends Observable
 
     // ----------------------------------------------------------
     /**
-     * Removes the triangle at the specified index from the list.
-     * @param index of the triangle to remove
+     * Removes the target triangle from the level's list of triangles.
+     * @param triangle the triangle being removed
      */
     public void removeTriangle(Triangle triangle)
     {
@@ -250,7 +251,7 @@ public class GameLevel extends Observable
 
     /**
      * Converts the attributes of the GameLevel to a String representation of
-     * the object
+     * the object. Example --> [#3] Triangles(s): 16 Background: starbackground
      * @return the String representation of the GameLevel
      */
     public String toString()

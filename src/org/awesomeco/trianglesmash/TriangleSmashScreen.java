@@ -267,7 +267,7 @@ public class TriangleSmashScreen extends ShapeScreen
             smashBall.setLinearVelocity(
                 smashGame.getCurrentLevel().getSmashBall().getVelocityX(),
                 smashGame.getCurrentLevel().getSmashBall().getVelocityY());
-            smashBall.setPosition(30, 70);
+            //smashBall.setPosition(30, 70);
             //smashBall.setLinearVelocity(0, -20);
             displayMessage(
                 "Level " + smashGame.getCurrentLevel().getLevelNum() + "!");

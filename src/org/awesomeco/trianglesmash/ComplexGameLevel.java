@@ -48,26 +48,28 @@ public class ComplexGameLevel extends GameLevel
     @Override
     public void addTrianglesToLevel()
     {
+        // scale triangle parts to the screen size:
         float size = getViewWidth() / 16;
         float xPos = size;
         float yPos = getViewHeight() / 13;
+
         int count = 1;
         boolean flipped = false;
         addTriangle(new Triangle(xPos, yPos, size, Color.red, flipped));
         while (count < getInitialNumTriangles())
         {
-            xPos += size;
-            if (xPos > getViewWidth() - size)
+            xPos += size;                      //adds next triangle to the
+            if (xPos > getViewWidth() - size)  //right
             {
 
                 xPos = size;
-                yPos += 2 * size;
+                yPos += 2 * size;              //moves to next row
             }
-            flipped = !flipped;
-            Triangle triangle;
-            triangle = new Triangle(xPos, yPos, size, Color.red, flipped);
+            flipped = !flipped;           //switches between flipped, unflipped
+            Triangle triangle =
+                new Triangle(xPos, yPos, size, Color.red, flipped);
             if (flipped)
-            {
+            {   // offset centroid so flipped, unflipped triangles fit
                 float diffY = Math.abs(triangle.calculateCenterOfBox().y -
                     triangle.calculateCentroid().y);
                 triangle.setPosition(xPos, yPos - 2 * diffY);
