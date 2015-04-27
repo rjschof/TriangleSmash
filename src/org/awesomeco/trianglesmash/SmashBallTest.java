@@ -3,11 +3,7 @@ import sofia.graphics.OvalShape;
 import student.TestCase;
 
 /**
- * // -------------------------------------------------------------------------
-/**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * This class tests the SmashBall class.
  *
  * @author Lauren Malhotra (laurcm6)
  * @author Robert Schofield (rjschof)

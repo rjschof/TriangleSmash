@@ -3,15 +3,15 @@ package org.awesomeco.trianglesmash;
 import sofia.util.Observable;
 import java.util.LinkedList;
 
-// -------------------------------------------------------------------------
 /**
- *  Handles the TriangleSmash data model, the list of levels of the game, and
- *  other necessary data, excluding physics handling.
+ * Handles the TriangleSmash data model, the list of levels of the game, and
+ * other necessary data, excluding physics handling, which is done by the
+ * screen.
  *
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @author Lauren Malhotra (laurcm6)
- *  @version 2015.04.21
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @author Lauren Malhotra (laurcm6)
+ * @version 2015.04.21
  */
 
 public class SmashGame extends Observable

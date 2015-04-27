@@ -3,15 +3,14 @@ package org.awesomeco.trianglesmash;
 import android.widget.Button;
 import student.AndroidTestCase;
 
-// -------------------------------------------------------------------------
 /**
- *  This class tests the TriangleSmashScreen class. All of the conditions that
- *  may occur on the screen are tested.
+ * This class tests the TriangleSmashScreen class. All of the conditions that
+ * may occur on the screen are tested.
  *
- *  @author Lauren Malhotra (laurcm6)
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.04.22
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.22
  */
 
 public class TriangleSmashScreenTests

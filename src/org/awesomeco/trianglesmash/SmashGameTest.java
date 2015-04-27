@@ -1,15 +1,14 @@
 package org.awesomeco.trianglesmash;
 
 import student.TestCase;
+
 /**
- * // -------------------------------------------------------------------------
-/**
- *  Tests methods of the SmashGame model class.
+ * Tests methods of the SmashGame model class.
  *
- *  @author Adam Zelenka (zadam7)
- *  @author Robert Schofield (rjschof)
- *  @author Lauren Malhotra (laurcm6)
- *  @version 2015.04.26
+ * @author Adam Zelenka (zadam7)
+ * @author Robert Schofield (rjschof)
+ * @author Lauren Malhotra (laurcm6)
+ * @version 2015.04.26
  */
 public class SmashGameTest extends TestCase
 {

@@ -7,10 +7,10 @@ import android.graphics.PointF;
  * Creates Position objects to contain x and y coordinates to be used in the
  * model in place of PointF objects.
  *
- *  @author Robert Schofield (rjschof)
- *  @author Lauren Malhotra (laurcm6)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.04.20
+ * @author Robert Schofield (rjschof)
+ * @author Lauren Malhotra (laurcm6)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.20
  */
 
 public class Position

@@ -2,7 +2,6 @@ package org.awesomeco.trianglesmash;
 
 import sofia.graphics.LineShape;
 
-// -------------------------------------------------------------------------
 /**
  * Creates edges to occupy the borders of the screen and prevent objects in the
  * screen from leaving the screen.

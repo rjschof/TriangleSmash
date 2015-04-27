@@ -7,10 +7,10 @@ import student.TestCase;
 /**
  * Tests implementation of the Paddle Class
  *
- *  @author Lauren Malhotra (laurcm6)
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.04.10
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.10
  */
 public class PaddleTest extends TestCase
 {

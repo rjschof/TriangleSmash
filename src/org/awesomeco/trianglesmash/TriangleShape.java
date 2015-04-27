@@ -13,20 +13,19 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import android.graphics.RectF;
 import sofia.graphics.Drawing;
 
-// -------------------------------------------------------------------------
 /**
- *  The TriangleShape class is a version of the Shape object that has three
- *  vertices that are bounded inside a box. The bounding box's coordinate points
- *  are specified in the constructor. This class was created as an addition to
- *  the Shapes that are included in the sofia-graphics library.
+ * The TriangleShape class is a version of the Shape object that has three
+ * vertices that are bounded inside a box. The bounding box's coordinate points
+ * are specified in the constructor. This class was created as an addition to
+ * the Shapes that are included in the sofia-graphics library.
  *
- *  Note: Everything in this class is utilized by the screen class. If the
- *  screen class is working properly -- since it depends largely on the
- *  proper operation of this code -- then it means that this class is working
- *  properly, as well.
+ * Note: Everything in this class is used by the screen class. If the
+ * screen class is working properly -- since it depends largely on the
+ * proper operation of this code -- then it means that this class is working
+ * properly, as well.
  *
- *  @author Robert Schofield (rjschof)
- *  @version 2015.04.02
+ * @author Robert Schofield (rjschof)
+ * @version 2015.04.02
  */
 
 public class TriangleShape extends FillableShape

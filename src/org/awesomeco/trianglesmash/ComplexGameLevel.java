@@ -1,16 +1,15 @@
 package org.awesomeco.trianglesmash;
 import sofia.graphics.Color;
 
-// -------------------------------------------------------------------------
 /**
- *  This class creates a level in the TriangleSmash game that incorporates
- *  flipped triangles within the negative space left between right-side-up
- *  triangles.
+ * This class creates a level in the TriangleSmash game that incorporates
+ * flipped triangles within the negative space left between right-side-up
+ * triangles.
  *
- *  @author Lauren Malhotra (laurcm6)
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.04.22
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.22
  */
 public class ComplexGameLevel extends GameLevel
 {

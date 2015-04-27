@@ -1,12 +1,9 @@
 package org.awesomeco.trianglesmash;
 
 import student.TestCase;
+
 /**
- * // -------------------------------------------------------------------------
-/**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  Tests the operation of the Edge class.
  *
  *  @author Adam Zelenka (zadam7)
  *  @author Robert Schofield (rjschof)

@@ -3,15 +3,13 @@ package org.awesomeco.trianglesmash;
 import sofia.graphics.Color;
 import student.TestCase;
 
-
-// -------------------------------------------------------------------------
 /**
- *  Tests implementation of Triangle class.
+ * Tests implementation of Triangle class.
  *
- *  @author Lauren Malhotra (laurcm6)
- *  @author Robert Schofield (rjschof)
- *  @author Adam Zelenka (zadam7)
- *  @version 2015.04.10
+ * @author Lauren Malhotra (laurcm6)
+ * @author Robert Schofield (rjschof)
+ * @author Adam Zelenka (zadam7)
+ * @version 2015.04.10
  */
 
 public class TriangleTest extends TestCase

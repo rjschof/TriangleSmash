@@ -5,9 +5,8 @@ import sofia.graphics.OvalShape;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * The SmashBall class holds information about the SmashBall object that is
+ * used for different levels in the game.
  *
  * @author Lauren Malhotra (laurcm6)
  * @author Robert Schofield (rjschof)

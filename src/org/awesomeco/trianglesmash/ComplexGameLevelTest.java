@@ -2,8 +2,7 @@ package org.awesomeco.trianglesmash;
 
 import java.util.LinkedList;
 import student.TestCase;
-/**
- * // -------------------------------------------------------------------------
+
 /**
  *  Tests the methods in the ComplexGameLevel class.
  *
