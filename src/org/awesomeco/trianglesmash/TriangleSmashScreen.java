@@ -54,16 +54,11 @@ public class TriangleSmashScreen extends ShapeScreen
         smashGame.addObserver(this);
         smashGame.getPaddle().addObserver(this);
 
-        smashGame.addLevel(new GameLevel(1, 8, 1.0f, "starbackground"));
-        smashGame.addLevel(new GameLevel(2, 16, 5.0f, "doomface"));
-        smashGame.addLevel(new ComplexGameLevel(3, 15, 10.0f,
-            "starbackground"));
-        smashGame.addLevel(new ComplexGameLevel(4, 30, 10.0f,
-            "starbackground"));
-        smashGame.addLevel(new ComplexGameLevel(5, 45, 10.0f,
-            "starbackground"));
-        smashGame.addLevel(new ComplexGameLevel(6, 60, 10.0f, "starbackground"));
-
+        smashGame.addLevel(new GameLevel(1, 8, 5.0f, "level1"));
+        smashGame.addLevel(new GameLevel(2, 16, 10.0f, "level2"));
+        smashGame.addLevel(new ComplexGameLevel(3, 15, 15.0f, "level3"));
+        smashGame.addLevel(new ComplexGameLevel(4, 30, 15.0f, "level4"));
+        smashGame.addLevel(new ComplexGameLevel(5, 45, 20.0f, "level5"));
         gameStarted = false;
 
         gameStatus.setText("Press start to begin the game!");

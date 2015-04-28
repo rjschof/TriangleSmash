@@ -43,7 +43,7 @@ public class GameLevel extends Observable
         viewHeight = SmashGame.getViewHeight();
         viewWidth = SmashGame.getViewWidth();
         // start ball in center of screen
-        smashBall = new SmashBall(viewWidth / 2, viewHeight / 2,
+        smashBall = new SmashBall(viewWidth / 2, (viewHeight / 2) + 50,
             viewHeight / 24, ballSpeed * (viewWidth / 8),
             ballSpeed * (viewHeight / 12));
         backgroundImage = "NONE";
